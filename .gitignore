@@ -1,2 +1,6 @@
-node_modules/
-.*.swp
+node_modules
+**/.*.swp
+**/.swp
+build/
+.com.google.*
+npm-debug.log
