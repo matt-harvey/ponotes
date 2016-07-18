@@ -35,7 +35,7 @@ import { NoteService } from './note.service';
       vertical-align: top;
     }
     .button-wrapper button {
-      min-width: 5em;
+      min-width: 5.75em;
     }
     .ui-inputtext {
       background-color: hsla(60, 75%, 97.5%, 1);
@@ -48,7 +48,7 @@ import { NoteService } from './note.service';
     }
     button {
       display: block;
-      margin: 0 0 0.25em 0.5em; 
+      margin: 0 0 0.25em 0.5em;
     }
     textarea {
       padding: 0.5em;
