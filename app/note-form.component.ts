@@ -1,4 +1,4 @@
-import { Component, Input } from '@angular/core';
+import { Component, ElementRef, Input, Renderer, ViewChild } from '@angular/core';
 import { Button, InputTextarea } from 'primeng/primeng';
 
 import { Note } from './note';
@@ -13,11 +13,12 @@ import { NoteService } from './note.service';
   selector: 'my-note-form',
   template: `
     <div class="wrapper">
-      <textarea pInputTextarea autoResize="autoResize" [rows]=3 [cols]=60
+      <textarea #contentInput class="js-content-input" autofocus
+        pInputTextarea autoResize="autoResize" [rows]=3 [cols]=60
         [readonly]="!editable" [(ngModel)]="note.content"></textarea>
       <div class="button-wrapper">
-        <button pButton type="button" (click)="onSave()" [disabled]="!note.valid()"
-          label="{{saveButtonLabel()}}"></button>
+        <button pButton type="button" (click)="onSave()"
+          [disabled]="!note.valid()" label="{{saveButtonLabel()}}"></button>
         <button *ngIf="note.persisted()" pButton type="button" (click)="onDelete()"
           label="{{deleteButtonLabel()}}"></button>
       </div>
@@ -60,12 +61,19 @@ import { NoteService } from './note.service';
 })
 export class NoteFormComponent {
   @Input()
-  note: Note;
+  private note: Note;
 
   @Input()
-  editable = false;
+  private editable = false;
 
-  constructor(private noteService: NoteService) { }
+  @ViewChild('contentInput')
+  private contentInput: ElementRef;
+
+  constructor(private renderer: Renderer, private noteService: NoteService) { }
+
+  private focusInput() {
+    this.renderer.invokeElementMethod(this.contentInput.nativeElement, 'focus', []);
+  }
 
   saveButtonLabel(): string {
     if (this.editable) {
@@ -81,8 +89,11 @@ export class NoteFormComponent {
   onSave(): void {
     if (this.note.persisted()) {
       this.editable = !this.editable;
+      if (this.editable) {
+        this.focusInput();
+      }
     } else {
-      const oldNote = this.note;
+      var oldNote = this.note;
       this.note = new Note();
       // TODO Handle error once .addNote might fail.
       this.noteService.addNote(oldNote).then(id => {
