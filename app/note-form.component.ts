@@ -1,6 +1,8 @@
-import { Component, ElementRef, Input, Renderer, ViewChild } from '@angular/core';
-import { Button, InputTextarea } from 'primeng/primeng';
 
+import { Component, ElementRef, Input, Renderer, ViewChild } from '@angular/core';
+import { Button } from 'primeng/primeng';
+
+import { ExpandingTextarea } from './expanding-textarea.component';
 import { Note } from './note';
 import { NoteService } from './note.service';
 
@@ -9,20 +11,20 @@ import { NoteService } from './note.service';
   selector: 'my-note-form',
   template: `
     <div class="wrapper">
-      <textarea #contentInput class="js-content-input" autofocus
-        pInputTextarea autoResize="autoResize" [rows]=3 [cols]=60
-        [readonly]="note.persisted() && !beingEdited" [(ngModel)]="note.content"></textarea>
+      <textarea #contentInput autofocus="{{!note.persisted() || undefined}}" [rows]=1 [cols]=60
+        expandingTextarea [readonly]="note.persisted() && !beingEdited"
+        [(ngModel)]="note.content"></textarea>
       <div class="button-wrapper">
-        <button *ngIf="creatable()" pButton type="button" (click)="onCreate()" label="Add"
-          [disabled]="!note.valid()" icon="fa-plus"></button>
-        <button *ngIf="editable()" pButton type="button" (click)="onEdit()" label="Edit"
-          (click)="onEdit()" icon="fa-pencil"></button>
-        <button *ngIf="updatable()" pButton type="button" (click)="onUpdate()" label="Save"
-          [disabled]="!note.valid()" icon="fa-save"></button>
-        <button *ngIf="deletable()" pButton type="button" (click)="onDelete()"
-          label="Delete" icon="fa-trash-o"></button>
-        <button *ngIf="cancelable()" pButton type="button" (click)="onCancel()"
-          label="Cancel" icon="fa-ban"></button>
+        <button *ngIf="creatable()" pButton type="button" (click)="onCreate()" title="Add"
+          [disabled]="!note.valid()" icon="fa-plus"></button
+        ><button *ngIf="editable()" pButton type="button" (click)="onEdit()" title="Edit"
+          (click)="onEdit()" icon="fa-pencil"></button
+        ><button *ngIf="updatable()" pButton type="button" (click)="onUpdate()" title="Save"
+          [disabled]="!note.valid()" icon="fa-save"></button
+        ><button *ngIf="deletable()" pButton type="button" (click)="onDelete()"
+          title="Delete" icon="fa-trash-o"></button
+        ><button *ngIf="cancelable()" pButton type="button" (click)="onCancel()"
+          title="Cancel" icon="fa-ban"></button>
       </div>
     </div>
   `,
@@ -35,13 +37,17 @@ import { NoteService } from './note.service';
     textarea,
     .button-wrapper {
       display: table-cell;
-      padding-top: 0.1em;
+      min-width: 5em;
+      padding-top: 0.2em;
       vertical-align: top;
     }
+    textarea {
+      margin-right: 0.25em;
+    }
     .button-wrapper button {
+      display: inline-block;
       font-size: 0.9em;
-      width: 6.75em;
-      margin-bottom: 0.25em;
+      margin: 0 0 0 0.25em;
     }
     .button-wrapper button span {
       font-weight: normal;
@@ -65,7 +71,8 @@ import { NoteService } from './note.service';
       width: 100%;
     }
   `],
-  directives: [Button, InputTextarea]
+  directives: [Button, ExpandingTextarea]
+
 })
 export class NoteFormComponent {
   @Input()
