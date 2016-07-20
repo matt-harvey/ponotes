@@ -4,9 +4,6 @@ import { Button, InputTextarea } from 'primeng/primeng';
 import { Note } from './note';
 import { NoteService } from './note.service';
 
-// TODO While editing a note, there should be a "cancel" button to cancel changes.
-// Either that, or there should be a general undo / redo facility.
-
 // TODO Use font awesome on button labels, and have distinct background colours
 // on buttons depending on label.
 @Component({
@@ -17,9 +14,9 @@ import { NoteService } from './note.service';
         pInputTextarea autoResize="autoResize" [rows]=3 [cols]=60
         [readonly]="!editable" [(ngModel)]="note.content"></textarea>
       <div class="button-wrapper">
-        <button pButton type="button" (click)="onSave()"
+        <button pButton type="button" (click)="onEditOrSave()"
           [disabled]="!note.valid()" label="{{saveButtonLabel()}}"></button>
-        <button *ngIf="note.persisted()" pButton type="button" (click)="onDelete()"
+        <button *ngIf="note.persisted()" pButton type="button" (click)="onCancelOrDelete()"
           label="{{deleteButtonLabel()}}"></button>
       </div>
     </div>
@@ -63,6 +60,8 @@ export class NoteFormComponent {
   @Input()
   private note: Note;
 
+  private oldContent: string;
+
   @Input()
   private editable = false;
 
@@ -83,13 +82,15 @@ export class NoteFormComponent {
   }
 
   deleteButtonLabel(): string {
-    return 'Delete';
+    return (this.editable ? 'Cancel' : 'Delete');
   }
 
-  onSave(): void {
+  onEditOrSave(): void {
     if (this.note.persisted()) {
+      // TODO Update properly with this.noteService.
       this.editable = !this.editable;
       if (this.editable) {
+        this.oldContent = this.note.content;  // save old content so we can undo if needed
         this.focusInput();
       }
     } else {
@@ -106,8 +107,12 @@ export class NoteFormComponent {
     }
   }
 
-  onDelete(): void {
-    // TODO There should be either a confirm or an undo.
-    this.noteService.deleteNote(this.note);
+  onCancelOrDelete(): void {
+    if (this.editable) {
+      this.note.content = this.oldContent;
+      this.editable = false;
+    } else {
+      this.noteService.deleteNote(this.note);
+    }
   }
 }
