@@ -103,6 +103,8 @@ export class NoteFormComponent {
           // Adding of note was unsuccessful
           // TODO We probably want to display an error message here too.
           this.note = oldNote;
+        } else {
+          this.focusInput();
         }
       });
     }
