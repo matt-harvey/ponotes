@@ -137,6 +137,9 @@ export class NoteFormComponent {
   }
 
   onDelete(): void {
-    this.noteService.deleteNote(this.note);
+    // TODO Use a nicer, custom dialog, or better, don't use a dialog, but have delete be undoable.
+    if (confirm('Are you sure you want to delete this note?')) {
+      this.noteService.deleteNote(this.note);
+    }
   }
 }
