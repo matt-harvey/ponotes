@@ -88,6 +88,7 @@ export class NoteFormComponent {
   onEditOrSave(): void {
     if (this.note.persisted()) {
       // TODO Update properly with this.noteService.
+      this.noteService.saveAll();  // TODO Will become async at some point.
       this.editable = !this.editable;
       if (this.editable) {
         this.oldContent = this.note.content;  // save old content so we can undo if needed

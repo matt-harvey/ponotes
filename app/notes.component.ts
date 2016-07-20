@@ -1,5 +1,4 @@
-import { Component } from '@angular/core';
-import { OnInit } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 
 import { Note } from './note';
 import { NoteFormComponent } from './note-form.component';
@@ -29,5 +28,6 @@ export class NotesComponent implements OnInit {
   getNotes() {
     this.noteService.getNotes().then(notes => this.notes = notes);
   };
+
 }
 
