@@ -176,22 +176,20 @@ export class NoteFormComponent {
   }
 
   onMoveDown(): void {
-    const index = this.noteIndex();
-    if (index === this.notes.length - 1) {
-      return;
-    }
-    this.notes[index] = this.notes[index + 1];
-    this.notes[index + 1] = this.note;
-    this.noteService.saveAll();  // TODO Will become async at some point.
+    return this.moveBy(1);
   }
 
   onMoveUp(): void {
+    return this.moveBy(-1);
+  }
+
+  private moveBy(changeIndexBy: number): void {
     const index = this.noteIndex();
-    if (index === 0) {
-      return;
+    const newIndex = index + changeIndexBy;
+    if (newIndex >= 0 && newIndex < this.notes.length) {
+      this.notes[index] = this.notes[newIndex];
+      this.notes[newIndex] = this.note;
+      this.noteService.saveAll();  // TODO Will become async at some point.
     }
-    this.notes[index] = this.notes[index - 1];
-    this.notes[index - 1] = this.note;
-    this.noteService.saveAll();  // TODO Will become async at some point.
   }
 }
