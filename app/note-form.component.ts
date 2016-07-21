@@ -49,9 +49,6 @@ import { NoteService } from './note.service';
       font-size: 0.9em;
       margin: 0 0 0 0.25em;
     }
-    .button-wrapper button span {
-      font-weight: normal;
-    }
     .ui-inputtext {
       background-color: hsla(60, 75%, 97.5%, 1);
     }
