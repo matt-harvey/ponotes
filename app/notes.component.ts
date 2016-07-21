@@ -7,8 +7,9 @@ import { NoteService } from './note.service';
 @Component({
   selector: 'my-notes',
   template: `
-    <my-note-form [note]="newNote" [editable]="true"></my-note-form>
-    <my-note-form *ngFor="let note of notes" [note]="note"></my-note-form>
+    <my-note-form [note]="newNote"></my-note-form>
+    <my-note-form *ngFor="let note of notes"
+      [notes]="notes" [note]="note"></my-note-form>
   `,
   directives: [NoteFormComponent]
 })
