@@ -42,17 +42,25 @@ import { NoteService } from './note.service';
     textarea,
     .button-wrapper {
       display: table-cell;
-      min-width: 10em;
+      min-width: 6em;
       padding-top: 0.2em;
       vertical-align: top;
+    }
+    button {
+      display: block;
+      margin: 0 0 0.25em 0.25em;
+      width: 1.6em;
     }
     textarea {
       margin-right: 0.25em;
     }
     .button-wrapper button {
       display: inline-block;
-      font-size: 0.9em;
+      font-size: 0.8em;
       margin: 0 0 0 0.25em;
+    }
+    .button-wrapper button >>> span {
+      font-weight: normal;
     }
     .ui-inputtext {
       background-color: hsla(60, 75%, 97.5%, 1);
@@ -62,10 +70,6 @@ import { NoteService } from './note.service';
     }
     .ui-inputtext.ui-state-focus[readonly] {
       box-shadow: none;
-    }
-    button {
-      display: block;
-      margin: 0 0 0.25em 0.5em;
     }
     textarea {
       padding: 0.5em;
