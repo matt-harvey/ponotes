@@ -1,6 +1,9 @@
 // FIXME Adapted from https://github.com/primefaces/primeng/blob/master/components/inputtextarea/inputtextarea.ts.
 // I need to credit etc. according to the Apache License Version 2.0.
 
+// FIXME This works by counting newlines, but if the text just wraps due not to newlines but to
+// wrapping, then it does not expand!
+
 import { Directive, ElementRef, HostListener, Input, OnInit } from '@angular/core';
 
 @Directive({
