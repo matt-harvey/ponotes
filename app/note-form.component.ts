@@ -8,11 +8,11 @@ import { NoteService } from './note.service';
 
 // TODO Have distinct background colours on buttons depending on label.
 @Component({
-  selector: 'my-note-form',
+  selector: 'pn-note-form',
   template: `
     <div class="wrapper">
       <textarea #contentInput autofocus="{{!note.persisted() || undefined}}" [rows]=1 [cols]=60
-        expandingTextarea [readonly]="note.persisted() && !beingEdited"
+        pnExpandingTextarea [readonly]="note.persisted() && !beingEdited"
         [(ngModel)]="note.content"></textarea>
       <div class="button-wrapper">
         <button *ngIf="creatable()" pButton type="button" (click)="onCreate()" title="Add"
@@ -138,7 +138,7 @@ export class NoteFormComponent {
   }
 
   onCreate(): void {
-    var oldNote = this.note;
+    const oldNote = this.note;
     this.note = new Note();
     // TODO Handle error once .addNote might fail.
     this.noteService.addNote(oldNote).then(id => {
@@ -176,7 +176,7 @@ export class NoteFormComponent {
   }
 
   onMoveDown(): void {
-    var index = this.noteIndex();
+    const index = this.noteIndex();
     if (index === this.notes.length - 1) {
       return;
     }
@@ -186,7 +186,7 @@ export class NoteFormComponent {
   }
 
   onMoveUp(): void {
-    var index = this.noteIndex();
+    const index = this.noteIndex();
     if (index === 0) {
       return;
     }

@@ -47,13 +47,13 @@ export class NoteService {
 
   private load() {
     // TODO Let Note class deal with loading/dumping JSON.
-    var data = JSON.parse(localStorage.getItem('notes') || '[]');
+    const data = JSON.parse(localStorage.getItem('notes') || '[]');
     this.notes = _.map(data, obj => new Note(obj['content'], obj['id']));
   }
 
   saveAll() {
     // TODO Let Note class deal with loading/dumping JSON.
-    var data = _.map(this.notes, note => ({ content: note['content'], id: note['id'] }));
+    const data = _.map(this.notes, note => ({ content: note['content'], id: note['id'] }));
     localStorage.setItem('notes', JSON.stringify(data));
   }
 

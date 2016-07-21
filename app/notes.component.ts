@@ -5,11 +5,11 @@ import { NoteFormComponent } from './note-form.component';
 import { NoteService } from './note.service';
 
 @Component({
-  selector: 'my-notes',
+  selector: 'pn-notes',
   template: `
-    <my-note-form [note]="newNote"></my-note-form>
-    <my-note-form *ngFor="let note of notes"
-      [notes]="notes" [note]="note"></my-note-form>
+    <pn-note-form [note]="newNote"></pn-note-form>
+    <pn-note-form *ngFor="let note of notes"
+      [notes]="notes" [note]="note"></pn-note-form>
   `,
   directives: [NoteFormComponent]
 })

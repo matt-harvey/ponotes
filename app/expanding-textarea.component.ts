@@ -4,7 +4,7 @@
 import { Directive, ElementRef, HostListener, Input, OnInit } from '@angular/core';
 
 @Directive({
-  selector: '[expandingTextarea]',
+  selector: '[pnExpandingTextarea]',
   host: {
     '[class.ui-inputtext]': 'true',
     '[class.ui-corner-all]': 'true',
@@ -75,17 +75,17 @@ export class ExpandingTextarea implements OnInit {
 
   @HostListener('keydown', ['$event'])
   onKeydown(e) {
-    var keyCodeForEnter = 13;
+    const keyCodeForEnter = 13;
     if (e.which === keyCodeForEnter || e.keyCode === keyCodeForEnter) {
       ++this.rows;
     }
   }
 
-  resize() {
-    var linesCount = 0,
+  private resize() {
+    let linesCount = 0,
     lines = this.el.nativeElement.value.split('\n');
 
-    for (var i = lines.length - 1; i >= 0 ; --i) {
+    for (let i = lines.length - 1; i >= 0 ; --i) {
       linesCount += Math.floor(lines[i].length / this.colsDefault + 1);
     }
 

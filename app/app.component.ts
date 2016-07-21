@@ -4,10 +4,10 @@ import { NotesComponent } from './notes.component';
 import { NoteService } from './note.service';
 
 @Component({
-  selector: 'my-app',
+  selector: 'pn-app',
   template: `
     <h1>{{title}}</h1>
-    <my-notes></my-notes>
+    <pn-notes></pn-notes>
   `,
   styles: [`
     h1 {
