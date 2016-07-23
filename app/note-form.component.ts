@@ -36,25 +36,30 @@ import { NoteService } from './note.service';
   styles: [`
     .wrapper {
       display: table;
-      margin-bottom: 0.5em;
+      margin-bottom: 0.125em;
       width: 100%;
     }
     textarea,
     .button-wrapper {
       display: table-cell;
-      min-width: 6em;
-      padding-top: 0.2em;
+      min-width: 7.5em;
+      padding-top: 0.06em;
       vertical-align: top;
     }
     button {
       display: block;
+      background: white;
       margin: 0 0 0.25em 0.25em;
-      width: 1.6em;
+      height: 2.36em;
+      width: 1.8em;
     }
-    textarea {
-      margin-right: 0.25em;
+    :host >>> textarea {
+      border-radius: 2px;
+      margin-right: 0.25em !important;
+      padding: 0.333em !important;
     }
     .button-wrapper button {
+      border-radius: 2px;
       display: inline-block;
       font-size: 0.8em;
       margin: 0 0 0 0.25em;
@@ -68,10 +73,12 @@ import { NoteService } from './note.service';
     .ui-inputtext[readonly] {
       background-color: hsla(0, 0%, 100%, 1);
     }
+    .ui-inputtext[readonly],
     .ui-inputtext.ui-state-focus[readonly] {
       box-shadow: none;
     }
     textarea {
+      font-family: serif;
       padding: 0.5em;
       resize: none;
       width: 100%;

@@ -1,3 +1,12 @@
 body {
-  background-color: hsla(0, 0%, 98%, 1);
+  background-color: hsla(50, 52%, 92.5%, 1);
+}
+
+body,
+h1, h2, h3, h4, h5, h6,
+button span.ui-button-icon-left,
+.ui-widget-content .ui-inputtext,
+.ui-widget-header .ui-inputtext,
+.ui-inputtext {
+  color: hsla(0, 0%, 20%, 1) !important;
 }

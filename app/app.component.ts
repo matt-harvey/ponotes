@@ -12,9 +12,7 @@ import { NoteService } from './note.service';
   styles: [`
     h1 {
       color: hsla(220, 50%, 30%, 1);
-      text-transform: uppercase;
-      letter-spacing: 0.5em;
-      font-family: geneva, arial, sans-serif;
+      font-family: cursive, geneva, arial, sans-serif;
     }
   `],
   directives: [NotesComponent],
