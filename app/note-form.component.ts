@@ -1,38 +1,47 @@
 
-import { Component, ElementRef, Input, Renderer, ViewChild } from '@angular/core';
+import { Component, ElementRef, EventEmitter, Input, OnInit, Output, Renderer,
+         ViewChild } from '@angular/core';
+
 import { Button } from 'primeng/primeng';
 
 import { ExpandingTextarea } from './expanding-textarea.component';
 import { Note } from './note';
 import { NoteService } from './note.service';
 
-// TODO Have distinct background colours on buttons depending on label.
+// FIXME position of move target on multi-lines notes.
 @Component({
   selector: 'pn-note-form',
   template: `
     <div class="wrapper">
       <textarea #contentInput autofocus="{{!note.persisted() || undefined}}" [rows]=1 [cols]=60
         pnExpandingTextarea [readonly]="note.persisted() && !beingEdited"
+        [ngClass]="{'visibly-hidden': moveTargetOnly}"
         [(ngModel)]="note.content"></textarea>
       <div class="button-wrapper">
         <button *ngIf="creatable()" pButton type="button" (click)="onCreate()" title="Add"
-          [disabled]="!note.valid()" icon="fa-plus"></button
+          [disabled]="moving() || !note.valid()" icon="fa-plus"></button
         ><button *ngIf="editable()" pButton type="button" (click)="onEdit()" title="Edit"
-          (click)="onEdit()" icon="fa-pencil"></button
+          (click)="onEdit()" [disabled]="moving()" icon="fa-pencil"></button
         ><button *ngIf="updatable()" pButton type="button" (click)="onUpdate()" title="Save"
-          [disabled]="!note.valid()" icon="fa-save"></button
+          [disabled]="moving() || !note.valid()" icon="fa-save"></button
         ><button *ngIf="deletable()" pButton type="button" (click)="onDelete()"
-          title="Delete" icon="fa-trash-o"></button
+          [disabled]="moving()" title="Delete" icon="fa-trash-o"></button
         ><button *ngIf="cancelable()" pButton type="button" (click)="onCancel()"
-          title="Cancel" icon="fa-ban"></button
-        ><button *ngIf="movable()" pButton type="button" (click)="onMoveDown()" title="Down"
-          [disabled]="!movableDown()" icon="fa-caret-down"></button
-        ><button *ngIf="movable()" pButton type="button" (click)="onMoveUp()" title="Up"
-          [disabled]="!movableUp()" icon="fa-caret-up"></button
+          [disabled]="moving()" title="Cancel" icon="fa-ban"></button
+        ><button *ngIf="movable()" pButton type="button" (click)="onStartMove()" title="Move"
+          [disabled]="beingEdited" icon="fa-arrows-v"></button
+        ><button *ngIf="moveTargettable" pButton type="button" (click)="onSelectMoveTarget()"
+          class="button-wide"
+          label="move here" title="move here" icon="fa-long-arrow-left"
+          style="position: relative; top: -1.25em;"></button
+        ><button *ngIf="moveCancellable()" pButton type="button" (click)="onCancelMove()"
+          class="button-wide"
+          label="cancel" title="cancel move" icon="fa-ban"></button
         >
       </div>
     </div>
   `,
+  // TODO Styles are becoming rather bloated and disorganised.
   styles: [`
     .wrapper {
       display: table;
@@ -42,7 +51,7 @@ import { NoteService } from './note.service';
     textarea,
     .button-wrapper {
       display: table-cell;
-      min-width: 7.5em;
+      min-width: 9em;
       padding-top: 0.06em;
       vertical-align: top;
     }
@@ -52,6 +61,9 @@ import { NoteService } from './note.service';
       margin: 0 0 0.25em 0.25em;
       height: 2.36em;
       width: 1.8em;
+    }
+    button.button-wide {
+      width: 8.5em;
     }
     :host >>> textarea {
       border-radius: 2px;
@@ -83,19 +95,40 @@ import { NoteService } from './note.service';
       resize: none;
       width: 100%;
     }
+    .visibly-hidden {
+      visibility: hidden;
+    }
   `],
   directives: [Button, ExpandingTextarea]
 
 })
-export class NoteFormComponent {
-  @Input()
-  private note: Note;
-
+export class NoteFormComponent implements OnInit {
   @Input()
   private notes: Note[] = [];
 
   @Input()
+  private noteIndex: number;
+
+  @Input()
   private beingEdited = false;
+
+  @Input()
+  private noteBeingMovedIndex: number;
+
+  @Input()
+  private moveTargettable = false;
+
+  @Input()
+  private newNote: Note;
+
+  @Input()
+  private moveTargetOnly = false;
+
+  @Output()
+  onMoveStarted = new EventEmitter<number>();
+
+  @Output()
+  onMoveEnded = new EventEmitter<number>();
 
   @ViewChild('contentInput')
   private contentInput: ElementRef;
@@ -104,55 +137,61 @@ export class NoteFormComponent {
 
   constructor(private renderer: Renderer, private noteService: NoteService) { }
 
+  ngOnInit(): void {
+    if (this.moveTargetOnly || (typeof this.noteIndex === 'undefined')) {
+      this.newNote = new Note();
+    }
+  }
+
+  get note(): Note {
+    return this.newNote || this.notes[this.noteIndex];
+  }
+
   private focusInput() {
     this.renderer.invokeElementMethod(this.contentInput.nativeElement, 'focus', []);
   }
 
-  private noteIndex() {
-    return this.notes.indexOf(this.note);
-  }
-
   creatable(): boolean {
-    return !this.note.persisted();
+    return !this.moving() && !this.moveTargetOnly && !this.note.persisted();
   }
 
   deletable(): boolean {
-    return !this.beingEdited && this.note.persisted();
+    return !this.moving() && !this.beingEdited && this.note.persisted();
   }
 
   cancelable(): boolean {
-    return this.beingEdited && this.note.persisted();
+    return !this.moving() && this.beingEdited && this.note.persisted();
   }
 
   editable(): boolean {
-    return !this.beingEdited && this.note.persisted();
+    return !this.moving() && !this.beingEdited && this.note.persisted();
   }
 
   updatable(): boolean {
-    return this.beingEdited && this.note.persisted();
+    return !this.moving() && this.beingEdited && this.note.persisted();
   }
 
   movable(): boolean {
-    return this.note.persisted();
+    return !this.moving() && this.note.persisted();
   }
 
-  movableDown(): boolean {
-    return this.movable() && (this.noteIndex() !== this.notes.length - 1);
+  moving(): boolean {
+    return typeof this.noteBeingMovedIndex !== 'undefined';
   }
 
-  movableUp(): boolean {
-    return this.movable() && (this.noteIndex() !== 0);
+  moveCancellable(): boolean {
+    return this.moving() && (this.noteIndex === this.noteBeingMovedIndex);
   }
 
   onCreate(): void {
     const oldNote = this.note;
-    this.note = new Note();
+    this.newNote = new Note();
     // TODO Handle error once .addNote might fail.
     this.noteService.addNote(oldNote).then(id => {
       if (id < 1) {
         // Adding of note was unsuccessful
         // TODO We probably want to display an error message here too.
-        this.note = oldNote;
+        this.newNote = oldNote;
       } else {
         this.focusInput();
       }
@@ -182,21 +221,16 @@ export class NoteFormComponent {
     }
   }
 
-  onMoveDown(): void {
-    return this.moveBy(1);
+  onCancelMove(): void {
+    this.onMoveEnded.emit(undefined);
   }
 
-  onMoveUp(): void {
-    return this.moveBy(-1);
+  onStartMove(): void {
+    this.onMoveStarted.emit(this.noteIndex);
   }
 
-  private moveBy(changeIndexBy: number): void {
-    const index = this.noteIndex();
-    const newIndex = index + changeIndexBy;
-    if (newIndex >= 0 && newIndex < this.notes.length) {
-      this.notes[index] = this.notes[newIndex];
-      this.notes[newIndex] = this.note;
-      this.noteService.saveAll();  // TODO Will become async at some point.
-    }
+  onSelectMoveTarget(): void {
+    this.onMoveEnded.emit(this.noteIndex);
   }
+
 }
