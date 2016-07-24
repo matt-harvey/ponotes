@@ -15,7 +15,7 @@ import { NoteService } from './note.service';
     <div class="wrapper">
       <textarea #contentInput autofocus="{{!note.persisted() || undefined}}" [rows]=1 [cols]=60
         pnExpandingTextarea [readonly]="note.persisted() && !beingEdited"
-        [ngClass]="{'visibly-hidden': moveTargetOnly}"
+        [ngClass]="{'visibly-hidden': moveTargetOnly, 'being-moved': noteBeingMoved()}"
         [(ngModel)]="note.content"></textarea>
       <div class="button-wrapper">
         <button *ngIf="creatable()" pButton type="button" (click)="onCreate()" title="Add"
@@ -32,11 +32,10 @@ import { NoteService } from './note.service';
           [disabled]="beingEdited" icon="fa-arrows-v"></button
         ><button *ngIf="moveTargettable" pButton type="button" (click)="onSelectMoveTarget()"
           class="button-wide"
-          label="move here" title="move here" icon="fa-long-arrow-left"
+          label="move here" icon="fa-long-arrow-left"
           style="position: relative; top: -1.25em;"></button
         ><button *ngIf="moveCancellable()" pButton type="button" (click)="onCancelMove()"
-          class="button-wide"
-          label="cancel" title="cancel move" icon="fa-ban"></button
+          class="being-moved button-wide" label="leave here" icon="fa-long-arrow-left"></button
         >
       </div>
     </div>
@@ -45,7 +44,7 @@ import { NoteService } from './note.service';
   styles: [`
     .wrapper {
       display: table;
-      margin-bottom: 0.125em;
+      margin-bottom: 0.2em;
       width: 100%;
     }
     textarea,
@@ -81,6 +80,13 @@ import { NoteService } from './note.service';
     }
     .ui-inputtext {
       background-color: hsla(60, 75%, 97.5%, 1);
+      box-shadow: inset 0 2px 2px hsla(0, 0%, 56%, 1);
+    }
+    .ui-inputtext.being-moved[readonly] {
+      background-color: hsla(40, 45%, 87.5%, 1);
+    }
+    .ui-inputtext.being-moved[readonly] {
+      box-shadow: 0 2px 2px hsla(0, 0%, 56%, 1);
     }
     .ui-inputtext[readonly] {
       background-color: hsla(0, 0%, 100%, 1);
@@ -180,7 +186,11 @@ export class NoteFormComponent implements OnInit {
   }
 
   moveCancellable(): boolean {
-    return this.moving() && (this.noteIndex === this.noteBeingMovedIndex);
+    return this.noteBeingMoved();
+  }
+
+  noteBeingMoved(): boolean {
+    return this.moving() && this.noteIndex === this.noteBeingMovedIndex;
   }
 
   onCreate(): void {

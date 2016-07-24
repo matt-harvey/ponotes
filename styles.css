@@ -7,6 +7,7 @@ h1, h2, h3, h4, h5, h6,
 button span.ui-button-icon-left,
 .ui-widget-content .ui-inputtext,
 .ui-widget-header .ui-inputtext,
+button span.ui-button-text,
 .ui-inputtext {
   color: hsla(0, 0%, 20%, 1) !important;
 }
