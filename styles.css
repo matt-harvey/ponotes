@@ -8,6 +8,37 @@ button span.ui-button-icon-left,
 .ui-widget-content .ui-inputtext,
 .ui-widget-header .ui-inputtext,
 button span.ui-button-text,
+button[disabled]:hover span.ui-button-text,
+button[disabled]:focus span.ui-button-text,
+button[disabled]:hover span.ui-button-icon-left,
+button[disabled]:focus span.ui-button-icon-left,
+textarea.ui-inputtext,
+input.ui-inputtext,
 .ui-inputtext {
-  color: hsla(0, 0%, 20%, 1) !important;
+  color: hsla(0, 0%, 20%, 1);
+}
+
+button.button-success:hover .ui-button-text,
+button.button-success:focus .ui-button-text,
+button.button-success:hover .ui-button-icon-left,
+button.button-success:focus .ui-button-icon-left {
+  color: hsla(120, 100%, 25%, 1);
+}
+button.button-info:hover .ui-button-text,
+button.button-info:focus .ui-button-text,
+button.button-info:hover .ui-button-icon-left,
+button.button-info:focus .ui-button-icon-left {
+  color: hsla(240, 100%, 50%, 1);
+}
+button.button-warning:hover .ui-button-text,
+button.button-warning:focus .ui-button-text,
+button.button-warning:hover .ui-button-icon-left,
+button.button-warning:focus .ui-button-icon-left {
+  color: hsla(19, 56%, 40%, 1);
+}
+button.button-danger:hover .ui-button-text,
+button.button-danger:focus .ui-button-text,
+button.button-danger:hover .ui-button-icon-left,
+button.button-danger:focus .ui-button-icon-left {
+  color: hsla(0, 100%, 50%, 1);
 }

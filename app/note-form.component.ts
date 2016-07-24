@@ -8,34 +8,38 @@ import { ExpandingTextarea } from './expanding-textarea.component';
 import { Note } from './note';
 import { NoteService } from './note.service';
 
-// FIXME position of move target on multi-lines notes.
+// TODO Apply "being-moved" class for a half a second or so to note that has just been moved.
 @Component({
   selector: 'pn-note-form',
   template: `
     <div class="wrapper">
       <textarea #contentInput autofocus="{{!note.persisted() || undefined}}" [rows]=1 [cols]=60
         pnExpandingTextarea [readonly]="note.persisted() && !beingEdited"
-        [ngClass]="{'visibly-hidden': moveTargetOnly, 'being-moved': noteBeingMoved()}"
+        [ngClass]="{
+          'visibly-hidden': moveTargetOnly,
+          'being-moved': noteBeingMoved(),
+          'moving': moving()
+        }"
         [(ngModel)]="note.content"></textarea>
       <div class="button-wrapper">
         <button *ngIf="creatable()" pButton type="button" (click)="onCreate()" title="Add"
-          [disabled]="moving() || !note.valid()" icon="fa-plus"></button
+          class="button-success" [disabled]="moving() || !note.valid()" icon="fa-plus"></button
         ><button *ngIf="editable()" pButton type="button" (click)="onEdit()" title="Edit"
-          (click)="onEdit()" [disabled]="moving()" icon="fa-pencil"></button
+          class="button-warning" (click)="onEdit()" [disabled]="moving()" icon="fa-pencil"></button
         ><button *ngIf="updatable()" pButton type="button" (click)="onUpdate()" title="Save"
-          [disabled]="moving() || !note.valid()" icon="fa-save"></button
+          class="button-success" [disabled]="moving() || !note.valid()" icon="fa-save"></button
         ><button *ngIf="deletable()" pButton type="button" (click)="onDelete()"
-          [disabled]="moving()" title="Delete" icon="fa-trash-o"></button
+          class="button-danger" [disabled]="moving()" title="Delete" icon="fa-trash-o"></button
         ><button *ngIf="cancelable()" pButton type="button" (click)="onCancel()"
-          [disabled]="moving()" title="Cancel" icon="fa-ban"></button
+          class="button-danger" [disabled]="moving()" title="Cancel" icon="fa-ban"></button
         ><button *ngIf="movable()" pButton type="button" (click)="onStartMove()" title="Move"
-          [disabled]="beingEdited" icon="fa-arrows-v"></button
+          class="button-warning" [disabled]="beingEdited" icon="fa-arrows-v"></button
         ><button *ngIf="moveTargettable" pButton type="button" (click)="onSelectMoveTarget()"
-          class="button-wide"
-          label="move here" icon="fa-long-arrow-left"
-          style="position: relative; top: -1.25em;"></button
+          class="button-success button-wide button-success" label="move here"
+          icon="fa-long-arrow-left" style="position: relative; top: -1.25em;"></button
         ><button *ngIf="moveCancellable()" pButton type="button" (click)="onCancelMove()"
-          class="being-moved button-wide" label="leave here" icon="fa-long-arrow-left"></button
+          class="being-moved button-danger button-wide" label="leave here"
+          icon="fa-long-arrow-left"></button
         >
       </div>
     </div>
@@ -78,18 +82,24 @@ import { NoteService } from './note.service';
     .button-wrapper button >>> span {
       font-weight: normal;
     }
-    .ui-inputtext {
+    .ui-inputtext,
+    :host:hover >>> .ui-inputtext[readonly],
+    :host:hover >>> button {
       background-color: hsla(60, 75%, 97.5%, 1);
+    }
+    .ui-inputtext {
       box-shadow: inset 0 2px 2px hsla(0, 0%, 56%, 1);
     }
+    :host:hover >>> .ui-inputtext[readonly].moving,
+    .ui-inputtext[readonly] {
+      background-color: hsla(0, 0%, 100%, 1);
+    }
+    :host:hover >>> .ui-inputtext[readonly].moving.being-moved,
     .ui-inputtext.being-moved[readonly] {
       background-color: hsla(40, 45%, 87.5%, 1);
     }
     .ui-inputtext.being-moved[readonly] {
       box-shadow: 0 2px 2px hsla(0, 0%, 56%, 1);
-    }
-    .ui-inputtext[readonly] {
-      background-color: hsla(0, 0%, 100%, 1);
     }
     .ui-inputtext[readonly],
     .ui-inputtext.ui-state-focus[readonly] {
