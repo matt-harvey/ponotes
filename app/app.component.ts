@@ -1,7 +1,7 @@
 import { Component } from '@angular/core';
 
-import { NotesComponent } from './notes.component';
-import { NoteService } from './note.service';
+import { NotesComponent } from './notes/note-list/note-list.component';
+import { NoteService } from './notes/shared/note.service';
 
 @Component({
   selector: 'pn-app',

@@ -4,9 +4,9 @@ import { Component, ElementRef, EventEmitter, Input, OnInit, Output, Renderer,
 
 import { Button } from 'primeng/primeng';
 
-import { ExpandingTextarea } from './expanding-textarea.component';
-import { Note } from './note';
-import { NoteService } from './note.service';
+import { ExpandingTextarea } from '../../shared/expanding-textarea.component';
+import { Note } from '../shared/note';
+import { NoteService } from '../shared/note.service';
 
 // TODO Apply "being-moved" class for a half a second or so to note that has just been moved.
 @Component({

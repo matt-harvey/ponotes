@@ -1,8 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 
-import { Note } from './note';
-import { NoteFormComponent } from './note-form.component';
-import { NoteService } from './note.service';
+import { Note } from '../shared/note';
+import { NoteFormComponent } from '../note/note.component';
+import { NoteService } from '../shared/note.service';
 
 @Component({
   selector: 'pn-notes',
