@@ -98,7 +98,8 @@ import { NoteService } from './note.service';
     .ui-inputtext.being-moved[readonly] {
       background-color: hsla(40, 45%, 87.5%, 1);
     }
-    .ui-inputtext.being-moved[readonly] {
+    .ui-inputtext.being-moved[readonly],
+    .ui-inputtext.ui-state-focus.being-moved[readonly] {
       box-shadow: 0 2px 2px hsla(0, 0%, 56%, 1);
     }
     .ui-inputtext[readonly],
