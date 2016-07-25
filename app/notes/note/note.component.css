@@ -1,49 +1,26 @@
-/* TODO Tidy up these and other stylesheets */
+/* BACKGROUND
+   ----------
 
-.wrapper {
-  display: table;
-  margin-bottom: 0.2em;
-  width: 100%;
-}
-textarea,
-.button-wrapper {
-  display: table-cell;
-  min-width: 8em;
-  padding-top: 0.06em;
-  vertical-align: top;
-}
-button {
-  display: block;
-  background: white;
-  margin: 0 0 0.25em 0.25em;
-  height: 2.36em;
-  width: 1.8em;
-}
-button.button-wide {
-  width: 8em;
-}
-:host >>> textarea {
-  border-radius: 2px;
-  margin-right: 0.25em !important;
-  padding: 0.333em !important;
-}
-.button-wrapper button {
-  border-radius: 2px;
-  display: inline-block;
-  font-size: 0.8em;
-  margin: 0 0 0 0.25em;
-}
-.button-wrapper button >>> span {
-  font-weight: normal;
+   background...
+ */
+
+.ui-button,
+.ui-inputtext[readonly] {
+  background: hsla(0, 0%, 100%, 1);
 }
 .ui-inputtext {
   background-color: hsla(60, 75%, 97.5%, 1);
 }
+
+
+/* DECORATIVE BOX EFFECTS
+   ----------------------
+
+   box-shadow
+ */
+
 .ui-inputtext {
   box-shadow: inset 0 2px 2px hsla(0, 0%, 56%, 1);
-}
-.ui-inputtext[readonly] {
-  background-color: hsla(0, 0%, 100%, 1);
 }
 .ui-inputtext.being-moved[readonly],
 .ui-inputtext.ui-state-focus.being-moved[readonly] {
@@ -53,12 +30,66 @@ button.button-wide {
 .ui-inputtext.ui-state-focus[readonly] {
   box-shadow: none;
 }
-textarea {
+
+
+/* FONT
+   -------
+
+   font...
+ */
+
+.ui-button {
+  font-weight: normal;
+  font-size: 0.8em;
+}
+.ui-inputtext {
   font-family: serif;
-  padding: 0.5em;
-  resize: none;
+}
+
+
+/* LAYOUT & VISIBILITY
+   -------------------
+
+   display,
+   margin...
+   ...width
+   ...height
+   padding...
+   border...
+   ...align
+   resize
+   visibility
+*/
+
+.wrapper {
+  display: table;
+  margin-bottom: 0.2em;
   width: 100%;
 }
-.visibly-hidden {
-  visibility: hidden;
+.button-wrapper,
+.ui-inputtext {
+  display: table-cell;
+}
+.button-wrapper {
+  min-width: 8em;
+  padding-top: 0.06em;
+  vertical-align: top;
+}
+.ui-button,
+.ui-inputtext {
+  border-radius: 2px;
+}
+.ui-button {
+  height: 2.36em;
+  width: 1.8em;
+  margin: 0 0 0 0.25em;
+}
+.button-wide {
+  width: 8em;
+}
+.ui-inputtext {
+  margin-right: 0.25em;
+  padding: 0.333em;
+  resize: none;
+  width: 100%;
 }
