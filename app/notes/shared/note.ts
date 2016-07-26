@@ -9,4 +9,15 @@ export class Note {
   valid(): boolean {
     return this.content.length !== 0;
   }
+
+  toJSON(): Object {
+    return {
+      content: this.content,
+      id: this.id
+    };
+  }
+
+  static fromPOJO(object: Object): Note {
+    return new Note(object['content'], object['id']);
+  }
 }

@@ -44,15 +44,11 @@ export class NoteService {
   }
 
   private load() {
-    // TODO Let Note class deal with loading/dumping JSON.
-    const data = JSON.parse(localStorage.getItem('notes') || '[]');
-    this.notes = _.map(data, obj => new Note(obj['content'], obj['id']));
+    this.notes = _.map(JSON.parse(localStorage.getItem('notes') || '[]'), Note.fromPOJO);
   }
 
   saveAll() {
-    // TODO Let Note class deal with loading/dumping JSON.
-    const data = _.map(this.notes, note => ({ content: note['content'], id: note['id'] }));
-    localStorage.setItem('notes', JSON.stringify(data));
+    localStorage.setItem('notes', JSON.stringify(this.notes));
   }
 
   // indexes must be positive and in range
