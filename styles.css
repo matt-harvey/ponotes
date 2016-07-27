@@ -2,10 +2,15 @@
    ----------
 
    background...
+   border-color
  */
 
 body {
   background: hsla(0, 0%, 100%, 1);
+}
+.ui-widget-content button.ui-widget,
+.ui-widget-content .ui-inputtext {
+  border-color: hsla(206, 10%, 86%, 1);
 }
 
 /* FOREGROUND
@@ -24,6 +29,7 @@ h1, h2, h3, h4, h5, h6,
 .ui-button[disabled]:focus .ui-button-text,
 .ui-button[disabled]:hover .ui-button-icon-left,
 .ui-button[disabled]:focus .ui-button-icon-left,
+.ui-inputtext,
 input.ui-inputtext,
 textarea.ui-inputtext,
 .ui-widget-content input.ui-inputtext,

@@ -1,0 +1,37 @@
+.expanding-textarea-wrapper {
+  border: none;
+  position: relative;
+  width: 100%;
+}
+.expanding-textarea,
+.expanding-textarea-pre {
+  border-width: 1px;
+  font-size: 1em;
+  margin-right: 0;
+  min-height: 1.666em;
+  margin-right: 4px;
+  padding: 6px;
+  height: 100%;
+  white-space: pre-wrap;
+  word-wrap: break-word;
+  width: 100%;
+  -webkit-box-sizing: border-box;
+  -moz-box-sizing: border-box;
+  -ms-box-sizing: border-box;
+  box-sizing: border-box;
+}
+.expanding-textarea {
+  overflow: hidden;
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 100%;
+  resize: none;
+}
+.expanding-textarea-pre {
+  border-style: solid;
+  display: block;
+  position: static;
+  visibility: hidden;
+}

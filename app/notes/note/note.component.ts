@@ -1,9 +1,9 @@
 import { Component, ElementRef, EventEmitter, Input, OnInit, Output, Renderer,
          ViewChild } from '@angular/core';
 
-import { Button } from 'primeng/primeng';
+import { Button, Dialog } from 'primeng/primeng';
 
-import { ExpandingTextarea } from '../../shared/expanding-textarea.directive';
+import { ExpandingTextareaComponent } from '../../shared/expanding-textarea/expanding-textarea.component';
 import { Note } from '../shared/note';
 import { NoteService } from '../shared/note.service';
 
@@ -12,7 +12,7 @@ import { NoteService } from '../shared/note.service';
   selector: 'pn-note',
   templateUrl: 'app/notes/note/note.component.html',
   styleUrls: ['app/notes/note/note.component.css'],
-  directives: [Button, ExpandingTextarea]
+  directives: [Button, Dialog, ExpandingTextareaComponent]
 })
 export class NoteFormComponent implements OnInit {
   @Input() private notes: Note[] = [];
@@ -32,7 +32,7 @@ export class NoteFormComponent implements OnInit {
   @Output() private onNoteReinstate = new EventEmitter<Note>();
   @Output() private onNoteDelete = new EventEmitter<Note>();
 
-  @ViewChild('contentInput') private contentInput: ElementRef;
+  @ViewChild(ExpandingTextareaComponent) private contentInput: ExpandingTextareaComponent;
 
   private oldContent: string;
 
@@ -50,7 +50,7 @@ export class NoteFormComponent implements OnInit {
   }
 
   private focusInput() {
-    this.renderer.invokeElementMethod(this.contentInput.nativeElement, 'focus', []);
+    this.contentInput.focus();
   }
 
   private creatable(): boolean {

@@ -1,7 +1,3 @@
-/* FIXME Tabs show borders incorrectly and look wrong on Safari; probably other browsers too. It's
-   all very fragile. */
-
-
 /* BACKGROUND
    ----------
 
@@ -74,7 +70,7 @@
 :host >>> .ui-tabview > .ui-tabview-nav li {
   margin-right: 0;
   z-index: 20;
-  top: 1px;
+  top: 2px;
   border-top-right-radius: 3px;
   -moz-border-radius-topright: 3px;
   -webkit-border-top-right-radius: 3px;

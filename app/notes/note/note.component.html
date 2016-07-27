@@ -1,12 +1,14 @@
 <div class="wrapper">
-  <textarea #contentInput autofocus="{{!note.persisted() || undefined}}" [rows]=1 [cols]=60
-    pnExpandingTextarea [readonly]="note.persisted() && !beingEdited"
-    [ngClass]="{
+  <pn-expanding-textarea #contentInput [(ngModel)]="note.content"
+    [autofocus]="!note.persisted() || undefined"
+    [readonly]="note.persisted() && !beingEdited"
+    [ngClass]="{ 
       'visibly-hidden': moveTargetOnly,
       'being-moved': noteBeingMoved(),
       'moving': moving()
-    }"
-    [(ngModel)]="note.content"></textarea>
+    }"> 
+  </pn-expanding-textarea>
+
   <div class="button-wrapper">
     <button *ngIf="creatable()" pButton type="button" (click)="onCreate()" title="Add"
       class="button-success" [disabled]="moving() || !note.valid()" icon="fa-plus"></button

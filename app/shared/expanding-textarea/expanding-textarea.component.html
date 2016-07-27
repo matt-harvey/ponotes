@@ -1,0 +1,9 @@
+<div class="expanding-textarea-wrapper ui-widget-content">
+  <pre class="ui-inputtext ui-widget
+    expanding-textarea-pre"><span>{{value}}</span><br /></pre>
+
+  <textarea #contentInput class="expanding-textarea ui-inputtext ui-widget"
+    [readonly]="readonly" [autofocus]="autofocus"
+    [(ngModel)]="value" (blur)="onBlur()"></textarea>
+
+</div>
