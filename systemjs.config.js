@@ -10,14 +10,18 @@
     'angular2-in-memory-web-api': 'node_modules/angular2-in-memory-web-api',
     'rxjs':                       'node_modules/rxjs',
     'primeng':                    'node_modules/primeng',
-    'lodash':                     'node_modules/lodash/lodash.js'
+    'lodash':                     'node_modules/lodash/lodash.js',
+    'pouchdb':                    'node_modules/pouchdb/dist/',
+    'pouchdb-find':               'node_modules/pouchdb-find/dist/'
   };
   // packages tells the System loader how to load when no filename and/or no extension
   var packages = {
     'app':                        { main: 'main.js',  defaultExtension: 'js' },
     'rxjs':                       { defaultExtension: 'js' },
     'angular2-in-memory-web-api': { main: 'index.js', defaultExtension: 'js' },
-    'primeng':                    { defaultExtension: 'js' }
+    'primeng':                    { defaultExtension: 'js' },
+    'pouchdb':                    { main: 'pouchdb', defaultExtension: 'js' },
+    'pouchdb-find':               { main: 'pouchdb.find', defaultExtension: 'js' }
   };
   var ngPackageNames = [
     'common',

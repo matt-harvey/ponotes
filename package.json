@@ -26,6 +26,8 @@
     "core-js": "^2.4.0",
     "font-awesome": "^4.6.3",
     "lodash": "^4.13.1",
+    "pouchdb": "^5.4.5",
+    "pouchdb-find": "^0.10.3",
     "primeng": "^1.0.0-beta.9",
     "primeui": "^4.1.12",
     "reflect-metadata": "^0.1.3",

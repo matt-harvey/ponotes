@@ -2,13 +2,16 @@ import { Injectable } from '@angular/core';
 import * as _ from 'lodash';
 
 import { Note } from './note';
+import { Pouch } from '../../shared/pouch';
 
 @Injectable()
 export class NoteService {
 
   private notes: Note[];
 
-  constructor() { this.load(); }
+  constructor() {
+    this.load();
+  }
 
   getNotes(): Promise<Note[]> {
     // We could just do `return Promise.resolve(NOTES);`, but instead we
