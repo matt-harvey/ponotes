@@ -44,6 +44,15 @@ export class NoteFormComponent implements OnInit {
   @Output()
   onMoveEnded = new EventEmitter<number>();
 
+  @Output()
+  onNoteAdded = new EventEmitter();
+
+  @Output()
+  onNoteUpdated = new EventEmitter();
+
+  @Output()
+  onNoteDeleted = new EventEmitter();
+
   @ViewChild('contentInput')
   private contentInput: ElementRef;
 
@@ -104,15 +113,12 @@ export class NoteFormComponent implements OnInit {
   onCreate(): void {
     const oldNote = this.note;
     this.newNote = new Note();
-    // TODO Handle error once .addNote might fail.
-    this.noteService.addNote(oldNote).then(id => {
-      if (id < 1) {
-        // Adding of note was unsuccessful
-        // TODO We probably want to display an error message here too.
-        this.newNote = oldNote;
-      } else {
-        this.focusInput();
-      }
+    this.noteService.addNote(oldNote).then(result => {
+      this.onNoteAdded.emit(undefined);
+      this.focusInput();
+    }).catch(error => {
+      this.newNote = oldNote;
+      console.log(error);
     });
   }
 
@@ -124,7 +130,12 @@ export class NoteFormComponent implements OnInit {
 
   onUpdate(): void {
     this.beingEdited = false;
-    this.noteService.saveAll();  // TODO Will become async at some point.
+    this.noteService.updateNote(this.note).then(result => {
+      this.onNoteUpdated.emit(undefined);
+    }).catch(error => {
+      this.beingEdited = true;
+      console.log(error);
+    });
   }
 
   onCancel(): void {
@@ -135,7 +146,9 @@ export class NoteFormComponent implements OnInit {
   onDelete(): void {
     // TODO Use a nicer, custom dialog, or better, don't use a dialog, but have delete be undoable.
     if (confirm('Are you sure you want to delete this note?')) {
-      this.noteService.deleteNote(this.note);
+      this.noteService.deleteNote(this.note).then(result => {
+        this.onNoteDeleted.emit(undefined);
+      });
     }
   }
 

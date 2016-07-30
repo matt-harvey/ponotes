@@ -26,11 +26,27 @@ export class NotesComponent implements OnInit {
   }
 
   onMoveEnded(newIndex: number) {
-    if (typeof newIndex !== 'undefined') {
-      this.noteService.moveNote(this.noteBeingMovedIndex, newIndex);
+    if (typeof newIndex !== 'undefined' && newIndex !== this.noteBeingMovedIndex) {
+      const noteBeingMoved = this.notes[this.noteBeingMovedIndex];
+      const newPredecessor = (
+        newIndex === 0 ?
+        undefined :
+        this.notes[newIndex - 1]
+      );
+      const newSuccessor = this.notes[newIndex];
+      this.noteService.moveNote(noteBeingMoved, newPredecessor, newSuccessor).then(result => {
+        this.refreshNotes();
+        this.noteBeingMovedIndex = undefined;
+        this.moving = false;
+      });
+    } else {
+      this.noteBeingMovedIndex = undefined;
+      this.moving = false;
     }
-    this.noteBeingMovedIndex = undefined;
-    this.moving = false;
+  }
+
+  refreshNotes() {
+    this.getNotes();
   }
 
   moveTargettableIndex(index: number) {

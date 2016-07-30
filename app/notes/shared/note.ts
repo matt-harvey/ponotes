@@ -1,9 +1,20 @@
 export class Note {
 
-  constructor(public content: string = '', public id: number = 0) { }
+  public sortOrder: number;
+
+  constructor(
+    public content: string = '',
+    private _id: string = undefined,
+    private _rev: string = undefined
+  ) {
+  }
+
+  get id(): string {
+    return this._id;
+  }
 
   persisted(): boolean {
-    return typeof this.id === 'number' && this.id > 0;
+    return typeof this.id !== 'undefined';
   }
 
   valid(): boolean {
@@ -11,13 +22,14 @@ export class Note {
   }
 
   toJSON(): Object {
-    return {
-      content: this.content,
-      id: this.id
-    };
+    return this;
   }
 
   static fromPOJO(object: Object): Note {
-    return new Note(object['content'], object['id']);
+    let note = new Note(object['content'], object['_id'], object['_rev']);
+    if (typeof object['sortOrder'] !== 'undefined') {
+      note.sortOrder = object['sortOrder'];
+    }
+    return note;
   }
 }

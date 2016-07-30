@@ -1,7 +1,11 @@
-<pn-note-form [beingEdited]="true" [noteBeingMovedIndex]="noteBeingMovedIndex"></pn-note-form>
+<pn-note-form (onNoteAdded)="refreshNotes()"
+  [beingEdited]="true" [noteBeingMovedIndex]="noteBeingMovedIndex"></pn-note-form>
 
 <pn-note-form *ngFor="let note of notes; let i = index"
-  (onMoveStarted)="onMoveStarted($event)" (onMoveEnded)="onMoveEnded($event)"
+  (onMoveStarted)="onMoveStarted($event)"
+  (onMoveEnded)="onMoveEnded($event)"
+  (onNoteDeleted)="refreshNotes()"
+  (onNoteUpdated)="refreshNotes()"
   [notes]="notes" [noteIndex]="i" [noteBeingMovedIndex]="noteBeingMovedIndex"
   [moveTargettable]="moveTargettableIndex(i)"></pn-note-form>
 
