@@ -5,7 +5,7 @@
  */
 
 body {
-  background-color: hsla(50, 52%, 92.5%, 1);
+  background: hsla(0, 0%, 100%, 1);
 }
 
 /* FOREGROUND
@@ -25,7 +25,9 @@ h1, h2, h3, h4, h5, h6,
 .ui-button[disabled]:hover .ui-button-icon-left,
 .ui-button[disabled]:focus .ui-button-icon-left,
 input.ui-inputtext,
-textarea.ui-inputtext {
+textarea.ui-inputtext,
+.ui-widget-content input.ui-inputtext,
+.ui-widget-content textarea.ui-inputtext {
   color: hsla(0, 0%, 20%, 1);
 }
 

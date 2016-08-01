@@ -1,4 +1,5 @@
 import { Component } from '@angular/core';
+import { TabPanel, TabView } from 'primeng/primeng';
 
 import { NotesComponent } from './notes/note-list/note-list.component';
 import { NoteService } from './notes/shared/note.service';
@@ -10,7 +11,7 @@ import { NoteService } from './notes/shared/note.service';
   selector: 'pn-app',
   templateUrl: 'app/app.component.html',
   styleUrls: ['app/app.component.css'],
-  directives: [NotesComponent],
+  directives: [NotesComponent, TabPanel, TabView],
   providers: [NoteService]
 })
 export class AppComponent {
