@@ -4,8 +4,8 @@ export class Note {
 
   constructor(
     public content: string = '',
-    private _id: string = undefined,
-    private _rev: string = undefined
+    private _id?: string,
+    private _rev?: string
   ) {
   }
 

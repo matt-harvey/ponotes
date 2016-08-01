@@ -25,7 +25,7 @@ export class NotesComponent implements OnInit {
     this.noteBeingMovedIndex = noteBeingMovedIndex;
   }
 
-  onMoveEnded(newIndex: number) {
+  onMoveEnded(newIndex?: number) {
     if (typeof newIndex !== 'undefined' && newIndex !== this.noteBeingMovedIndex) {
       const noteBeingMoved = this.notes[this.noteBeingMovedIndex];
       const newPredecessor = (
