@@ -14,8 +14,8 @@
       class="button-warning" (click)="onEdit()" [disabled]="moving()" icon="fa-pencil"></button
     ><button *ngIf="updatable()" pButton type="button" (click)="onUpdate()" title="Save"
       class="button-success" [disabled]="moving() || !note.valid()" icon="fa-save"></button
-    ><button *ngIf="deletable()" pButton type="button" (click)="onDelete()"
-      class="button-danger" [disabled]="moving()" title="Delete" icon="fa-trash-o"></button
+    ><button *ngIf="deletable()" pButton type="button" (click)="onTrash()"
+      class="button-danger" [disabled]="moving()" title="Trash" icon="fa-trash-o"></button
     ><button *ngIf="cancelable()" pButton type="button" (click)="onCancel()"
       class="button-danger" [disabled]="moving()" title="Cancel" icon="fa-ban"></button
     ><button *ngIf="movable()" pButton type="button" (click)="onStartMove()" title="Move"
@@ -32,18 +32,18 @@
 
 <!-- TODO This is replicated for every note in the markup. Move to list component?
      But then there'd need to be more "wiring up". -->
-<p-dialog [(visible)]="showDeleteConfirmation" header="Confirm Delete" showEffect="fade"
+<p-dialog [(visible)]="showTrashConfirmation" header="Confirm" showEffect="fade"
   [closable]=false [resizable]=false>
   <p>
-    Are you sure you want to delete this note?
+    Are you sure you want to move this note to the Trash?
     <!-- TODO Show an excerpt from the note we're confirming deletion of too. -->
   </p>
   <footer>
     <!-- TODO Focus the "Yes, delete" button -->
     <div class="ui-dialog-buttonpane ui-widget-content ui-helper-clearfix">
-      <button type="button" pButton icon="fa-trash-o" (click)="onDeleteConfirmed()"
-        class="button-extra-wide" label="Yes, delete"></button>
-      <button type="button" pButton icon="fa-ban" (click)="onDeleteCancelled()"
+      <button type="button" pButton icon="fa-trash-o" (click)="onTrashConfirmed()"
+        class="button-extra-wide" label="Yes, trash"></button>
+      <button type="button" pButton icon="fa-ban" (click)="onTrashCancelled()"
         class="button-extra-wide" label="No, cancel"></button>
     </div>
   </footer>

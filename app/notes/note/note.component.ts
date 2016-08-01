@@ -49,13 +49,13 @@ export class NoteFormComponent implements OnInit {
   onNoteUpdated = new EventEmitter();
 
   @Output()
-  onNoteDeleted = new EventEmitter();
+  onNoteTrashed = new EventEmitter();
 
   @ViewChild('contentInput')
   private contentInput: ElementRef;
 
   private oldContent: string;
-  private showDeleteConfirmation = false;
+  private showTrashConfirmation = false;
 
   constructor(private renderer: Renderer, private noteService: NoteService) { }
 
@@ -142,20 +142,22 @@ export class NoteFormComponent implements OnInit {
     this.beingEdited = false;
   }
 
-  // TODO Have delete move to trash instead
-
-  onDelete(): void {
-    this.showDeleteConfirmation = true;
+  onTrash(): void {
+    this.showTrashConfirmation = true;
   }
 
-  onDeleteCancelled(): void {
-    this.showDeleteConfirmation = false;
+  onTrashCancelled(): void {
+    this.showTrashConfirmation = false;
   }
 
-  onDeleteConfirmed(): void {
-    this.noteService.deleteNote(this.note).then(result => {
-      this.showDeleteConfirmation = false;
-      this.onNoteDeleted.emit(undefined);
+  onTrashConfirmed(): void {
+    this.note.active = false;
+    this.noteService.updateNote(this.note).then(result => {
+      this.showTrashConfirmation = false;
+      this.onNoteTrashed.emit(undefined);
+    }).catch(error => {
+      this.note.active = true;
+      console.log(error);
     });
   }
 

@@ -32,11 +32,14 @@ export class NoteService {
 
   getNotes(): Promise<Note[]> {
     return new Promise<Note[]>(resolve => {
+      const selector = {
+        sortOrder: { '$exists': true, $gte: 0 },
+        active: { $eq: true }
+      };
       this.database.find({
-        selector: { sortOrder: { '$exists': true, $gte: 0 } },
+        selector: selector,
         sort: [{ sortOrder: 'desc' }]
       }).then(result => {
-        debugger;
         resolve(_.map(result.docs, doc => new Note(doc)));
       }).catch(error => {
         console.log(error);
@@ -57,7 +60,6 @@ export class NoteService {
   // TODO This should be wrapped in an Angular2 promise, rather than having client
   // code see a PouchDB promise.
   updateNote(note: Note): any {
-    debugger;
     return this.database.put(note.toJSON());
   }
 

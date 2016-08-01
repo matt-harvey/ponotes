@@ -2,14 +2,14 @@ import * as _ from 'lodash';
 
 export class Note {
 
+  active = true;
   content = '';
   sortOrder: number;
   private _id: string;
   private _rev: string;
 
   constructor(attributes: Object = {}) {
-    this.content = (attributes['content'] || '');
-    _.each(['sortOrder', '_id', '_rev'], key => {
+    _.each(['active', 'content', 'sortOrder', '_id', '_rev'], key => {
       if (key in attributes) {
         this[key] = attributes[key];
       }
