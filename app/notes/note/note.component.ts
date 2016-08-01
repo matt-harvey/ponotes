@@ -1,8 +1,7 @@
-
 import { Component, ElementRef, EventEmitter, Input, OnInit, Output, Renderer,
          ViewChild } from '@angular/core';
 
-import { Button } from 'primeng/primeng';
+import { Button, Dialog } from 'primeng/primeng';
 
 import { ExpandingTextarea } from '../../shared/expanding-textarea.component';
 import { Note } from '../shared/note';
@@ -13,8 +12,7 @@ import { NoteService } from '../shared/note.service';
   selector: 'pn-note-form',
   templateUrl: 'app/notes/note/note.component.html',
   styleUrls: ['app/notes/note/note.component.css'],
-  directives: [Button, ExpandingTextarea]
-
+  directives: [Button, Dialog, ExpandingTextarea]
 })
 export class NoteFormComponent implements OnInit {
   @Input()
@@ -57,6 +55,7 @@ export class NoteFormComponent implements OnInit {
   private contentInput: ElementRef;
 
   private oldContent: string;
+  private showDeleteConfirmation = false;
 
   constructor(private renderer: Renderer, private noteService: NoteService) { }
 
@@ -143,13 +142,21 @@ export class NoteFormComponent implements OnInit {
     this.beingEdited = false;
   }
 
+  // TODO Have delete move to trash instead
+
   onDelete(): void {
-    // TODO Use a nicer, custom dialog, or better, don't use a dialog, but have delete be undoable.
-    if (confirm('Are you sure you want to delete this note?')) {
-      this.noteService.deleteNote(this.note).then(result => {
-        this.onNoteDeleted.emit(undefined);
-      });
-    }
+    this.showDeleteConfirmation = true;
+  }
+
+  onDeleteCancelled(): void {
+    this.showDeleteConfirmation = false;
+  }
+
+  onDeleteConfirmed(): void {
+    this.noteService.deleteNote(this.note).then(result => {
+      this.showDeleteConfirmation = false;
+      this.onNoteDeleted.emit(undefined);
+    });
   }
 
   onCancelMove(): void {

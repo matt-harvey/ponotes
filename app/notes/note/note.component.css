@@ -87,6 +87,9 @@
 .button-wide {
   width: 8em;
 }
+.button-extra-wide {
+  width: 9em;
+}
 .ui-inputtext {
   margin-right: 0.25em;
   padding: 0.333em;

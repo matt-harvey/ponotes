@@ -29,3 +29,22 @@
     >
   </div>
 </div>
+
+<!-- TODO This is replicated for every note in the markup. Move to list component?
+     But then there'd need to be more "wiring up". -->
+<p-dialog [(visible)]="showDeleteConfirmation" header="Confirm Delete" showEffect="fade"
+  [closable]=false [resizable]=false>
+  <p>
+    Are you sure you want to delete this note?
+    <!-- TODO Show an excerpt from the note we're confirming deletion of too. -->
+  </p>
+  <footer>
+    <!-- TODO Focus the "Yes, delete" button -->
+    <div class="ui-dialog-buttonpane ui-widget-content ui-helper-clearfix">
+      <button type="button" pButton icon="fa-trash-o" (click)="onDeleteConfirmed()"
+        class="button-extra-wide" label="Yes, delete"></button>
+      <button type="button" pButton icon="fa-ban" (click)="onDeleteCancelled()"
+        class="button-extra-wide" label="No, cancel"></button>
+    </div>
+  </footer>
+</p-dialog>
