@@ -1,12 +1,19 @@
+import * as _ from 'lodash';
+
 export class Note {
 
-  public sortOrder: number;
+  content = '';
+  sortOrder: number;
+  private _id: string;
+  private _rev: string;
 
-  constructor(
-    public content: string = '',
-    private _id?: string,
-    private _rev?: string
-  ) {
+  constructor(attributes: Object = {}) {
+    this.content = (attributes['content'] || '');
+    _.each(['sortOrder', '_id', '_rev'], key => {
+      if (key in attributes) {
+        this[key] = attributes[key];
+      }
+    });
   }
 
   get id(): string {
@@ -25,11 +32,4 @@ export class Note {
     return this;
   }
 
-  static fromPOJO(object: Object): Note {
-    let note = new Note(object['content'], object['_id'], object['_rev']);
-    if (typeof object['sortOrder'] !== 'undefined') {
-      note.sortOrder = object['sortOrder'];
-    }
-    return note;
-  }
 }
