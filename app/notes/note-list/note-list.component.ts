@@ -1,22 +1,28 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, Input, OnInit } from '@angular/core';
 
 import { Note } from '../shared/note';
 import { NoteFormComponent } from '../note/note.component';
 import { NoteService } from '../shared/note.service';
 
+// FIXME There need to be buttons to permanently delete notes, to empty the entire
+// trash, and to reinstate Notes from the Trash to the NoteList they were in originally.
+
 @Component({
-  selector: 'pn-notes',
+  selector: 'pn-note-list',
   templateUrl: 'app/notes/note-list/note-list.component.html',
   directives: [NoteFormComponent]
 })
-export class NotesComponent implements OnInit {
-  private notes: Note[] = [];
+export class NoteListComponent implements OnInit {
+  protected notes: Note[] = [];
   private currentNote: Note;
   private newNote = new Note();
   private moving = false;
   private noteBeingMovedIndex: number;
 
-  constructor(private noteService: NoteService) { }
+  @Input()
+  private showActiveNotes: boolean;
+
+  constructor(protected noteService: NoteService) { }
 
   ngOnInit() { this.getNotes(); }
 
@@ -58,7 +64,7 @@ export class NotesComponent implements OnInit {
   }
 
   getNotes() {
-    this.noteService.getNotes().then(notes => this.notes = notes);
+    this.noteService.getNotes(this.showActiveNotes).then(notes => this.notes = notes);
   };
 
 }

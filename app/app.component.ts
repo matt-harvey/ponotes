@@ -1,8 +1,10 @@
-import { Component } from '@angular/core';
+import { Component, ViewChildren, QueryList } from '@angular/core';
 import { TabPanel, TabView } from 'primeng/primeng';
 
-import { NotesComponent } from './notes/note-list/note-list.component';
+import { NoteListComponent } from './notes/note-list/note-list.component';
 import { NoteService } from './notes/shared/note.service';
+
+// TODO Shouldn't have all the NoteLists' Notes in memory all at once.
 
 // TODO Use relative URLs for templateUrl and styleUrls, for this and other components.
 // To do this, need to use "moduleId: module.id" in decorator; but couldn't get this to
@@ -11,9 +13,17 @@ import { NoteService } from './notes/shared/note.service';
   selector: 'pn-app',
   templateUrl: 'app/app.component.html',
   styleUrls: ['app/app.component.css'],
-  directives: [NotesComponent, TabPanel, TabView],
+  directives: [NoteListComponent, TabPanel, TabView],
   providers: [NoteService]
 })
 export class AppComponent {
+
+  @ViewChildren(NoteListComponent)
+  private noteLists: QueryList<NoteListComponent>;
+
   title = 'Ponotes';
+
+  onTabChange(event) {
+    this.noteLists.toArray()[event.index].refreshNotes();
+  }
 }

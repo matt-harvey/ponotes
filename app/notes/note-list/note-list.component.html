@@ -1,14 +1,14 @@
-<pn-note-form (onNoteAdded)="refreshNotes()"
-  [beingEdited]="true" [noteBeingMovedIndex]="noteBeingMovedIndex"></pn-note-form>
+<pn-note *ngIf="showActiveNotes" (onNoteAdded)="refreshNotes()"
+  [beingEdited]="true" [noteBeingMovedIndex]="noteBeingMovedIndex"></pn-note>
 
-<pn-note-form *ngFor="let note of notes; let i = index"
+<pn-note *ngFor="let note of notes; let i = index"
   (onMoveStarted)="onMoveStarted($event)"
   (onMoveEnded)="onMoveEnded($event)"
   (onNoteTrashed)="refreshNotes()"
   (onNoteUpdated)="refreshNotes()"
   [notes]="notes" [noteIndex]="i" [noteBeingMovedIndex]="noteBeingMovedIndex"
-  [moveTargettable]="moveTargettableIndex(i)"></pn-note-form>
+  [moveTargettable]="moveTargettableIndex(i)"></pn-note>
 
-<pn-note-form [moveTargetOnly]="true" (onMoveEnded)="onMoveEnded($event)"
+<pn-note *ngIf="showActiveNotes" [moveTargetOnly]="true" (onMoveEnded)="onMoveEnded($event)"
   [notes]="notes" [noteIndex]="notes.length" [noteBeingMovedIndex]="noteBeingMovedIndex"
-  [moveTargettable]="moveTargettableIndex(notes.length)"></pn-note-form>
+  [moveTargettable]="moveTargettableIndex(notes.length)"></pn-note>

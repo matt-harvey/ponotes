@@ -30,11 +30,11 @@ export class NoteService {
     });
   }
 
-  getNotes(): Promise<Note[]> {
+  getNotes(active: boolean = true): Promise<Note[]> {
     return new Promise<Note[]>(resolve => {
       const selector = {
         sortOrder: { '$exists': true, $gte: 0 },
-        active: { $eq: true }
+        active: { $eq: active }
       };
       this.database.find({
         selector: selector,

@@ -9,7 +9,7 @@ import { NoteService } from '../shared/note.service';
 
 // TODO Apply "being-moved" class for a half a second or so to note that has just been moved.
 @Component({
-  selector: 'pn-note-form',
+  selector: 'pn-note',
   templateUrl: 'app/notes/note/note.component.html',
   styleUrls: ['app/notes/note/note.component.css'],
   directives: [Button, Dialog, ExpandingTextarea]
@@ -77,8 +77,8 @@ export class NoteFormComponent implements OnInit {
     return !this.moving() && !this.moveTargetOnly && !this.note.persisted();
   }
 
-  deletable(): boolean {
-    return !this.moving() && !this.beingEdited && this.note.persisted();
+  trashable(): boolean {
+    return !this.moving() && !this.beingEdited && this.note.persisted() && this.note.active;
   }
 
   cancelable(): boolean {
@@ -86,7 +86,7 @@ export class NoteFormComponent implements OnInit {
   }
 
   editable(): boolean {
-    return !this.moving() && !this.beingEdited && this.note.persisted();
+    return !this.moving() && !this.beingEdited && this.note.persisted() && this.note.active;
   }
 
   updatable(): boolean {
@@ -94,7 +94,7 @@ export class NoteFormComponent implements OnInit {
   }
 
   movable(): boolean {
-    return !this.moving() && this.note.persisted();
+    return !this.moving() && this.note.persisted() && this.note.active;
   }
 
   moving(): boolean {
