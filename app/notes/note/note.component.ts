@@ -1,7 +1,7 @@
 import { Component, ElementRef, EventEmitter, Input, OnInit, Output, Renderer,
          ViewChild } from '@angular/core';
 
-import { Button, Dialog } from 'primeng/primeng';
+import { Button } from 'primeng/primeng';
 
 import { ExpandingTextarea } from '../../shared/expanding-textarea.component';
 import { Note } from '../shared/note';
@@ -12,7 +12,7 @@ import { NoteService } from '../shared/note.service';
   selector: 'pn-note',
   templateUrl: 'app/notes/note/note.component.html',
   styleUrls: ['app/notes/note/note.component.css'],
-  directives: [Button, Dialog, ExpandingTextarea]
+  directives: [Button, ExpandingTextarea]
 })
 export class NoteFormComponent implements OnInit {
   @Input()
@@ -49,13 +49,12 @@ export class NoteFormComponent implements OnInit {
   onNoteUpdated = new EventEmitter();
 
   @Output()
-  onNoteTrashed = new EventEmitter();
+  onNoteTrash = new EventEmitter<Note>();
 
   @ViewChild('contentInput')
   private contentInput: ElementRef;
 
   private oldContent: string;
-  private showTrashConfirmation = false;
 
   constructor(private renderer: Renderer, private noteService: NoteService) { }
 
@@ -143,22 +142,7 @@ export class NoteFormComponent implements OnInit {
   }
 
   onTrash(): void {
-    this.showTrashConfirmation = true;
-  }
-
-  onTrashCancelled(): void {
-    this.showTrashConfirmation = false;
-  }
-
-  onTrashConfirmed(): void {
-    this.note.active = false;
-    this.noteService.updateNote(this.note).then(result => {
-      this.showTrashConfirmation = false;
-      this.onNoteTrashed.emit(undefined);
-    }).catch(error => {
-      this.note.active = true;
-      console.log(error);
-    });
+    this.onNoteTrash.emit(this.note);
   }
 
   onCancelMove(): void {

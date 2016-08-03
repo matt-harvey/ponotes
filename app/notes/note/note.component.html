@@ -30,21 +30,3 @@
   </div>
 </div>
 
-<!-- TODO This is replicated for every note in the markup. Move to list component?
-     But then there'd need to be more "wiring up". -->
-<p-dialog [(visible)]="showTrashConfirmation" header="Confirm" showEffect="fade"
-  [closable]=false [resizable]=false>
-  <p>
-    Are you sure you want to move this note to the Trash?
-    <!-- TODO Show an excerpt from the note we're confirming deletion of too. -->
-  </p>
-  <footer>
-    <!-- TODO Focus the "Yes, delete" button -->
-    <div class="ui-dialog-buttonpane ui-widget-content ui-helper-clearfix">
-      <button type="button" pButton icon="fa-trash-o" (click)="onTrashConfirmed()"
-        class="button-extra-wide" label="Yes, trash"></button>
-      <button type="button" pButton icon="fa-ban" (click)="onTrashCancelled()"
-        class="button-extra-wide" label="No, cancel"></button>
-    </div>
-  </footer>
-</p-dialog>

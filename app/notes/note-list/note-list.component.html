@@ -4,11 +4,28 @@
 <pn-note *ngFor="let note of notes; let i = index"
   (onMoveStarted)="onMoveStarted($event)"
   (onMoveEnded)="onMoveEnded($event)"
-  (onNoteTrashed)="refreshNotes()"
   (onNoteUpdated)="refreshNotes()"
+  (onNoteTrash)="onNoteTrash($event)"
   [notes]="notes" [noteIndex]="i" [noteBeingMovedIndex]="noteBeingMovedIndex"
   [moveTargettable]="moveTargettableIndex(i)"></pn-note>
 
 <pn-note *ngIf="showActiveNotes" [moveTargetOnly]="true" (onMoveEnded)="onMoveEnded($event)"
   [notes]="notes" [noteIndex]="notes.length" [noteBeingMovedIndex]="noteBeingMovedIndex"
   [moveTargettable]="moveTargettableIndex(notes.length)"></pn-note>
+
+<p-dialog [(visible)]="showTrashConfirmation" header="Confirm" showEffect="fade"
+  [closable]=false [resizable]=false>
+  <p>
+    Are you sure you want to move this note to the Trash?
+    <!-- TODO Show an excerpt from the note we're confirming deletion of too. -->
+  </p>
+  <footer>
+    <!-- TODO Focus the "Yes, delete" button -->
+    <div class="ui-dialog-buttonpane ui-widget-content ui-helper-clearfix">
+      <button type="button" pButton icon="fa-trash-o" (click)="onTrashConfirmed()"
+        class="button-extra-wide" label="Yes, trash"></button>
+      <button type="button" pButton icon="fa-ban" (click)="onTrashCancelled()"
+        class="button-extra-wide" label="No, cancel"></button>
+    </div>
+  </footer>
+</p-dialog>
