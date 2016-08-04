@@ -18,10 +18,13 @@ export class NoteListComponent implements OnInit {
   protected notes: Note[] = [];
   private currentNote: Note;
   private newNote = new Note();
+  private noteToReinstate: Note;
   private noteToTrash: Note;
   private moving = false;
   private noteBeingMovedIndex: number;
+  private showReinstateConfirmation = false;
   private showTrashConfirmation = false;
+  private showNoteReinstateConfirmation = false;
 
   @Input()
   private showActiveNotes: boolean;
@@ -74,6 +77,28 @@ export class NoteListComponent implements OnInit {
   onNoteTrash(note: Note): void {
     this.noteToTrash = note;
     this.showTrashConfirmation = true;
+  }
+
+  onNoteReinstate(note: Note): void {
+    this.noteToReinstate = note;
+    this.showReinstateConfirmation = true;
+  }
+
+  onReinstateCancelled(): void {
+    this.noteToReinstate = undefined;
+    this.showReinstateConfirmation = false;
+  }
+
+  onReinstateConfirmed(): void {
+    this.noteToReinstate.active = true;
+    this.noteService.updateNote(this.noteToReinstate).then(result => {
+      this.noteToReinstate = undefined;
+      this.showReinstateConfirmation = false;
+      this.refreshNotes();
+    }).catch(error => {
+      this.noteToReinstate.active = error;
+      console.log(error);
+    });
   }
 
   onTrashCancelled(): void {

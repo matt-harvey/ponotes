@@ -61,6 +61,7 @@
    ...width
    ...height
    padding...
+   position
    border...
    ...align
    resize
@@ -103,4 +104,9 @@
   padding: 0.333em;
   resize: none;
   width: 100%;
+}
+
+.move-target-button {
+  position: relative;
+  top: -1.25em;
 }

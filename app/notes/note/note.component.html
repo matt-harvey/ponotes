@@ -21,8 +21,11 @@
     ><button *ngIf="movable()" pButton type="button" (click)="onStartMove()" title="Move"
       class="button-warning" [disabled]="beingEdited" icon="fa-arrows-v"></button
     ><button *ngIf="moveTargettable" pButton type="button" (click)="onSelectMoveTarget()"
-      class="button-success button-wide button-success" label="move here"
-      icon="fa-long-arrow-left" style="position: relative; top: -1.25em;"></button
+      class="button-success button-wide move-target-button" label="move here"
+      icon="fa-long-arrow-left"></button
+    ><button *ngIf="reinstatable()" pButton type="button" (click)="onReinstate()"
+      class="button-success button-wide" label="Reinstate"
+      icon="fa-undo"></button
     ><button *ngIf="moveCancellable()" pButton type="button" (click)="onCancelMove()"
       class="being-moved button-danger button-wide" label="leave here"
       icon="fa-long-arrow-left"></button
