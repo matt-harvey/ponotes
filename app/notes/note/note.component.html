@@ -26,6 +26,9 @@
     ><button *ngIf="reinstatable()" pButton type="button" (click)="onReinstate()"
       class="button-success button-wide" label="Reinstate"
       icon="fa-undo"></button
+    ><button *ngIf="deletable()" pButton type="button" (click)="onDelete()"
+      class="button-success button-wide" label="Delete"
+      icon="fa-times"></button
     ><button *ngIf="moveCancellable()" pButton type="button" (click)="onCancelMove()"
       class="being-moved button-danger button-wide" label="leave here"
       icon="fa-long-arrow-left"></button

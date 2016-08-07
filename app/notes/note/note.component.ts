@@ -54,6 +54,9 @@ export class NoteFormComponent implements OnInit {
   @Output()
   onNoteReinstate = new EventEmitter<Note>();
 
+  @Output()
+  onNoteDelete = new EventEmitter<Note>();
+
   @ViewChild('contentInput')
   private contentInput: ElementRef;
 
@@ -108,6 +111,10 @@ export class NoteFormComponent implements OnInit {
   }
 
   reinstatable(): boolean {
+    return !this.note.active;
+  }
+
+  deletable(): boolean {
     return !this.note.active;
   }
 
@@ -166,6 +173,10 @@ export class NoteFormComponent implements OnInit {
 
   onReinstate(): void {
     this.onNoteReinstate.emit(this.note);
+  }
+
+  onDelete(): void {
+    this.onNoteDelete.emit(this.note);
   }
 
 }
