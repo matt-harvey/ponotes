@@ -35,7 +35,8 @@
 <p-dialog [(visible)]="showReinstateConfirmation" header="Confirm" showEffect="fade"
   [closable]=false [resizable]=false>
   <p>
-    Are you sure you want to move this note from the Trash back to the Notes tab?
+    Are you sure you want to reinstate this note, moving it from the Trash back to the
+    Notes tab?
     <!-- TODO Once custom tabs are implemented, tell the user which tab this Note
          would be moved back to. -->
     <!-- TODO Show an excerpt from the note. -->
@@ -43,7 +44,7 @@
   <footer>
     <!-- TODO Focus the "Yes, move" button -->
     <div class="ui-dialog-buttonpane ui-widget-content ui-helper-clearfix">
-      <button type="button" pButton icon="fa-undo" (click)="onReinstateConfirmed()"
+      <button type="button" pButton icon="fa-mail-reply" (click)="onReinstateConfirmed()"
         class="button-extra-wide" label="Yes, move"></button>
       <button type="button" pButton icon="fa-ban" (click)="onReinstateCancelled()"
         class="button-extra-wide" label="No, cancel"></button>
@@ -60,7 +61,7 @@
   <footer>
     <!-- TODO Focus the "Yes, delete" button -->
     <div class="ui-dialog-buttonpane ui-widget-content ui-helper-clearfix">
-      <button type="button" pButton icon="fa-trash-o" (click)="onDeleteConfirmed()"
+      <button type="button" pButton icon="fa-times" (click)="onDeleteConfirmed()"
         class="button-extra-wide" label="Yes, delete"></button>
       <button type="button" pButton icon="fa-ban" (click)="onDeleteCancelled()"
         class="button-extra-wide" label="No, keep"></button>

@@ -24,11 +24,10 @@
       class="button-success button-wide move-target-button" label="move here"
       icon="fa-long-arrow-left"></button
     ><button *ngIf="reinstatable()" pButton type="button" (click)="onReinstate()"
-      class="button-success button-wide" label="Reinstate"
-      icon="fa-undo"></button
+      class="button-success" title="Reinstate"
+      icon="fa-mail-reply"></button
     ><button *ngIf="deletable()" pButton type="button" (click)="onDelete()"
-      class="button-success button-wide" label="Delete"
-      icon="fa-times"></button
+      class="button-danger" title="Delete" icon="fa-times"></button
     ><button *ngIf="moveCancellable()" pButton type="button" (click)="onCancelMove()"
       class="being-moved button-danger button-wide" label="leave here"
       icon="fa-long-arrow-left"></button
