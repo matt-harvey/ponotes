@@ -6,6 +6,7 @@ import { Button, Dialog } from 'primeng/primeng';
 import { Note } from '../shared/note';
 import { NoteFormComponent } from '../note/note.component';
 import { NoteService } from '../shared/note.service';
+import { Tab } from '../../tabs/shared/tab';
 
 // FIXME There need to be buttons to permanently delete notes, to empty the entire
 // trash, and to reinstate Notes from the Trash to the NoteList they were in originally.
@@ -16,7 +17,7 @@ import { NoteService } from '../shared/note.service';
   directives: [Button, Dialog, NoteFormComponent]
 })
 export class NoteListComponent implements OnInit {
-  protected notes: Note[] = [];
+  private notes: Note[] = [];
   private currentNote: Note;
   private newNote = new Note();
   private moving = false;
@@ -27,13 +28,21 @@ export class NoteListComponent implements OnInit {
   private showDeleteConfirmation = false;
 
   @Input()
-  private showActiveNotes: boolean;
+  private showActiveNotes = true;
 
-  constructor(protected noteService: NoteService) {
+  @Input()
+  private newTab = false;
+
+  @Input()
+  private tab: Tab;
+
+  constructor(private noteService: NoteService) {
   }
 
-  ngOnInit() {
-    this.getNotes();
+  ngOnInit(): void {
+    if (!this.newTab) {
+      this.getNotes();
+    }
   }
 
   private onMoveStarted(noteBeingMovedIndex: number): void {
@@ -50,7 +59,7 @@ export class NoteListComponent implements OnInit {
         this.notes[newIndex - 1]
       );
       const newSuccessor = this.notes[newIndex];
-      this.noteService.moveNote(noteBeingMoved, newPredecessor, newSuccessor)
+      this.noteService.moveRecord(noteBeingMoved, newPredecessor, newSuccessor)
         .then((result: any) => {
           this.refreshNotes();
           this.noteBeingMovedIndex = undefined;
@@ -74,8 +83,10 @@ export class NoteListComponent implements OnInit {
     );
   }
 
-  getNotes(): void {
-    this.noteService.getNotes(this.showActiveNotes).then((notes: Note[]) => this.notes = notes);
+  private getNotes(): void {
+    this.noteService.getRecords(this.showActiveNotes, this.tab.id).then((notes: Note[]) => {
+      this.notes = notes;
+    });
   };
 
   private onNoteTrash(note: Note): void {
@@ -106,7 +117,7 @@ export class NoteListComponent implements OnInit {
   }
 
   private onDeleteConfirmed(): void {
-    this.noteService.deleteNote(this.currentNote).then((result: any) => {
+    this.noteService.deleteRecord(this.currentNote).then((result: any) => {
       this.showDeleteConfirmation = false;
       this.refreshNotes();
     }).catch((error: string) => {
@@ -126,7 +137,7 @@ export class NoteListComponent implements OnInit {
     const original: boolean = this.currentNote.active;
     _.remove(this.notes, this.currentNote);
     this.currentNote.active = !original;
-    this.noteService.updateNote(this.currentNote).then((result: any) => {
+    this.noteService.updateRecord(this.currentNote).then((result: any) => {
       this[active ? 'showReinstateConfirmation' : 'showTrashConfirmation'] = false;
     }).catch((error: string) => {
       this.currentNote.active = original;
@@ -136,4 +147,3 @@ export class NoteListComponent implements OnInit {
   }
 
 }
-

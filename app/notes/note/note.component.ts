@@ -19,6 +19,9 @@ export class NoteFormComponent implements OnInit {
   private notes: Note[] = [];
 
   @Input()
+  private tabId: string;
+
+  @Input()
   private noteIndex: number;
 
   @Input()
@@ -67,7 +70,7 @@ export class NoteFormComponent implements OnInit {
 
   ngOnInit(): void {
     if (this.moveTargetOnly || (typeof this.noteIndex === 'undefined')) {
-      this.newNote = new Note();
+      this.newNote = new Note({ tabId: this.tabId });
     }
   }
 
@@ -125,8 +128,8 @@ export class NoteFormComponent implements OnInit {
 
   private onCreate(): void {
     const oldNote = this.note;
-    this.newNote = new Note();
-    this.noteService.addNote(oldNote).then((result: any) => {
+    this.newNote = new Note({ tabId: this.tabId });
+    this.noteService.addRecord(oldNote).then((result: any) => {
       this.onNoteAdded.emit(undefined);
       this.focusInput();
     }).catch((error: string) => {
@@ -143,7 +146,7 @@ export class NoteFormComponent implements OnInit {
 
   private onUpdate(): void {
     this.beingEdited = false;
-    this.noteService.updateNote(this.note).then((result: any) => {
+    this.noteService.updateRecord(this.note).then((result: any) => {
       this.onNoteUpdated.emit(undefined);
     }).catch((error: string) => {
       this.beingEdited = true;

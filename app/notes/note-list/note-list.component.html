@@ -1,5 +1,5 @@
 <pn-note *ngIf="showActiveNotes" (onNoteAdded)="refreshNotes()"
-  [beingEdited]="true" [noteBeingMovedIndex]="noteBeingMovedIndex"></pn-note>
+  [beingEdited]="true" [noteBeingMovedIndex]="noteBeingMovedIndex" [tabId]="tab.id"></pn-note>
 
 <pn-note *ngFor="let note of notes; let i = index"
   (onMoveStarted)="onMoveStarted($event)"
@@ -9,11 +9,11 @@
   (onNoteReinstate)="onNoteReinstate($event)"
   (onNoteDelete)="onNoteDelete($event)"
   [notes]="notes" [noteIndex]="i" [noteBeingMovedIndex]="noteBeingMovedIndex"
-  [moveTargettable]="moveTargettableIndex(i)"></pn-note>
+  [moveTargettable]="moveTargettableIndex(i)" [tabId]="tab.id"></pn-note>
 
 <pn-note *ngIf="showActiveNotes" [moveTargetOnly]="true" (onMoveEnded)="onMoveEnded($event)"
   [notes]="notes" [noteIndex]="notes.length" [noteBeingMovedIndex]="noteBeingMovedIndex"
-  [moveTargettable]="moveTargettableIndex(notes.length)"></pn-note>
+  [moveTargettable]="moveTargettableIndex(notes.length)" [tabId]="tab.id"></pn-note>
 
 <p-dialog [(visible)]="showTrashConfirmation" header="Confirm" showEffect="fade"
   [closable]=false [resizable]=false>

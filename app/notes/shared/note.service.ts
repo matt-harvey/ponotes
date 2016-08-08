@@ -1,11 +1,12 @@
 import { Injectable } from '@angular/core';
 import * as _ from 'lodash';
 
+import { DatabaseService } from '../../shared/database.service';
 import { Note } from './note';
 import { PouchDB } from '../../shared/pouch';
 
 @Injectable()
-export class NoteService {
+export class NoteService extends DatabaseService<Note> {
 
   // TODO At the moment, we have this service being called to create, update and move notes, after
   // which client code calls refresh to reload all of the notes it needs. This reloading of all the
@@ -15,25 +16,20 @@ export class NoteService {
   // the better way in the long run. See
   // http://www.joshmorony.com/syncing-data-with-pouchdb-and-cloudant-in-ionic-2/.
 
-  // TODO Ensure syncing of notes works OK when the application is open in two different
-  // tabs.
-
-  private database: PouchDB;
-
-  constructor() {
-    this.database = new PouchDB('notes', { auto_compaction: true });
-    this.database.createIndex({
-      index: {
-        fields: ['sortOrder']
-      }
-    });
+  protected doGetDatabaseName(): string {
+    return 'notes';
   }
 
-  getNotes(active: boolean = true): Promise<Note[]> {
+  protected doInitializeDatabase(db: PouchDB): void {
+    db.createIndex({ index: { fields: ['sortOrder', 'tabId'] } });
+    db.createIndex({ index: { fields: ['sortOrder'] } });
+  }
+
+  getRecords(active: boolean, tabId?: string): Promise<Note[]> {
     return new Promise<Note[]>(resolve => {
-      const selector = {
-        sortOrder: { '$exists': true, $gte: 0 },
-        active: { $eq: active }
+      let selector = { sortOrder: { '$exists': true, $gte: 0 }, active: { $eq: active } };
+      if (typeof tabId !== 'undefined') {
+        selector['tabId'] = { $eq: tabId }
       };
       this.database.find({
         selector: selector,
@@ -41,6 +37,7 @@ export class NoteService {
       }).then((result: any) => {
         resolve(_.map(result.docs, doc => new Note(doc)));
       }).catch((error: string) => {
+        alert('DEBUG tabId: ' + tabId);;
         console.log(error);
       });
     });
@@ -48,7 +45,7 @@ export class NoteService {
 
   // TODO This should be wrapped in an Angular2 promise, rather than having client
   // code see a PouchDB promise.
-  addNote(note: Note): any {
+  addRecord(note: Note): any {
     note.sortOrder = this.makeSortOrder();
     return this.database.post(note.toJSON()).catch((error: string) => {
       console.log(error);
@@ -58,19 +55,7 @@ export class NoteService {
 
   // TODO This should be wrapped in an Angular2 promise, rather than having client
   // code see a PouchDB promise.
-  updateNote(note: Note): any {
-    return this.database.put(note.toJSON());
-  }
-
-  // TODO This should be wrapped in an Angular2 promise, rather than having client
-  // code see a PouchDB promise.
-  deleteNote(note: Note): any {
-    return this.database.remove(note);
-  }
-
-  // TODO This should be wrapped in an Angular2 promise, rather than having client
-  // code see a PouchDB promise.
-  moveNote(note: Note, newPredecessor: Note, newSuccessor: Note) {
+  moveRecord(note: Note, newPredecessor: Note, newSuccessor: Note) {
     // FIXME It is possible that in time, after enough moves, there is not enough
     // precision to accommodate a particular move, since the sortOrder attributes may
     // be too close together, given the limited precision of the number type, to

@@ -1,16 +1,14 @@
 import { Record } from '../../shared/record';
 import * as _ from 'lodash';
 
-export class Note extends Record {
+export class Tab extends Record {
 
-  active = true;
-  content = '';
+  name = '';
   sortOrder: number;
-  tabId: string;
 
   constructor(attributes: Object = {}) {
     super(attributes['_id'], attributes['_rev']);
-    _.each(['active', 'content', 'sortOrder', 'tabId'], key => {
+    _.each(['name', 'sortOrder'], key => {
       if (key in attributes) {
         this[key] = attributes[key];
       }
@@ -18,10 +16,7 @@ export class Note extends Record {
   }
 
   valid(): boolean {
-    return (
-      typeof this.content === 'string' && this.content.length !== 0 &&
-      typeof this.tabId === 'string' && this.tabId.length !== 0
-    );
+    return this.name.length !== 0;
   }
 
 }

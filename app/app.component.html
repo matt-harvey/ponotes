@@ -1,11 +1,4 @@
 <!-- TODO Initialize each tab lazily -->
 
 <h1>{{ title }}</h1>
-<p-tabView (onChange)="onTabChange($event)">
-  <p-tabPanel header="Notes" leftIcon="fa-book">
-    <pn-note-list [showActiveNotes]="true"></pn-note-list>
-  </p-tabPanel>
-  <p-tabPanel header="Trash" leftIcon="fa-trash-o">
-    <pn-note-list [showActiveNotes]="false"></pn-note-list>
-  </p-tabPanel>
-</p-tabView>
+<pn-tabs></pn-tabs>
