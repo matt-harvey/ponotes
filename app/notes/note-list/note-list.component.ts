@@ -1,4 +1,5 @@
 import { Component, Input, OnInit } from '@angular/core';
+import * as _ from 'lodash';
 
 import { Button, Dialog } from 'primeng/primeng';
 
@@ -30,7 +31,9 @@ export class NoteListComponent implements OnInit {
 
   constructor(protected noteService: NoteService) { }
 
-  ngOnInit() { this.getNotes(); }
+  ngOnInit() {
+    this.getNotes();
+  }
 
   onMoveStarted(noteBeingMovedIndex: number): void {
     this.moving = true;
@@ -88,14 +91,7 @@ export class NoteListComponent implements OnInit {
   }
 
   onReinstateConfirmed(): void {
-    this.currentNote.active = true;
-    this.noteService.updateNote(this.currentNote).then(result => {
-      this.showReinstateConfirmation = false;
-      this.refreshNotes();
-    }).catch(error => {
-      this.currentNote.active = error;
-      console.log(error);
-    });
+    this.finalizeToggleActive(true);
   }
 
   onNoteDelete(note: Note): void {
@@ -121,12 +117,18 @@ export class NoteListComponent implements OnInit {
   }
 
   onTrashConfirmed(): void {
-    this.currentNote.active = false;
+    this.finalizeToggleActive(false);
+  }
+
+  private finalizeToggleActive(active: boolean): void {
+    const original: boolean = this.currentNote.active;
+    _.remove(this.notes, this.currentNote);
+    this.currentNote.active = !original;
     this.noteService.updateNote(this.currentNote).then(result => {
-      this.showTrashConfirmation = false;
-      this.refreshNotes();
+      this[active ? 'showReinstateConfirmation' : 'showTrashConfirmation'] = false;
     }).catch(error => {
-      this.currentNote.active = true;
+      this.currentNote.active = original;
+      this.refreshNotes();
       console.log(error);
     });
   }
