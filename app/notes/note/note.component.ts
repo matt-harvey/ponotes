@@ -62,7 +62,8 @@ export class NoteFormComponent implements OnInit {
 
   private oldContent: string;
 
-  constructor(private renderer: Renderer, private noteService: NoteService) { }
+  constructor(private renderer: Renderer, private noteService: NoteService) {
+  }
 
   ngOnInit(): void {
     if (this.moveTargetOnly || (typeof this.noteIndex === 'undefined')) {

@@ -29,7 +29,8 @@ export class NoteListComponent implements OnInit {
   @Input()
   private showActiveNotes: boolean;
 
-  constructor(protected noteService: NoteService) { }
+  constructor(protected noteService: NoteService) {
+  }
 
   ngOnInit() {
     this.getNotes();
