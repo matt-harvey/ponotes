@@ -23,23 +23,21 @@ import { Directive, ElementRef, HostListener, Input, OnInit } from '@angular/cor
 export class ExpandingTextarea implements OnInit {
 
   @Input()
-  autoResize: boolean;
+  private autoResize: boolean;
 
   @Input()
-  rows: number;
+  private rows: number;
 
   @Input()
-  cols: number;
+  private cols: number;
 
-  hover: boolean;
+  private hover: boolean;
+  private focus: boolean;
+  private rowsDefault: number;
+  private colsDefault: number;
 
-  focus: boolean;
-
-  rowsDefault: number;
-
-  colsDefault: number;
-
-  constructor(private el: ElementRef) {}
+  constructor(private el: ElementRef) {
+  }
 
   ngOnInit() {
     this.rowsDefault = this.rows;
@@ -48,36 +46,36 @@ export class ExpandingTextarea implements OnInit {
   }
 
   @HostListener('mouseover', ['$event'])
-  onMouseover(e) {
+  private onMouseover(e) {
     this.hover = true;
   }
 
   @HostListener('mouseout', ['$event'])
-  onMouseout(e) {
+  private onMouseout(e) {
     this.hover = false;
   }
 
   @HostListener('focus', ['$event'])
-  onFocus(e) {
+  private onFocus(e) {
     this.focus = true;
   }
 
   @HostListener('blur', ['$event'])
-  onBlur(e) {
+  private onBlur(e) {
     this.focus = false;
   }
 
-  isDisabled() {
+  private isDisabled() {
     return this.el.nativeElement.disabled;
   }
 
   @HostListener('keyup', ['$event'])
-  onKeyup(e) {
+  private onKeyup(e) {
     this.resize();
   }
 
   @HostListener('keydown', ['$event'])
-  onKeydown(e) {
+  private onKeydown(e) {
     const keyCodeForEnter = 13;
     if (e.which === keyCodeForEnter || e.keyCode === keyCodeForEnter) {
       ++this.rows;

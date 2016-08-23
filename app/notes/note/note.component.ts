@@ -37,25 +37,25 @@ export class NoteFormComponent implements OnInit {
   private moveTargetOnly = false;
 
   @Output()
-  onMoveStarted = new EventEmitter<number>();
+  private onMoveStarted = new EventEmitter<number>();
 
   @Output()
-  onMoveEnded = new EventEmitter<number>();
+  private onMoveEnded = new EventEmitter<number>();
 
   @Output()
-  onNoteAdded = new EventEmitter();
+  private onNoteAdded = new EventEmitter();
 
   @Output()
-  onNoteUpdated = new EventEmitter();
+  private onNoteUpdated = new EventEmitter();
 
   @Output()
-  onNoteTrash = new EventEmitter<Note>();
+  private onNoteTrash = new EventEmitter<Note>();
 
   @Output()
-  onNoteReinstate = new EventEmitter<Note>();
+  private onNoteReinstate = new EventEmitter<Note>();
 
   @Output()
-  onNoteDelete = new EventEmitter<Note>();
+  private onNoteDelete = new EventEmitter<Note>();
 
   @ViewChild('contentInput')
   private contentInput: ElementRef;
@@ -79,51 +79,51 @@ export class NoteFormComponent implements OnInit {
     this.renderer.invokeElementMethod(this.contentInput.nativeElement, 'focus', []);
   }
 
-  creatable(): boolean {
+  private creatable(): boolean {
     return !this.moving() && !this.moveTargetOnly && !this.note.persisted();
   }
 
-  trashable(): boolean {
+  private trashable(): boolean {
     return !this.moving() && !this.beingEdited && this.note.persisted() && this.note.active;
   }
 
-  cancelable(): boolean {
+  private cancelable(): boolean {
     return !this.moving() && this.beingEdited && this.note.persisted();
   }
 
-  editable(): boolean {
+  private editable(): boolean {
     return !this.moving() && !this.beingEdited && this.note.persisted() && this.note.active;
   }
 
-  updatable(): boolean {
+  private updatable(): boolean {
     return !this.moving() && this.beingEdited && this.note.persisted();
   }
 
-  movable(): boolean {
+  private movable(): boolean {
     return !this.moving() && this.note.persisted() && this.note.active;
   }
 
-  moving(): boolean {
+  private moving(): boolean {
     return typeof this.noteBeingMovedIndex !== 'undefined';
   }
 
-  moveCancellable(): boolean {
+  private moveCancellable(): boolean {
     return this.noteBeingMoved();
   }
 
-  reinstatable(): boolean {
+  private reinstatable(): boolean {
     return !this.note.active;
   }
 
-  deletable(): boolean {
+  private deletable(): boolean {
     return !this.note.active;
   }
 
-  noteBeingMoved(): boolean {
+  private noteBeingMoved(): boolean {
     return this.moving() && this.noteIndex === this.noteBeingMovedIndex;
   }
 
-  onCreate(): void {
+  private onCreate(): void {
     const oldNote = this.note;
     this.newNote = new Note();
     this.noteService.addNote(oldNote).then(result => {
@@ -135,13 +135,13 @@ export class NoteFormComponent implements OnInit {
     });
   }
 
-  onEdit(): void {
+  private onEdit(): void {
     this.beingEdited = true;
     this.oldContent = this.note.content;
     this.focusInput();
   }
 
-  onUpdate(): void {
+  private onUpdate(): void {
     this.beingEdited = false;
     this.noteService.updateNote(this.note).then(result => {
       this.onNoteUpdated.emit(undefined);
@@ -151,32 +151,32 @@ export class NoteFormComponent implements OnInit {
     });
   }
 
-  onCancel(): void {
+  private onCancel(): void {
     this.note.content = this.oldContent;
     this.beingEdited = false;
   }
 
-  onTrash(): void {
+  private onTrash(): void {
     this.onNoteTrash.emit(this.note);
   }
 
-  onCancelMove(): void {
+  private onCancelMove(): void {
     this.onMoveEnded.emit(undefined);
   }
 
-  onStartMove(): void {
+  private onStartMove(): void {
     this.onMoveStarted.emit(this.noteIndex);
   }
 
-  onSelectMoveTarget(): void {
+  private onSelectMoveTarget(): void {
     this.onMoveEnded.emit(this.noteIndex);
   }
 
-  onReinstate(): void {
+  private onReinstate(): void {
     this.onNoteReinstate.emit(this.note);
   }
 
-  onDelete(): void {
+  private onDelete(): void {
     this.onNoteDelete.emit(this.note);
   }
 

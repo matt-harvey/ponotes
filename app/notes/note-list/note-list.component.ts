@@ -36,12 +36,12 @@ export class NoteListComponent implements OnInit {
     this.getNotes();
   }
 
-  onMoveStarted(noteBeingMovedIndex: number): void {
+  private onMoveStarted(noteBeingMovedIndex: number): void {
     this.moving = true;
     this.noteBeingMovedIndex = noteBeingMovedIndex;
   }
 
-  onMoveEnded(newIndex?: number): void {
+  private onMoveEnded(newIndex?: number): void {
     if (typeof newIndex !== 'undefined' && newIndex !== this.noteBeingMovedIndex) {
       const noteBeingMoved = this.notes[this.noteBeingMovedIndex];
       const newPredecessor = (
@@ -65,7 +65,7 @@ export class NoteListComponent implements OnInit {
     this.getNotes();
   }
 
-  moveTargettableIndex(index: number): boolean {
+  private moveTargettableIndex(index: number): boolean {
     return (
       this.moving &&
       index !== this.noteBeingMovedIndex &&
@@ -77,34 +77,34 @@ export class NoteListComponent implements OnInit {
     this.noteService.getNotes(this.showActiveNotes).then(notes => this.notes = notes);
   };
 
-  onNoteTrash(note: Note): void {
+  private onNoteTrash(note: Note): void {
     this.currentNote = note;
     this.showTrashConfirmation = true;
   }
 
-  onNoteReinstate(note: Note): void {
+  private onNoteReinstate(note: Note): void {
     this.currentNote = note;
     this.showReinstateConfirmation = true;
   }
 
-  onReinstateCancelled(): void {
+  private onReinstateCancelled(): void {
     this.showReinstateConfirmation = false;
   }
 
-  onReinstateConfirmed(): void {
+  private onReinstateConfirmed(): void {
     this.finalizeToggleActive(true);
   }
 
-  onNoteDelete(note: Note): void {
+  private onNoteDelete(note: Note): void {
     this.currentNote = note;
     this.showDeleteConfirmation = true;
   }
 
-  onDeleteCancelled(): void {
+  private onDeleteCancelled(): void {
     this.showDeleteConfirmation = false;
   }
 
-  onDeleteConfirmed(): void {
+  private onDeleteConfirmed(): void {
     this.noteService.deleteNote(this.currentNote).then(result => {
       this.showDeleteConfirmation = false;
       this.refreshNotes();
@@ -113,11 +113,11 @@ export class NoteListComponent implements OnInit {
     });
   }
 
-  onTrashCancelled(): void {
+  private onTrashCancelled(): void {
     this.showTrashConfirmation = false;
   }
 
-  onTrashConfirmed(): void {
+  private onTrashConfirmed(): void {
     this.finalizeToggleActive(false);
   }
 
