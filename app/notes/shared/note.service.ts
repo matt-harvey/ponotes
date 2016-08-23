@@ -7,12 +7,11 @@ import { Pouch } from '../../shared/pouch';
 @Injectable()
 export class NoteService {
 
-  // TODO At the moment, we have this service being called to create, update, delete
-  // and move notes, after which client code calls refresh to reload all of the notes
-  // it needs. This reloading of all the notes might become a problem if there are ever
-  // a large number of notes. Also, there seems to be a "PouchDB way" where you listen
-  // for changes and it updates things for you, whether the changes occur locally or
-  // are received from a CouchDB instance that we're syncing with. This is probably
+  // TODO At the moment, we have this service being called to create, update and move notes, after
+  // which client code calls refresh to reload all of the notes it needs. This reloading of all the
+  // notes might become a problem if there are ever a large number of notes. Also, there seems to be
+  // a "PouchDB way" where you listen for changes and it updates things for you, whether the changes
+  // occur locally or are received from a CouchDB instance that we're syncing with. This is probably
   // the better way in the long run. See
   // http://www.joshmorony.com/syncing-data-with-pouchdb-and-cloudant-in-ionic-2/.
 
