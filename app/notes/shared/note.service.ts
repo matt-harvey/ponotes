@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import * as _ from 'lodash';
 
 import { Note } from './note';
-import { Pouch } from '../../shared/pouch';
+import { PouchDB } from '../../shared/pouch';
 
 @Injectable()
 export class NoteService {
@@ -18,10 +18,10 @@ export class NoteService {
   // TODO Ensure syncing of notes works OK when the application is open in two different
   // tabs.
 
-  private database: any;
+  private database: PouchDB;
 
   constructor() {
-    this.database = new Pouch('notes', { auto_compaction: true });
+    this.database = new PouchDB('notes', { auto_compaction: true });
     this.database.createIndex({
       index: {
         fields: ['sortOrder']
