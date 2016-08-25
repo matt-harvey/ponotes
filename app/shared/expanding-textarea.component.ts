@@ -46,22 +46,22 @@ export class ExpandingTextarea implements OnInit {
   }
 
   @HostListener('mouseover', ['$event'])
-  private onMouseover(e) {
+  private onMouseover(event: MouseEvent) {
     this.hover = true;
   }
 
   @HostListener('mouseout', ['$event'])
-  private onMouseout(e) {
+  private onMouseout(event: MouseEvent) {
     this.hover = false;
   }
 
   @HostListener('focus', ['$event'])
-  private onFocus(e) {
+  private onFocus(event: FocusEvent) {
     this.focus = true;
   }
 
   @HostListener('blur', ['$event'])
-  private onBlur(e) {
+  private onBlur(event: FocusEvent) {
     this.focus = false;
   }
 
@@ -70,14 +70,14 @@ export class ExpandingTextarea implements OnInit {
   }
 
   @HostListener('keyup', ['$event'])
-  private onKeyup(e) {
+  private onKeyup(event: KeyboardEvent) {
     this.resize();
   }
 
   @HostListener('keydown', ['$event'])
-  private onKeydown(e) {
+  private onKeydown(event: KeyboardEvent) {
     const keyCodeForEnter = 13;
-    if (e.which === keyCodeForEnter || e.keyCode === keyCodeForEnter) {
+    if (event.which === keyCodeForEnter || event.keyCode === keyCodeForEnter) {
       ++this.rows;
     }
   }

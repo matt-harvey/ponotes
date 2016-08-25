@@ -50,11 +50,12 @@ export class NoteListComponent implements OnInit {
         this.notes[newIndex - 1]
       );
       const newSuccessor = this.notes[newIndex];
-      this.noteService.moveNote(noteBeingMoved, newPredecessor, newSuccessor).then(result => {
-        this.refreshNotes();
-        this.noteBeingMovedIndex = undefined;
-        this.moving = false;
-      });
+      this.noteService.moveNote(noteBeingMoved, newPredecessor, newSuccessor)
+        .then((result: any) => {
+          this.refreshNotes();
+          this.noteBeingMovedIndex = undefined;
+          this.moving = false;
+        });
     } else {
       this.noteBeingMovedIndex = undefined;
       this.moving = false;
@@ -74,7 +75,7 @@ export class NoteListComponent implements OnInit {
   }
 
   getNotes(): void {
-    this.noteService.getNotes(this.showActiveNotes).then(notes => this.notes = notes);
+    this.noteService.getNotes(this.showActiveNotes).then((notes: Note[]) => this.notes = notes);
   };
 
   private onNoteTrash(note: Note): void {
@@ -105,10 +106,10 @@ export class NoteListComponent implements OnInit {
   }
 
   private onDeleteConfirmed(): void {
-    this.noteService.deleteNote(this.currentNote).then(result => {
+    this.noteService.deleteNote(this.currentNote).then((result: any) => {
       this.showDeleteConfirmation = false;
       this.refreshNotes();
-    }).catch(error => {
+    }).catch((error: string) => {
       console.log(error);
     });
   }
@@ -125,9 +126,9 @@ export class NoteListComponent implements OnInit {
     const original: boolean = this.currentNote.active;
     _.remove(this.notes, this.currentNote);
     this.currentNote.active = !original;
-    this.noteService.updateNote(this.currentNote).then(result => {
+    this.noteService.updateNote(this.currentNote).then((result: any) => {
       this[active ? 'showReinstateConfirmation' : 'showTrashConfirmation'] = false;
-    }).catch(error => {
+    }).catch((error: string) => {
       this.currentNote.active = original;
       this.refreshNotes();
       console.log(error);

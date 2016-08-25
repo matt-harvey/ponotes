@@ -38,9 +38,9 @@ export class NoteService {
       this.database.find({
         selector: selector,
         sort: [{ sortOrder: 'desc' }]
-      }).then(result => {
+      }).then((result: any) => {
         resolve(_.map(result.docs, doc => new Note(doc)));
-      }).catch(error => {
+      }).catch((error: string) => {
         console.log(error);
       });
     });
@@ -50,7 +50,7 @@ export class NoteService {
   // code see a PouchDB promise.
   addNote(note: Note): any {
     note.sortOrder = this.makeSortOrder();
-    return this.database.post(note.toJSON()).catch(error => {
+    return this.database.post(note.toJSON()).catch((error: string) => {
       console.log(error);
       note.sortOrder = undefined;
     });
@@ -84,7 +84,7 @@ export class NoteService {
     );
     const oldSortOrder = note.sortOrder;
     note.sortOrder = (newPredecessorSortOrder + newSuccessorSortOrder) / 2;
-    return this.database.put(note.toJSON()).catch(error => {
+    return this.database.put(note.toJSON()).catch((error: string) => {
       console.log(error);
       note.sortOrder = oldSortOrder;
     });

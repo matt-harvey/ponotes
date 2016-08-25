@@ -126,10 +126,10 @@ export class NoteFormComponent implements OnInit {
   private onCreate(): void {
     const oldNote = this.note;
     this.newNote = new Note();
-    this.noteService.addNote(oldNote).then(result => {
+    this.noteService.addNote(oldNote).then((result: any) => {
       this.onNoteAdded.emit(undefined);
       this.focusInput();
-    }).catch(error => {
+    }).catch((error: string) => {
       this.newNote = oldNote;
       console.log(error);
     });
@@ -143,9 +143,9 @@ export class NoteFormComponent implements OnInit {
 
   private onUpdate(): void {
     this.beingEdited = false;
-    this.noteService.updateNote(this.note).then(result => {
+    this.noteService.updateNote(this.note).then((result: any) => {
       this.onNoteUpdated.emit(undefined);
-    }).catch(error => {
+    }).catch((error: string) => {
       this.beingEdited = true;
       console.log(error);
     });

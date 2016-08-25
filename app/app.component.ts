@@ -23,7 +23,7 @@ export class AppComponent {
 
   title = 'Ponotes';
 
-  private onTabChange(event) {
+  private onTabChange(event: any): void {
     this.noteLists.toArray()[event.index].refreshNotes();
   }
 }
