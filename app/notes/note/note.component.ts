@@ -3,7 +3,7 @@ import { Component, ElementRef, EventEmitter, Input, OnInit, Output, Renderer,
 
 import { Button } from 'primeng/primeng';
 
-import { ExpandingTextarea } from '../../shared/expanding-textarea.component';
+import { ExpandingTextarea } from '../../shared/expanding-textarea.directive';
 import { Note } from '../shared/note';
 import { NoteService } from '../shared/note.service';
 
