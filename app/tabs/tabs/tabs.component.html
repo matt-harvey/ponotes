@@ -1,9 +1,13 @@
+<input [(ngModel)]="newTab.name" type="text" placeholder="New tab name&hellip;">
+<button pButton type="button" (click)="onCreate()" [disabled]="!newTab.valid()"
+  icon="fa-plus"></button>
+
 <p-tabView (onChange)="onTabChange($event)">
-  <p-tabPanel *ngFor="let tab of tabs; let i = index" [header]="tab.name"
-    leftIcon="fa-book" [selected]="i === 0">
+  <p-tabPanel *ngFor="let tab of tabs; let i = index" [header]="tab.name" leftIcon="fa-book"
+    [selected]="i === 0">
     <pn-note-list [tab]="tab" [showActiveNotes]="true"></pn-note-list>
   </p-tabPanel>
   <p-tabPanel header="Trash" leftIcon="fa-trash-o" [selected]="tabs.length === 0">
-    <pn-note-list [showActiveNotes]="false" [tab]="newTab()"></pn-note-list>
+    <pn-note-list [showActiveNotes]="false" [tab]="trash"></pn-note-list>
   </p-tabPanel>
 </p-tabView>
