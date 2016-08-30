@@ -27,14 +27,9 @@ export class NoteListComponent implements OnInit {
   private showNoteReinstateConfirmation = false;
   private showDeleteConfirmation = false;
 
-  @Input()
-  private showActiveNotes = true;
-
-  @Input()
-  private newTab = false;
-
-  @Input()
-  private tab: Tab;
+  @Input() private showActiveNotes = true;
+  @Input() private newTab = false;
+  @Input() private tab: Tab;
 
   constructor(private noteService: NoteService) {
   }

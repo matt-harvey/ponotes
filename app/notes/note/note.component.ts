@@ -15,53 +15,24 @@ import { NoteService } from '../shared/note.service';
   directives: [Button, ExpandingTextarea]
 })
 export class NoteFormComponent implements OnInit {
-  @Input()
-  private notes: Note[] = [];
+  @Input() private notes: Note[] = [];
+  @Input() private tabId: string;
+  @Input() private noteIndex: number;
+  @Input() private beingEdited = false;
+  @Input() private noteBeingMovedIndex: number;
+  @Input() private moveTargettable = false;
+  @Input() private newNote: Note;
+  @Input() private moveTargetOnly = false;
 
-  @Input()
-  private tabId: string;
+  @Output() private onMoveStarted = new EventEmitter<number>();
+  @Output() private onMoveEnded = new EventEmitter<number>();
+  @Output() private onNoteAdded = new EventEmitter();
+  @Output() private onNoteUpdated = new EventEmitter();
+  @Output() private onNoteTrash = new EventEmitter<Note>();
+  @Output() private onNoteReinstate = new EventEmitter<Note>();
+  @Output() private onNoteDelete = new EventEmitter<Note>();
 
-  @Input()
-  private noteIndex: number;
-
-  @Input()
-  private beingEdited = false;
-
-  @Input()
-  private noteBeingMovedIndex: number;
-
-  @Input()
-  private moveTargettable = false;
-
-  @Input()
-  private newNote: Note;
-
-  @Input()
-  private moveTargetOnly = false;
-
-  @Output()
-  private onMoveStarted = new EventEmitter<number>();
-
-  @Output()
-  private onMoveEnded = new EventEmitter<number>();
-
-  @Output()
-  private onNoteAdded = new EventEmitter();
-
-  @Output()
-  private onNoteUpdated = new EventEmitter();
-
-  @Output()
-  private onNoteTrash = new EventEmitter<Note>();
-
-  @Output()
-  private onNoteReinstate = new EventEmitter<Note>();
-
-  @Output()
-  private onNoteDelete = new EventEmitter<Note>();
-
-  @ViewChild('contentInput')
-  private contentInput: ElementRef;
+  @ViewChild('contentInput') private contentInput: ElementRef;
 
   private oldContent: string;
 

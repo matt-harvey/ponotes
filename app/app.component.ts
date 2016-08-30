@@ -12,7 +12,5 @@ import { TabsComponent } from './tabs/tabs/tabs.component';
   directives: [TabsComponent]
 })
 export class AppComponent {
-
   title = 'Ponotes';
-
 }
