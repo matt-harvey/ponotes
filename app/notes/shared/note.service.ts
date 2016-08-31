@@ -37,7 +37,6 @@ export class NoteService extends DatabaseService<Note> {
       }).then((result: any) => {
         resolve(_.map(result.docs, doc => new Note(doc)));
       }).catch((error: string) => {
-        alert('DEBUG tabId: ' + tabId);;
         console.log(error);
       });
     });

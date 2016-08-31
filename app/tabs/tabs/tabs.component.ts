@@ -39,7 +39,7 @@ export class TabsComponent implements OnInit {
     const oldTab = this.newTab;
     this.newTab = new Tab();
     this.tabService.addRecord(oldTab).then((result: any) => {
-      this.getTabs();
+      return this.getTabs();
     }).catch((error: string) => {
       this.newTab = oldTab;
       console.log(error);
@@ -51,17 +51,16 @@ export class TabsComponent implements OnInit {
   }
 
   private onTabDeleteConfirmation(tab: Tab): void {
-    this.tabService.deleteRecord(tab).then((result: any) => {
-      return this.noteService.getRecords(false, tab.id);
-    }).then((notes: Note[]) => {
-      return this.noteService.bulkDelete(notes);
-    }).then((result: any) => {
-      return this.getTabs();
-    }).then((result: any) => {
-      return this.trashedList().refreshNotes();
-    }).catch((error: string) => {
-      console.log(error);
-    });
+    this.tabService.deleteRecord(tab)
+      // Delete trashed notes originating in given tab. (Note, the deletion of non-trashed
+      // notes belonging to this tab is not the responsibility of this method.)
+      .then((result: any) => this.noteService.getRecords(false, tab.id))
+      .then((notes: Note[]) => this.noteService.bulkDelete(notes))
+      // refresh tabs
+      .then((result: any) => this.getTabs())
+      // refresh trash
+      .then((result: any) => this.refreshTrash())
+      .catch((error: string) => { console.log(error); });
   }
 
   private getTabs(): any {
@@ -74,7 +73,7 @@ export class TabsComponent implements OnInit {
     return this.noteLists.toArray()[tabIndex].refreshNotes();
   }
 
-  private trashedList(): NoteListComponent {
-    return this.noteLists.last;
+  private refreshTrash(): any {
+    return this.noteLists.last.refreshNotes();
   }
 }
