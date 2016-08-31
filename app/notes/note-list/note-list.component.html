@@ -1,3 +1,6 @@
+<button *ngIf="showActiveNotes" pButton icon="fa-times" (click)="onTabDelete()"
+  class="button-extra-wide" label="Delete tab"></button>
+
 <pn-note *ngIf="showActiveNotes" (onNoteAdded)="refreshNotes()"
   [beingEdited]="true" [noteBeingMovedIndex]="noteBeingMovedIndex" [tabId]="tab.id"></pn-note>
 
@@ -14,6 +17,27 @@
 <pn-note *ngIf="showActiveNotes" [moveTargetOnly]="true" (onMoveEnded)="onMoveEnded($event)"
   [notes]="notes" [noteIndex]="notes.length" [noteBeingMovedIndex]="noteBeingMovedIndex"
   [moveTargettable]="moveTargettableIndex(notes.length)" [tabId]="tab.id"></pn-note>
+
+<p-dialog [(visible)]="showTabDeleteConfirmation" header="Confirm" showEffect="fade"
+  [closable]=false [resizable]=false>
+  <p>
+    Are you are you want to delete this tab?
+  </p>
+  <p>
+    If you click "Delete", the tab will be <em>permanently</em> removed, along with all the
+    notes it contains, and any notes that have been moved to the Trash from this tab. You will
+    not be able to undo this action!
+  </p>
+  <footer>
+    <!-- TODO Focus the "Yes, delete" button -->
+    <div class="ui-dialog-buttonpane ui-widget-content ui-helper-clearfix">
+      <button type="button" pButton icon="fa-times" (click)="onTabDeleteConfirmed()"
+        class="button-extra-wide" label="Delete"></button>
+      <button type="button" pButton icon="fa-ban" (click)="onTabDeleteCancelled()"
+        class="button-extra-wide" label="Cancel"></button>
+    </div>
+  </footer>
+</p-dialog>
 
 <p-dialog [(visible)]="showTrashConfirmation" header="Confirm" showEffect="fade"
   [closable]=false [resizable]=false>
@@ -51,7 +75,7 @@
   </footer>
 </p-dialog>
 
-<p-dialog [(visible)]="showDeleteConfirmation" header="Confirm" showEffect="fade"
+<p-dialog [(visible)]="showNoteDeleteConfirmation" header="Confirm" showEffect="fade"
   [closable]=false [resizable]=false>
   <p>
     Are you sure you want to permanently delete this note?

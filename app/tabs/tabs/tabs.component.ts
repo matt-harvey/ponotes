@@ -3,6 +3,7 @@ import { TabPanel, TabView } from 'primeng/primeng';
 
 import { Button } from 'primeng/primeng';
 
+import { Note } from '../../notes/shared/note';
 import { NoteListComponent } from '../../notes/note-list/note-list.component';
 import { NoteService } from '../../notes/shared/note.service';
 import { Tab } from '../../tabs/shared/tab';
@@ -22,7 +23,7 @@ export class TabsComponent implements OnInit {
   private newTab: Tab;
   private trash: Tab;
 
-  constructor(private tabService: TabService) {
+  constructor(private tabService: TabService, private noteService: NoteService) {
     this.newTab = new Tab();
     this.trash = new Tab();
   }
@@ -46,12 +47,34 @@ export class TabsComponent implements OnInit {
   }
 
   private onTabChange(event: any): void {
-    this.noteLists.toArray()[event.index].refreshNotes();
+    this.refreshNotes(event.index);
   }
 
-  private getTabs(): void {
-    this.tabService.getRecords().then((tabs: Tab[]) => {
+  private onTabDeleteConfirmation(tab: Tab): void {
+    this.tabService.deleteRecord(tab).then((result: any) => {
+      return this.noteService.getRecords(false, tab.id);
+    }).then((notes: Note[]) => {
+      return this.noteService.bulkDelete(notes);
+    }).then((result: any) => {
+      return this.getTabs();
+    }).then((result: any) => {
+      return this.trashedList().refreshNotes();
+    }).catch((error: string) => {
+      console.log(error);
+    });
+  }
+
+  private getTabs(): any {
+    return this.tabService.getRecords().then((tabs: Tab[]) => {
       this.tabs = tabs;
     });
+  }
+
+  private refreshNotes(tabIndex: number): any {
+    return this.noteLists.toArray()[tabIndex].refreshNotes();
+  }
+
+  private trashedList(): NoteListComponent {
+    return this.noteLists.last;
   }
 }

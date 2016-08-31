@@ -38,4 +38,11 @@ export abstract class DatabaseService<RecordT extends RecordI> {
     return this.database.remove(record);
   }
 
+  bulkDelete(records: RecordT[]): any {
+    const markedRecords = _.map(records, (r: RecordT) => {
+      return { _id: r['id'], _rev: r['rev'], _deleted: true };
+    });
+    return this.database.bulkDocs(markedRecords);
+  }
+
 }

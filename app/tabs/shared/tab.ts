@@ -7,7 +7,7 @@ export class Tab extends Record {
   sortOrder: number;
 
   constructor(attributes: Object = {}) {
-    super(attributes['_id'], attributes['_rev']);
+    super(attributes['_id'], attributes['_rev'], attributes['_deleted']);
     _.each(['name', 'sortOrder'], key => {
       if (key in attributes) {
         this[key] = attributes[key];

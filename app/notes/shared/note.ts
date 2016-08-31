@@ -9,7 +9,7 @@ export class Note extends Record {
   tabId: string;
 
   constructor(attributes: Object = {}) {
-    super(attributes['_id'], attributes['_rev']);
+    super(attributes['_id'], attributes['_rev'], attributes['_deleted']);
     _.each(['active', 'content', 'sortOrder', 'tabId'], key => {
       if (key in attributes) {
         this[key] = attributes[key];

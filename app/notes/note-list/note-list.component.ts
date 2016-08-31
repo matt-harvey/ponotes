@@ -1,4 +1,4 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import * as _ from 'lodash';
 
 import { Button, Dialog } from 'primeng/primeng';
@@ -25,11 +25,14 @@ export class NoteListComponent implements OnInit {
   private showReinstateConfirmation = false;
   private showTrashConfirmation = false;
   private showNoteReinstateConfirmation = false;
-  private showDeleteConfirmation = false;
+  private showNoteDeleteConfirmation = false;
+  private showTabDeleteConfirmation = false;
 
   @Input() private showActiveNotes = true;
   @Input() private newTab = false;
   @Input() private tab: Tab;
+
+  @Output() private onTabDeleteConfirmation = new EventEmitter<Tab>();
 
   constructor(private noteService: NoteService) {
   }
@@ -64,6 +67,23 @@ export class NoteListComponent implements OnInit {
       this.noteBeingMovedIndex = undefined;
       this.moving = false;
     }
+  }
+
+  private onTabDelete(): void {
+    this.showTabDeleteConfirmation = true;
+  }
+
+  private onTabDeleteConfirmed(): void {
+    this.noteService.bulkDelete(this.notes).then((result: any) => {
+      this.onTabDeleteConfirmation.emit(this.tab);
+      this.showTabDeleteConfirmation = false;
+    }).catch((error: string) => {
+      console.log(error);
+    });
+  }
+
+  private onTabDeleteCancelled(): void {
+    this.showTabDeleteConfirmation = false;
   }
 
   refreshNotes(): void {
@@ -104,16 +124,16 @@ export class NoteListComponent implements OnInit {
 
   private onNoteDelete(note: Note): void {
     this.currentNote = note;
-    this.showDeleteConfirmation = true;
+    this.showNoteDeleteConfirmation = true;
   }
 
   private onDeleteCancelled(): void {
-    this.showDeleteConfirmation = false;
+    this.showNoteDeleteConfirmation = false;
   }
 
   private onDeleteConfirmed(): void {
     this.noteService.deleteRecord(this.currentNote).then((result: any) => {
-      this.showDeleteConfirmation = false;
+      this.showNoteDeleteConfirmation = false;
       this.refreshNotes();
     }).catch((error: string) => {
       console.log(error);

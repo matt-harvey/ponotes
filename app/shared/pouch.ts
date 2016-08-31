@@ -1,5 +1,6 @@
 export interface PouchDB {
   new(name: string, options: Object): PouchDB;
+  bulkDocs(options: Object): any;
   createIndex(options: Object): any;
   find(options: Object): any;
   post(record: Object): any;
