@@ -14,6 +14,7 @@ import { Tab } from '../../tabs/shared/tab';
 @Component({
   selector: 'pn-note-list',
   templateUrl: 'app/notes/note-list/note-list.component.html',
+  styleUrls: ['app/notes/note-list/note-list.component.css'],
   directives: [Button, Dialog, NoteFormComponent]
 })
 export class NoteListComponent implements OnInit {

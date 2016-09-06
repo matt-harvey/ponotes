@@ -1,0 +1,50 @@
+/* BACKGROUND
+   ----------
+
+   background...
+ */
+
+.ui-button {
+  background: hsla(0, 0%, 100%, 1);
+}
+
+/* FONT
+   -------
+
+   font...
+ */
+
+.ui-button {
+
+  /* TODO These styles are shared with buttons in other components and should be factored out.
+   */
+  font-weight: normal;
+}
+
+
+/* LAYOUT & VISIBILITY
+   -------------------
+
+   display,
+   margin...
+   ...width
+   ...height
+   padding...
+   position
+   border...
+   ...align
+   resize
+   visibility
+*/
+
+.ui-button {
+  position: relative;
+  float: right;
+  top: -1.5em;
+
+  /* TODO These styles are shared with buttons in other components and should be factored out.
+   */
+  border-radius: 2px;
+  -webkit-border-radius: 2px;
+  -moz-border-radius: 2px;
+}
