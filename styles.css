@@ -12,6 +12,9 @@ body {
 .ui-widget-content .ui-inputtext {
   border-color: hsla(206, 10%, 86%, 1);
 }
+button.ui-widget.ui-button {
+  background: hsla(0, 0%, 100%, 1);
+}
 
 /* FOREGROUND
    ----------
@@ -72,6 +75,12 @@ textarea.ui-inputtext,
 button.ui-widget.ui-button {
   font-weight: normal;
 }
+button.ui-widget.pn-button-aligned {
+  font-size: 0.8em;
+}
+button.ui-button-icon-only .fa {
+  margin-top: -6px;
+}
 
 
 /* LAYOUT & VISIBILITY
@@ -97,6 +106,13 @@ textarea.ui-inputtext {
 }
 .ui-inputtext {
   padding: 0.333em !important;
+}
+input.ui-inputtext {
+  vertical-align: bottom;
+}
+button.ui-widget.pn-button-aligned {
+  height: 2.4em;
+  width: 1.8em;
 }
 
 

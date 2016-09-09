@@ -11,27 +11,33 @@
 
   <div class="button-wrapper">
     <button *ngIf="creatable()" pButton type="button" (click)="onCreate()" title="Add"
-      class="button-success" [disabled]="moving() || !note.valid()" icon="fa-plus"></button
+      class="pn-button-aligned button-success" [disabled]="moving() || !note.valid()"
+      icon="fa-plus"></button
     ><button *ngIf="editable()" pButton type="button" (click)="onEdit()" title="Edit"
-      class="button-warning" (click)="onEdit()" [disabled]="moving()" icon="fa-pencil"></button
+      class="pn-button-aligned button-warning" (click)="onEdit()" [disabled]="moving()"
+      icon="fa-pencil"></button
     ><button *ngIf="updatable()" pButton type="button" (click)="onUpdate()" title="Save"
-      class="button-success" [disabled]="moving() || !note.valid()" icon="fa-save"></button
+      class="pn-button-aligned button-success" [disabled]="moving() || !note.valid()"
+      icon="fa-save"></button
     ><button *ngIf="trashable()" pButton type="button" (click)="onTrash()"
-      class="button-danger" [disabled]="moving()" title="Trash" icon="fa-trash-o"></button
+      class="pn-button-aligned button-danger" [disabled]="moving()" title="Trash"
+      icon="fa-trash-o"></button
     ><button *ngIf="cancelable()" pButton type="button" (click)="onCancel()"
-      class="button-danger" [disabled]="moving()" title="Cancel" icon="fa-ban"></button
+      class="pn-button-aligned button-danger" [disabled]="moving()" title="Cancel"
+      icon="fa-ban"></button
     ><button *ngIf="movable()" pButton type="button" (click)="onStartMove()" title="Move"
-      class="button-warning" [disabled]="beingEdited" icon="fa-arrows-v"></button
+      class="pn-button-aligned button-warning" [disabled]="beingEdited"
+      icon="fa-arrows-v"></button
     ><button *ngIf="moveTargettable" pButton type="button" (click)="onSelectMoveTarget()"
-      class="button-success button-wide move-target-button" label="move here"
+      class="pn-button-aligned button-success button-wide move-target-button" label="move here"
       icon="fa-long-arrow-left"></button
     ><button *ngIf="reinstatable()" pButton type="button" (click)="onReinstate()"
-      class="button-success" title="Reinstate"
+      class="pn-button-aligned button-success" title="Reinstate"
       icon="fa-mail-reply"></button
     ><button *ngIf="deletable()" pButton type="button" (click)="onDelete()"
-      class="button-danger" title="Delete" icon="fa-times"></button
+      class="pn-button-aligned button-danger" title="Delete" icon="fa-times"></button
     ><button *ngIf="moveCancellable()" pButton type="button" (click)="onCancelMove()"
-      class="being-moved button-danger button-wide" label="leave here"
+      class="pn-button-aligned being-moved button-danger button-wide" label="leave here"
       icon="fa-long-arrow-left"></button
     >
   </div>

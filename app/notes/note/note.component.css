@@ -4,12 +4,11 @@
    background...
  */
 
-.ui-button,
-:host >>> .ui-inputtext[readonly] {
-  background: hsla(0, 0%, 100%, 1);
-}
 :host >>> .ui-inputtext {
   background-color: hsla(60, 75%, 97.5%, 1);
+}
+:host >>> .ui-inputtext[readonly] {
+  background: hsla(0, 0%, 100%, 1);
 }
 
 
@@ -44,9 +43,6 @@
    font...
  */
 
-.ui-button {
-  font-size: 0.8em;
-}
 .ui-inputtext {
   font-family: serif;
 }
@@ -79,11 +75,9 @@
   vertical-align: top;
 }
 .ui-button {
-  height: 2.4em;
-  width: 1.8em;
   margin: 0 0 0 0.25em;
 }
-.button-wide {
+button.ui-widget.pn-button-aligned.button-wide {
   width: 8em;
 }
 .button-extra-wide {

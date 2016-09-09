@@ -1,7 +1,5 @@
 import { Component, OnInit, ViewChildren, QueryList } from '@angular/core';
-import { TabPanel, InputText, TabView } from 'primeng/primeng';
-
-import { Button } from 'primeng/primeng';
+import { Button, TabPanel, InputText, TabView } from 'primeng/primeng';
 
 import { Note } from '../../notes/shared/note';
 import { NoteListComponent } from '../../notes/note-list/note-list.component';
