@@ -25,6 +25,7 @@ export class NoteListComponent implements OnInit {
   private noteBeingMovedIndex: number;
   private showReinstateConfirmation = false;
   private showTrashConfirmation = false;
+  private showTrashEmptyConfirmation = false;
   private showNoteReinstateConfirmation = false;
   private showNoteDeleteConfirmation = false;
   private showTabDeleteConfirmation = false;
@@ -147,6 +148,23 @@ export class NoteListComponent implements OnInit {
 
   private onTrashConfirmed(): void {
     this.finalizeToggleActive(false);
+  }
+
+  private onTrashEmpty(): void {
+    this.showTrashEmptyConfirmation = true;
+  }
+
+  private onTrashEmptyConfirmed(): void {
+    this.noteService.bulkDelete(this.notes).then((result: any) => {
+      this.getNotes();
+      this.showTrashEmptyConfirmation = false;
+    }).catch((error: string) => {
+      console.log(error);
+    });
+  }
+
+  private onTrashEmptyCancelled(): void {
+    this.showTrashEmptyConfirmation = false;
   }
 
   private finalizeToggleActive(active: boolean): void {

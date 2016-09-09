@@ -1,6 +1,9 @@
 <button *ngIf="showActiveNotes" pButton (click)="onTabDelete()"
   class="button-extra-wide button-danger" label="Delete tab"></button>
 
+<button *ngIf="!showActiveNotes && notes.length !== 0" pButton (click)="onTrashEmpty()"
+  class="button-extra-wide button-danger" label="Empty trash"></button>
+
 <pn-note *ngIf="showActiveNotes" (onNoteAdded)="refreshNotes()"
   [beingEdited]="true" [noteBeingMovedIndex]="noteBeingMovedIndex" [tabId]="tab.id"></pn-note>
 
@@ -35,6 +38,22 @@
         class="button-extra-wide" label="Delete"></button>
       <button type="button" pButton icon="fa-ban" (click)="onTabDeleteCancelled()"
         class="button-extra-wide" label="Cancel"></button>
+    </div>
+  </footer>
+</p-dialog>
+
+<p-dialog [(visible)]="showTrashEmptyConfirmation" header="Empty trash?" showEffect="fade"
+  [closable]=false [resizable]=false>
+  <p>
+    Are you are you want to <em>permanently</em> empty the trash?
+  </p>
+  <footer>
+    <!-- TODO Focus the "Yes, delete" button -->
+    <div class="ui-dialog-buttonpane ui-widget-content ui-helper-clearfix">
+      <button type="button" pButton icon="fa-times" (click)="onTrashEmptyConfirmed()"
+        class="button-extra-wide" label="Yes, empty"></button>
+      <button type="button" pButton icon="fa-ban" (click)="onTrashEmptyCancelled()"
+        class="button-extra-wide" label="No, cancel"></button>
     </div>
   </footer>
 </p-dialog>
