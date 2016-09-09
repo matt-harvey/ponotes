@@ -4,3 +4,4 @@ node_modules
 build/
 .com.google.*
 npm-debug.log
+scratch*
