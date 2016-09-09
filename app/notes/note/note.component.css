@@ -45,7 +45,6 @@
  */
 
 .ui-button {
-  font-weight: normal;
   font-size: 0.8em;
 }
 .ui-inputtext {
@@ -78,12 +77,6 @@
   min-width: 8em;
   padding-top: 0.06em;
   vertical-align: top;
-}
-.ui-button,
-.ui-inputtext {
-  border-radius: 2px;
-  -webkit-border-radius: 2px;
-  -moz-border-radius: 2px;
 }
 .ui-button {
   height: 2.5em;

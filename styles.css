@@ -63,6 +63,39 @@ textarea.ui-inputtext,
 }
 
 
+/* FONT
+   -------
+
+   font...
+ */
+
+button.ui-widget.ui-button {
+  font-weight: normal;
+}
+
+
+/* LAYOUT & VISIBILITY
+   -------------------
+
+   display,
+   margin...
+   ...width
+   ...height
+   padding...
+   position
+   border...
+   ...align
+   resize
+   visibility
+*/
+.ui-inputtext,
+button.ui-widget.ui-button {
+  border-radius: 2px;
+  -webkit-border-radius: 2px;
+  -moz-border-radius: 2px;
+}
+
+
 /* UTILITY CLASSES
    ---------------
 
