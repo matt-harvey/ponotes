@@ -88,11 +88,15 @@ button.ui-widget.ui-button {
    resize
    visibility
 */
-.ui-inputtext,
-button.ui-widget.ui-button {
+button.ui-widget.ui-button,
+input.ui-inputtext,
+textarea.ui-inputtext {
   border-radius: 2px;
   -webkit-border-radius: 2px;
   -moz-border-radius: 2px;
+}
+.ui-inputtext {
+  padding: 0.333em !important;
 }
 
 

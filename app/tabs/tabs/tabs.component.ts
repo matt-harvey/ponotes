@@ -1,5 +1,5 @@
 import { Component, OnInit, ViewChildren, QueryList } from '@angular/core';
-import { TabPanel, TabView } from 'primeng/primeng';
+import { TabPanel, InputText, TabView } from 'primeng/primeng';
 
 import { Button } from 'primeng/primeng';
 
@@ -15,7 +15,7 @@ import { TabService } from '../../tabs/shared/tab.service';
   selector: 'pn-tabs',
   templateUrl: 'app/tabs/tabs/tabs.component.html',
   styleUrls: ['app/tabs/tabs/tabs.component.css'],
-  directives: [Button, NoteListComponent, TabPanel, TabView],
+  directives: [Button, InputText, NoteListComponent, TabPanel, TabView],
   providers: [NoteService, TabService]
 })
 export class TabsComponent implements OnInit {

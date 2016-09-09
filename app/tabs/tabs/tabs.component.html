@@ -1,4 +1,4 @@
-<input [(ngModel)]="newTab.name" type="text" placeholder="New tab name&hellip;">
+<input pInputText [(ngModel)]="newTab.name" type="text" placeholder="New tab name&hellip;">
 <button pButton type="button" (click)="onCreate()" [disabled]="!newTab.valid()"
   icon="fa-plus"></button>
 
