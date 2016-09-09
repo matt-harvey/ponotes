@@ -1,9 +1,9 @@
 import { Component, ElementRef, EventEmitter, Input, OnInit, Output, Renderer,
          ViewChild } from '@angular/core';
 
-import { Button, Dialog } from 'primeng/primeng';
+import { ExpandingTextareaComponent } from
+  '../../shared/expanding-textarea/expanding-textarea.component';
 
-import { ExpandingTextareaComponent } from '../../shared/expanding-textarea/expanding-textarea.component';
 import { Note } from '../shared/note';
 import { NoteService } from '../shared/note.service';
 
@@ -12,7 +12,6 @@ import { NoteService } from '../shared/note.service';
   selector: 'pn-note',
   templateUrl: 'app/notes/note/note.component.html',
   styleUrls: ['app/notes/note/note.component.css'],
-  directives: [Button, Dialog, ExpandingTextareaComponent]
 })
 export class NoteFormComponent implements OnInit {
   @Input() private notes: Note[] = [];

@@ -1,5 +1,5 @@
 import { Component, OnInit, ViewChildren, QueryList } from '@angular/core';
-import { Button, TabPanel, InputText, TabView } from 'primeng/primeng';
+import * as _ from 'lodash';
 
 import { Note } from '../../notes/shared/note';
 import { NoteListComponent } from '../../notes/note-list/note-list.component';
@@ -12,13 +12,12 @@ import { TabService } from '../../tabs/shared/tab.service';
 @Component({
   selector: 'pn-tabs',
   templateUrl: 'app/tabs/tabs/tabs.component.html',
-  styleUrls: ['app/tabs/tabs/tabs.component.css'],
-  directives: [Button, InputText, NoteListComponent, TabPanel, TabView],
-  providers: [NoteService, TabService]
+  styleUrls: ['app/tabs/tabs/tabs.component.css']
 })
 export class TabsComponent implements OnInit {
   private tabs: Tab[] = [];
   private newTab: Tab;
+  private selectedTabIndex = 0;
   private trash: Tab;
 
   constructor(private tabService: TabService, private noteService: NoteService) {
@@ -37,7 +36,10 @@ export class TabsComponent implements OnInit {
     const oldTab = this.newTab;
     this.newTab = new Tab();
     this.tabService.addRecord(oldTab).then((result: any) => {
-      return this.getTabs();
+      const addedTabId = result.id;
+      return this.getTabs().then((tabs: Tab[]) => {
+        this.selectedTabIndex = _.findIndex(tabs, (tab: Tab) => tab.id === addedTabId);
+      });
     }).catch((error: string) => {
       this.newTab = oldTab;
       console.log(error);
@@ -45,7 +47,8 @@ export class TabsComponent implements OnInit {
   }
 
   private onTabChange(event: any): void {
-    this.refreshNotes(event.index);
+    this.selectedTabIndex = event.index;
+    this.refreshNotes(this.selectedTabIndex);
   }
 
   private onTabDeleteConfirmation(tab: Tab): void {
@@ -55,15 +58,19 @@ export class TabsComponent implements OnInit {
       .then((result: any) => this.noteService.getRecords(false, tab.id))
       .then((notes: Note[]) => this.noteService.bulkDelete(notes))
       // refresh tabs
-      .then((result: any) => this.getTabs())
+      .then((result: any) => {
+        const upperIndex = Math.max(0, this.tabs.length - 2);
+        this.selectedTabIndex = Math.min(this.selectedTabIndex, upperIndex);
+        return this.getTabs();
+      })
       // refresh trash
-      .then((result: any) => this.refreshTrash())
+      .then((tabs: Tab[]) => this.refreshTrash())
       .catch((error: string) => { console.log(error); });
   }
 
   private getTabs(): any {
     return this.tabService.getRecords().then((tabs: Tab[]) => {
-      this.tabs = tabs;
+      return this.tabs = tabs;
     });
   }
 

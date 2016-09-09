@@ -1,8 +1,6 @@
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import * as _ from 'lodash';
 
-import { Button, Dialog } from 'primeng/primeng';
-
 import { Note } from '../shared/note';
 import { NoteFormComponent } from '../note/note.component';
 import { NoteService } from '../shared/note.service';
@@ -14,8 +12,7 @@ import { Tab } from '../../tabs/shared/tab';
 @Component({
   selector: 'pn-note-list',
   templateUrl: 'app/notes/note-list/note-list.component.html',
-  styleUrls: ['app/notes/note-list/note-list.component.css'],
-  directives: [Button, Dialog, NoteFormComponent]
+  styleUrls: ['app/notes/note-list/note-list.component.css']
 })
 export class NoteListComponent implements OnInit {
   private notes: Note[] = [];
