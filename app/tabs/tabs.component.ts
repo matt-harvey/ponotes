@@ -1,18 +1,18 @@
 import { Component, OnInit, ViewChildren, QueryList } from '@angular/core';
 import * as _ from 'lodash';
 
-import { Note } from '../../notes/shared/note';
-import { NoteListComponent } from '../../notes/note-list/note-list.component';
-import { NoteService } from '../../notes/shared/note.service';
-import { Tab } from '../../tabs/shared/tab';
-import { TabService } from '../../tabs/shared/tab.service';
+import { Note } from '../notes/note';
+import { NoteListComponent } from '../notes/note-list.component';
+import { NoteService } from '../notes/note.service';
+import { Tab } from './tab';
+import { TabService } from './tab.service';
 
 // TODO Shouldn't have all the NoteLists' Notes in memory all at once.
 
 @Component({
   selector: 'pn-tabs',
-  templateUrl: 'app/tabs/tabs/tabs.component.html',
-  styleUrls: ['app/tabs/tabs/tabs.component.css']
+  templateUrl: 'app/tabs/tabs.component.html',
+  styleUrls: ['app/tabs/tabs.component.css']
 })
 export class TabsComponent implements OnInit {
   private tabs: Tab[] = [];

@@ -1,4 +1,4 @@
-import { Record } from '../../shared/record';
+import { Record } from '../shared/record';
 import * as _ from 'lodash';
 
 export class Note extends Record {

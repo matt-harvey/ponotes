@@ -5,8 +5,8 @@ import { NG_VALUE_ACCESSOR, ControlValueAccessor } from '@angular/forms';
 
 @Component({
   selector: 'pn-expanding-textarea',
-  templateUrl: 'app/shared/expanding-textarea/expanding-textarea.component.html',
-  styleUrls: ['app/shared/expanding-textarea/expanding-textarea.component.css'],
+  templateUrl: 'app/shared/expanding-textarea.component.html',
+  styleUrls: ['app/shared/expanding-textarea.component.css'],
   providers: [{
     provide: NG_VALUE_ACCESSOR,
     useExisting: forwardRef(() => ExpandingTextareaComponent),

@@ -1,18 +1,18 @@
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import * as _ from 'lodash';
 
-import { Note } from '../shared/note';
-import { NoteFormComponent } from '../note/note.component';
-import { NoteService } from '../shared/note.service';
-import { Tab } from '../../tabs/shared/tab';
+import { Note } from './note';
+import { NoteFormComponent } from './note.component';
+import { NoteService } from './note.service';
+import { Tab } from '../tabs/tab';
 
 // FIXME There need to be buttons to permanently delete notes, to empty the entire
 // trash, and to reinstate Notes from the Trash to the NoteList they were in originally.
 
 @Component({
   selector: 'pn-note-list',
-  templateUrl: 'app/notes/note-list/note-list.component.html',
-  styleUrls: ['app/notes/note-list/note-list.component.css']
+  templateUrl: 'app/notes/note-list.component.html',
+  styleUrls: ['app/notes/note-list.component.css']
 })
 export class NoteListComponent implements OnInit {
   private notes: Note[] = [];

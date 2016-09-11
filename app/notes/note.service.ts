@@ -1,9 +1,9 @@
 import { Injectable } from '@angular/core';
 import * as _ from 'lodash';
 
-import { DatabaseService } from '../../shared/database.service';
+import { DatabaseService } from '../shared/database.service';
 import { Note } from './note';
-import { PouchDB } from '../../shared/pouch';
+import { PouchDB } from '../shared/pouch';
 
 @Injectable()
 export class NoteService extends DatabaseService<Note> {
