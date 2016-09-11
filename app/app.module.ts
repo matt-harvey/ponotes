@@ -6,7 +6,7 @@ import { Button, Dialog, TabPanel, InputText, TabView } from 'primeng/primeng';
 
 import { AppComponent } from './app.component';
 import { ExpandingTextareaComponent } from './shared/expanding-textarea.component';
-import { NoteFormComponent } from './notes/note.component';
+import { NoteComponent } from './notes/note.component';
 import { NoteListComponent } from './notes/note-list.component';
 import { NoteService } from './notes/note.service';
 import { TabsComponent } from './tabs/tabs.component';
@@ -23,7 +23,7 @@ import { TabService } from './tabs/tab.service';
     Dialog,
     ExpandingTextareaComponent,
     InputText,
-    NoteFormComponent,
+    NoteComponent,
     NoteListComponent,
     TabPanel,
     TabView,

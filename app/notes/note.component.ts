@@ -11,7 +11,7 @@ import { NoteService } from './note.service';
   templateUrl: 'app/notes/note.component.html',
   styleUrls: ['app/notes/note.component.css'],
 })
-export class NoteFormComponent implements OnInit {
+export class NoteComponent implements OnInit {
   @Input() private notes: Note[] = [];
   @Input() private tabId: string;
   @Input() private noteIndex: number;

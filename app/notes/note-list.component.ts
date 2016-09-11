@@ -2,7 +2,7 @@ import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import * as _ from 'lodash';
 
 import { Note } from './note';
-import { NoteFormComponent } from './note.component';
+import { NoteComponent } from './note.component';
 import { NoteService } from './note.service';
 import { Tab } from '../tabs/tab';
 
