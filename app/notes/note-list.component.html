@@ -22,7 +22,7 @@
   [moveTargettable]="moveTargettableIndex(notes.length)" [tabId]="tab.id"></pn-note>
 
 <p-dialog [(visible)]="showTabDeleteConfirmation" header="Confirm" showEffect="fade"
-  [closable]=false [resizable]=false>
+  [closable]=false [resizable]=false [modal]=true>
   <p>
     Are you are you want to delete this tab?
   </p>
@@ -43,7 +43,7 @@
 </p-dialog>
 
 <p-dialog [(visible)]="showTrashEmptyConfirmation" header="Empty trash?" showEffect="fade"
-  [closable]=false [resizable]=false>
+  [closable]=false [resizable]=false modal=true>
   <p>
     Are you are you want to <em>permanently</em> empty the trash?
   </p>
@@ -59,7 +59,7 @@
 </p-dialog>
 
 <p-dialog [(visible)]="showTrashConfirmation" header="Confirm" showEffect="fade"
-  [closable]=false [resizable]=false>
+  [closable]=false [resizable]=false [modal]=true>
   <p>
     Are you sure you want to move this note to the Trash?
   </p>
@@ -75,7 +75,7 @@
 </p-dialog>
 
 <p-dialog [(visible)]="showReinstateConfirmation" header="Confirm" showEffect="fade"
-  [closable]=false [resizable]=false>
+  [closable]=false [resizable]=false [modal]=true>
   <p>
     Are you sure you want to reinstate this note, moving it from the Trash back to
     its original tab?
@@ -93,7 +93,7 @@
 </p-dialog>
 
 <p-dialog [(visible)]="showNoteDeleteConfirmation" header="Confirm" showEffect="fade"
-  [closable]=false [resizable]=false>
+  [closable]=false [resizable]=false [modal]=true>
   <p>
     Are you sure you want to permanently delete this note?
     <!-- TODO Show an excerpt from the note. -->
