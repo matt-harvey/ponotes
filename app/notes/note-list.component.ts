@@ -5,6 +5,7 @@ import { Note } from './note';
 import { NoteComponent } from './note.component';
 import { NoteService } from './note.service';
 import { Tab } from '../tabs/tab';
+import { TabService } from '../tabs/tab.service';
 
 // FIXME There need to be buttons to permanently delete notes, to empty the entire
 // trash, and to reinstate Notes from the Trash to the NoteList they were in originally.
@@ -26,6 +27,7 @@ export class NoteListComponent implements OnInit {
   private showNoteReinstateConfirmation = false;
   private showNoteDeleteConfirmation = false;
   private showTabDeleteConfirmation = false;
+  private reinstateTarget = '';
 
   @Input() private showActiveNotes = true;
   @Input() private newTab = false;
@@ -33,7 +35,7 @@ export class NoteListComponent implements OnInit {
 
   @Output() private onTabDeleteConfirmation = new EventEmitter<Tab>();
 
-  constructor(private noteService: NoteService) {
+  constructor(private noteService: NoteService, private tabService: TabService) {
   }
 
   ngOnInit(): void {
@@ -118,7 +120,12 @@ export class NoteListComponent implements OnInit {
 
   private onNoteReinstate(note: Note): void {
     this.currentNote = note;
-    this.showReinstateConfirmation = true;
+    this.tabService.getRecord(note.tabId).then((tabDoc: Object) => {
+      this.reinstateTarget = new Tab(tabDoc).name;
+      this.showReinstateConfirmation = true;
+    }).catch((error: string) => {
+      console.log(error);
+    });
   }
 
   private onReinstateCancelled(): void {

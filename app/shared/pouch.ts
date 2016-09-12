@@ -3,6 +3,7 @@ export interface PouchDB {
   bulkDocs(options: Object): any;
   createIndex(options: Object): any;
   find(options: Object): any;
+  get(id: string): any;
   post(record: Object): any;
   put(record: Object):  any;
   remove(record: Object): any;

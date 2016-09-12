@@ -26,6 +26,10 @@ export abstract class DatabaseService<RecordT extends RecordI> {
     return this._database;
   }
 
+  getRecord(id: string): any {
+    return this.database.get(id);
+  }
+
   // TODO This should be wrapped in an Angular2 promise, rather than having client
   // code see a PouchDB promise.
   updateRecord(record: RecordT): any {
