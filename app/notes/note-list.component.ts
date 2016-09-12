@@ -103,6 +103,14 @@ export class NoteListComponent implements OnInit {
     });
   };
 
+  private onNoteAdded(note: Note): void {
+    this.refreshNotes();
+  }
+
+  private onNoteUpdated(note: Note): void {
+    this.refreshNotes();
+  }
+
   private onNoteTrash(note: Note): void {
     this.currentNote = note;
     this.showTrashConfirmation = true;

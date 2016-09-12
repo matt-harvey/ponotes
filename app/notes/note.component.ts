@@ -23,8 +23,8 @@ export class NoteComponent implements OnInit {
 
   @Output() private onMoveStarted = new EventEmitter<number>();
   @Output() private onMoveEnded = new EventEmitter<number>();
-  @Output() private onNoteAdded = new EventEmitter();
-  @Output() private onNoteUpdated = new EventEmitter();
+  @Output() private onNoteAdded = new EventEmitter<Note>();
+  @Output() private onNoteUpdated = new EventEmitter<Note>();
   @Output() private onNoteTrash = new EventEmitter<Note>();
   @Output() private onNoteReinstate = new EventEmitter<Note>();
   @Output() private onNoteDelete = new EventEmitter<Note>();
@@ -98,7 +98,7 @@ export class NoteComponent implements OnInit {
     const oldNote = this.note;
     this.newNote = new Note({ tabId: this.tabId });
     this.noteService.addRecord(oldNote).then((result: any) => {
-      this.onNoteAdded.emit(undefined);
+      this.onNoteAdded.emit(oldNote);
       this.focusInput();
     }).catch((error: string) => {
       this.newNote = oldNote;
@@ -115,7 +115,7 @@ export class NoteComponent implements OnInit {
   private onUpdate(): void {
     this.beingEdited = false;
     this.noteService.updateRecord(this.note).then((result: any) => {
-      this.onNoteUpdated.emit(undefined);
+      this.onNoteUpdated.emit(this.note);
     }).catch((error: string) => {
       this.beingEdited = true;
       console.log(error);

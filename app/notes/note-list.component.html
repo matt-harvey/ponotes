@@ -4,13 +4,13 @@
 <button *ngIf="!showActiveNotes && notes.length !== 0" pButton (click)="onTrashEmpty()"
   class="button-extra-wide button-danger" label="Empty trash"></button>
 
-<pn-note *ngIf="showActiveNotes" (onNoteAdded)="refreshNotes()"
+<pn-note *ngIf="showActiveNotes" (onNoteAdded)="onNoteAdded($event)"
   [beingEdited]="true" [noteBeingMovedIndex]="noteBeingMovedIndex" [tabId]="tab.id"></pn-note>
 
 <pn-note *ngFor="let note of notes; let i = index"
   (onMoveStarted)="onMoveStarted($event)"
   (onMoveEnded)="onMoveEnded($event)"
-  (onNoteUpdated)="refreshNotes()"
+  (onNoteUpdated)="onNoteUpdated($event)"
   (onNoteTrash)="onNoteTrash($event)"
   (onNoteReinstate)="onNoteReinstate($event)"
   (onNoteDelete)="onNoteDelete($event)"
