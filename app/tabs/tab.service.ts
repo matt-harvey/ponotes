@@ -16,7 +16,6 @@ export class TabService extends DatabaseService<Tab> {
     db.createIndex({ index: { fields: ['name'] } }).then(() => {
       this.getRecords().then((tabs: Tab[]) => {
         if (tabs.length === 0) {
-          // TODO Do we need to set tab sort order here?
           const defaultTab = new Tab({ name: 'Notes' });
           this.addRecord(defaultTab).catch((error: string) => {
             console.log(error);

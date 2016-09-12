@@ -21,6 +21,7 @@ export class NoteService extends DatabaseService<Note> {
   }
 
   protected doInitializeDatabase(db: PouchDB): void {
+    // TODO Do we really need both these indexes?
     db.createIndex({ index: { fields: ['sortOrder', 'tabId'] } });
     db.createIndex({ index: { fields: ['sortOrder'] } });
   }
