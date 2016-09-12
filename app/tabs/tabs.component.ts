@@ -1,4 +1,5 @@
-import { Component, OnInit, ViewChildren, QueryList } from '@angular/core';
+import { Component, OnInit, ViewChild, ViewChildren, QueryList } from '@angular/core';
+import { TabPanel } from 'primeng/primeng';
 import * as _ from 'lodash';
 
 import { Note } from '../notes/note';
@@ -29,8 +30,9 @@ export class TabsComponent implements OnInit {
     this.getTabs();
   }
 
-  @ViewChildren(NoteListComponent)
-  private noteLists: QueryList<NoteListComponent>;
+  @ViewChildren(NoteListComponent) private noteLists: QueryList<NoteListComponent>;
+
+  @ViewChild('trashPanel') private trashPanel: TabPanel;
 
   private onCreate(): void {
     const oldTab = this.newTab;
@@ -38,6 +40,9 @@ export class TabsComponent implements OnInit {
     this.tabService.addRecord(oldTab).then((result: any) => {
       const addedTabId = result.id;
       return this.getTabs().then((tabs: Tab[]) => {
+        // For some reason this is necessary to tell PrimeNG TabView not to keep Trash tab
+        // selected, in case it is selected when tab is added.
+        this.trashPanel.selected = false;
         this.selectedTabIndex = _.findIndex(tabs, (tab: Tab) => tab.id === addedTabId);
       });
     }).catch((error: string) => {

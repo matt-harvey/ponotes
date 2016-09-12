@@ -10,7 +10,7 @@
     <pn-note-list [tab]="tab" [showActiveNotes]="true"
       (onTabDeleteConfirmation)="onTabDeleteConfirmation($event)"></pn-note-list>
   </p-tabPanel>
-  <p-tabPanel header="Trash" leftIcon="fa-trash-o"
+  <p-tabPanel #trashPanel header="Trash" leftIcon="fa-trash-o"
     [selected]="tabs.length === 0">
     <pn-note-list [showActiveNotes]="false" [tab]="trash"></pn-note-list>
   </p-tabPanel>
