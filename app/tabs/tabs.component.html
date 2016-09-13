@@ -1,5 +1,6 @@
 <div class="new-tab-input-wrapper">
-  <input pInputText [(ngModel)]="newTab.name" type="text" placeholder="New tab name&hellip;">
+  <input pInputText [(ngModel)]="newTab.name" type="text" placeholder="New tab name&hellip;"
+    [autofocus]="tabs.length === 0">
   <button pButton type="button" (click)="onCreate()" [disabled]="!newTab.valid()"
     title="Add tab" class="pn-button-aligned" icon="fa-plus"></button>
 </div>
