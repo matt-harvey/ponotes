@@ -5,8 +5,7 @@ import { Component } from '@angular/core';
 // work last time I tried.
 @Component({
   selector: 'pn-app',
-  templateUrl: 'app/app.component.html',
-  styleUrls: ['app/app.component.css']
+  templateUrl: 'app/app.component.html'
 })
 export class AppComponent {
   title = 'Ponotes';
