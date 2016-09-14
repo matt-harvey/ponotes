@@ -13,27 +13,30 @@ export class TabService extends DatabaseService<Tab> {
   }
 
   protected doInitializeDatabase(db: PouchDB): void {
+    // TODO Async... wrap in Promises and handle???
     db.createIndex({ index: { fields: ['name'] } });
   }
 
   getRecords(): Promise<Tab[]> {
-    return new Promise<Tab[]>(resolve => {
+    return new Promise<Tab[]>((resolve: Function, reject: Function) => {
       this.database.find({
         selector: { name: { '$gte': '' } },
         sort: [{ name: 'asc' }]
       }).then((result: any) => {
         resolve(_.map(result.docs, doc => new Tab(doc)));
       }).catch((error: string) => {
-        console.log(error);
+        reject(error);
       });
     });
   }
 
-  // TODO This should be wrapped in an Angular2 promise, rather than having client
-  // code see a PouchDB promise.
-  addRecord(tab: Tab): any {
-    return this.database.post(tab.toJSON()).catch((error: string) => {
-      console.log(error);
+  addRecord(tab: Tab): Promise<any> {
+    return new Promise<any>((resolve: Function, reject: Function) => {
+      this.database.post(tab.toJSON()).then((result: any) => {
+        resolve(result);
+      }).catch((error: string) => {
+        reject(error);
+      });
     });
   }
 

@@ -58,6 +58,7 @@ export class NoteListComponent implements OnInit {
         this.notes[newIndex - 1]
       );
       const newSuccessor = this.notes[newIndex];
+      // TODO Handle possible error on move record.
       this.noteService.moveRecord(noteBeingMoved, newPredecessor, newSuccessor)
         .then((result: any) => {
           this.refreshNotes();

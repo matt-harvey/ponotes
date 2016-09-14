@@ -26,27 +26,47 @@ export abstract class DatabaseService<RecordT extends RecordI> {
     return this._database;
   }
 
-  getRecord(id: string): any {
-    return this.database.get(id);
-  }
-
-  // TODO This should be wrapped in an Angular2 promise, rather than having client
-  // code see a PouchDB promise.
-  updateRecord(record: RecordT): any {
-    return this.database.put(record.toJSON());
-  }
-
-  // TODO This should be wrapped in an Angular2 promise, rather than having client
-  // code see a PouchDB promise.
-  deleteRecord(record: RecordT): any {
-    return this.database.remove(record);
-  }
-
-  bulkDelete(records: RecordT[]): any {
-    const markedRecords = _.map(records, (r: RecordT) => {
-      return { _id: r['id'], _rev: r['rev'], _deleted: true };
+  getRecord(id: string): Promise<any> {
+    return new Promise<any>((resolve: Function, reject: Function) => {
+      this.database.get(id).then((doc: Object) => {
+        resolve(doc);
+      }).catch((error: string) => {
+        reject(error);
+      });
     });
-    return this.database.bulkDocs(markedRecords);
+  }
+
+  updateRecord(record: RecordT): Promise<any> {
+    return new Promise<any>((resolve: Function, reject: Function) => {
+      this.database.put(record.toJSON()).then((result: any) => {
+        resolve(result);
+      }).catch((error: string) => {
+        reject(error);
+      });
+    });
+  }
+
+  deleteRecord(record: RecordT): Promise<any> {
+    return new Promise<any>((resolve: Function, reject: Function) => {
+      this.database.remove(record).then((result: any) => {
+        resolve(result);
+      }).catch((error: string) => {
+        reject(error);
+      });
+    });
+  }
+
+  bulkDelete(records: RecordT[]): Promise<any> {
+    return new Promise<any>((resolve: Function, reject: Function) => {
+      const markedRecords = _.map(records, (r: RecordT) => {
+        return { _id: r['id'], _rev: r['rev'], _deleted: true };
+      });
+      this.database.bulkDocs(markedRecords).then((result: any) => {
+        resolve(result);
+      }).catch((error: string) => {
+        reject(error);
+      });
+    });
   }
 
 }

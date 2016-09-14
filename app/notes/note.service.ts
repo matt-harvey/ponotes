@@ -22,12 +22,13 @@ export class NoteService extends DatabaseService<Note> {
 
   protected doInitializeDatabase(db: PouchDB): void {
     // TODO Do we really need both these indexes?
+    // TODO Async... wrap in Promises and handle???
     db.createIndex({ index: { fields: ['sortOrder', 'tabId'] } });
     db.createIndex({ index: { fields: ['sortOrder'] } });
   }
 
   getRecords(active: boolean, tabId?: string): Promise<Note[]> {
-    return new Promise<Note[]>(resolve => {
+    return new Promise<Note[]>((resolve: Function, reject: Function) => {
       let selector = { sortOrder: { '$exists': true, $gte: 0 }, active: { $eq: active } };
       if (typeof tabId !== 'undefined') {
         selector['tabId'] = { $eq: tabId }
@@ -38,40 +39,44 @@ export class NoteService extends DatabaseService<Note> {
       }).then((result: any) => {
         resolve(_.map(result.docs, doc => new Note(doc)));
       }).catch((error: string) => {
-        console.log(error);
+        reject(error);
       });
     });
   }
 
-  // TODO This should be wrapped in an Angular2 promise, rather than having client
-  // code see a PouchDB promise.
-  addRecord(note: Note): any {
-    note.sortOrder = this.makeSortOrder();
-    return this.database.post(note.toJSON()).catch((error: string) => {
-      console.log(error);
-      note.sortOrder = undefined;
+  addRecord(note: Note): Promise<any> {
+    return new Promise<any>((resolve: Function, reject: Function) => {
+      note.sortOrder = this.makeSortOrder();
+      this.database.post(note.toJSON()).then((result: any) => {
+        resolve(result);
+      }).catch((error: string) => {
+        note.sortOrder = undefined;
+        reject(error);
+      });
     });
   }
 
-  // TODO This should be wrapped in an Angular2 promise, rather than having client
-  // code see a PouchDB promise.
-  moveRecord(note: Note, newPredecessor: Note, newSuccessor: Note) {
+  moveRecord(note: Note, newPredecessor: Note, newSuccessor: Note): Promise<any> {
     // FIXME It is possible that in time, after enough moves, there is not enough
     // precision to accommodate a particular move, since the sortOrder attributes may
     // be too close together, given the limited precision of the number type, to
     // calculate distinctly their average. This problem can be overcome: see
     // http://stackoverflow.com/questions/2940329/how-to-move-an-element-in-a-sorted-list-and-keep-the-couchdb-write-atomic.
-    const newSuccessorSortOrder = (newSuccessor ? newSuccessor.sortOrder : 0);
-    const newPredecessorSortOrder = (
-      newPredecessor ?
-      newPredecessor.sortOrder :
-      this.makeSortOrder()
-    );
-    const oldSortOrder = note.sortOrder;
-    note.sortOrder = (newPredecessorSortOrder + newSuccessorSortOrder) / 2;
-    return this.database.put(note.toJSON()).catch((error: string) => {
-      console.log(error);
-      note.sortOrder = oldSortOrder;
+    return new Promise<any>((resolve: Function, reject: Function) => {
+      const newSuccessorSortOrder = (newSuccessor ? newSuccessor.sortOrder : 0);
+      const newPredecessorSortOrder = (
+        newPredecessor ?
+        newPredecessor.sortOrder :
+        this.makeSortOrder()
+      );
+      const oldSortOrder = note.sortOrder;
+      note.sortOrder = (newPredecessorSortOrder + newSuccessorSortOrder) / 2;
+      return this.database.put(note.toJSON()).then((result: any) => {
+        resolve(result);
+      }).catch((error: string) => {
+        note.sortOrder = oldSortOrder;
+        reject(error);
+      });
     });
   }
 
