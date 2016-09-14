@@ -2,11 +2,11 @@
   <pn-expanding-textarea #contentInput [(ngModel)]="note.content"
     [autofocus]="!note.persisted() || undefined"
     [readonly]="note.persisted() && !beingEdited"
-    [ngClass]="{ 
+    [ngClass]="{
       'visibly-hidden': moveTargetOnly,
       'being-moved': noteBeingMoved(),
       'moving': moving()
-    }"> 
+    }">
   </pn-expanding-textarea>
 
   <div class="button-wrapper">

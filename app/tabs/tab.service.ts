@@ -30,14 +30,4 @@ export class TabService extends DatabaseService<Tab> {
     });
   }
 
-  addRecord(tab: Tab): Promise<any> {
-    return new Promise<any>((resolve: Function, reject: Function) => {
-      this.database.post(tab.toJSON()).then((result: any) => {
-        resolve(result);
-      }).catch((error: string) => {
-        reject(error);
-      });
-    });
-  }
-
 }

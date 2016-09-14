@@ -7,6 +7,10 @@ interface RecordI {
   toJSON(): Object;
 }
 
+interface NullaryFunction {
+  (): any;
+}
+
 @Injectable()
 export abstract class DatabaseService<RecordT extends RecordI> {
 
@@ -26,42 +30,32 @@ export abstract class DatabaseService<RecordT extends RecordI> {
     return this._database;
   }
 
+  addRecord(record: RecordT): Promise<any> {
+    return this.makePromise(() => this.database.post(record.toJSON()));
+  }
+
   getRecord(id: string): Promise<any> {
-    return new Promise<any>((resolve: Function, reject: Function) => {
-      this.database.get(id).then((doc: Object) => {
-        resolve(doc);
-      }).catch((error: string) => {
-        reject(error);
-      });
-    });
+    return this.makePromise(() => this.database.get(id));
   }
 
   updateRecord(record: RecordT): Promise<any> {
-    return new Promise<any>((resolve: Function, reject: Function) => {
-      this.database.put(record.toJSON()).then((result: any) => {
-        resolve(result);
-      }).catch((error: string) => {
-        reject(error);
-      });
-    });
+    return this.makePromise(() => this.database.put(record.toJSON()));
   }
 
   deleteRecord(record: RecordT): Promise<any> {
-    return new Promise<any>((resolve: Function, reject: Function) => {
-      this.database.remove(record).then((result: any) => {
-        resolve(result);
-      }).catch((error: string) => {
-        reject(error);
-      });
-    });
+    return this.makePromise(() => this.database.remove(record));
   }
 
   bulkDelete(records: RecordT[]): Promise<any> {
+    return this.makePromise(() => {
+      const doomed = _.map(records, r => ({ _id: r['id'], _rev: r['rev'], _deleted: true }));
+      return this.database.bulkDocs(doomed);
+    });
+  }
+
+  private makePromise(promiseable: NullaryFunction): Promise<any> {
     return new Promise<any>((resolve: Function, reject: Function) => {
-      const markedRecords = _.map(records, (r: RecordT) => {
-        return { _id: r['id'], _rev: r['rev'], _deleted: true };
-      });
-      this.database.bulkDocs(markedRecords).then((result: any) => {
+      promiseable().then((result: Object) => {
         resolve(result);
       }).catch((error: string) => {
         reject(error);
