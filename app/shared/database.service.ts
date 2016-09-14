@@ -53,6 +53,11 @@ export abstract class DatabaseService<RecordT extends RecordI> {
     });
   }
 
+  // This may well be completely unnecessary, as PouchDB already uses a native Promise
+  // provided these are available. However, we do this anyway -- explicitly
+  // wrapping whatever-promiselike-thing-PouchDB-uses in a Promise -- so that we don't
+  // have to worry about what PouchDB is in fact doing, and whether it's compatible with
+  // whatever Promise object Angular 2 may assume is present.
   private makePromise(promiseable: NullaryFunction): Promise<any> {
     return new Promise<any>((resolve: Function, reject: Function) => {
       promiseable().then((result: Object) => {
