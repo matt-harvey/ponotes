@@ -14,8 +14,9 @@ interface NullaryFunction {
 @Injectable()
 export abstract class DatabaseService<RecordT extends RecordI> {
 
-  // TODO Ensure syncing of records works OK when the application is open in two different
-  // tabs.
+  // TODO Handle/fix error that occurs when trying to update a note in one *browser* tab,
+  // when that note has already been deleted in another *browser* tab. Issue is a
+  // symptom of general issue of browser tabs not being synchronised.
 
   private _database: PouchDB;
 
