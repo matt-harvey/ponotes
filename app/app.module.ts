@@ -5,6 +5,7 @@ import { FormsModule } from '@angular/forms';
 import { Button, Dialog, TabPanel, InputText, TabView } from 'primeng/primeng';
 
 import { AppComponent } from './app.component';
+import { LoggerService } from './shared/logger.service';
 import { ExpandingTextareaComponent } from './shared/expanding-textarea.component';
 import { NoteComponent } from './notes/note.component';
 import { NoteListComponent } from './notes/note-list.component';
@@ -30,6 +31,7 @@ import { TabService } from './tabs/tab.service';
     TabsComponent,
   ],
   providers: [
+    LoggerService,
     NoteService,
     TabService
   ],

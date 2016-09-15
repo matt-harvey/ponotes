@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 import * as _ from 'lodash';
 
 import { DatabaseService } from '../shared/database.service';
+import { LoggerService } from '../shared/logger.service';
 import { Note } from './note';
 import { PouchDB } from '../shared/pouch';
 
@@ -16,14 +17,21 @@ export class NoteService extends DatabaseService<Note> {
   // the better way in the long run. See
   // http://www.joshmorony.com/syncing-data-with-pouchdb-and-cloudant-in-ionic-2/.
 
+  constructor(private loggerService: LoggerService) {
+    super();
+  }
+
   protected doGetDatabaseName(): string {
     return 'notes';
   }
 
   protected doInitializeDatabase(db: PouchDB): void {
-    // TODO Async... wrap in Promises and handle???
-    db.createIndex({ index: { fields: ['sortOrder', 'tabId'] } });
-    db.createIndex({ index: { fields: ['sortOrder'] } });
+    db.createIndex({ index: { fields: ['sortOrder', 'tabId'] } }).catch((error: string) => {
+      this.loggerService.logError(error);
+    });
+    db.createIndex({ index: { fields: ['sortOrder'] } }).catch((error: string) => {
+      this.loggerService.logError(error);
+    });
   }
 
   getRecords(active: boolean, tabId?: string): Promise<Note[]> {

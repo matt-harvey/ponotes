@@ -2,6 +2,7 @@ import { Component, OnInit, ViewChild, ViewChildren, QueryList } from '@angular/
 import { TabPanel } from 'primeng/primeng';
 import * as _ from 'lodash';
 
+import { LoggerService } from '../shared/logger.service';
 import { Note } from '../notes/note';
 import { NoteListComponent } from '../notes/note-list.component';
 import { NoteService } from '../notes/note.service';
@@ -21,7 +22,11 @@ export class TabsComponent implements OnInit {
   private selectedTabIndex = 0;
   private trash: Tab;
 
-  constructor(private tabService: TabService, private noteService: NoteService) {
+  constructor(
+    private loggerService: LoggerService,
+    private tabService: TabService,
+    private noteService: NoteService
+  ) {
     this.newTab = new Tab();
     this.trash = new Tab();
   }
@@ -48,7 +53,7 @@ export class TabsComponent implements OnInit {
       });
     }).catch((error: string) => {
       this.newTab = oldTab;
-      console.log(error);
+      this.loggerService.logError(error);
     });
   }
 
@@ -71,12 +76,16 @@ export class TabsComponent implements OnInit {
       })
       // refresh trash
       .then((tabs: Tab[]) => this.refreshTrash())
-      .catch((error: string) => { console.log(error); });
+      .catch((error: string) => {
+        this.loggerService.logError(error);
+      });
   }
 
   private getTabs(): any {
     return this.tabService.getRecords().then((tabs: Tab[]) => {
       return this.tabs = tabs;
+    }).catch((error: string) => {
+      this.loggerService.logError(error);
     });
   }
 

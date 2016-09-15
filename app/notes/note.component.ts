@@ -1,6 +1,7 @@
 import { Component, ElementRef, EventEmitter, Input, OnInit, Output, Renderer,
          ViewChild } from '@angular/core';
 
+import { LoggerService } from '../shared/logger.service';
 import { ExpandingTextareaComponent } from '../shared/expanding-textarea.component';
 import { Note } from './note';
 import { NoteService } from './note.service';
@@ -33,7 +34,11 @@ export class NoteComponent implements OnInit {
 
   private oldContent: string;
 
-  constructor(private renderer: Renderer, private noteService: NoteService) {
+  constructor(
+    private loggerService: LoggerService,
+    private renderer: Renderer,
+    private noteService: NoteService
+  ) {
   }
 
   ngOnInit(): void {
@@ -102,7 +107,7 @@ export class NoteComponent implements OnInit {
       this.focusInput();
     }).catch((error: string) => {
       this.newNote = oldNote;
-      console.log(error);
+      this.loggerService.logError(error);
     });
   }
 
@@ -118,7 +123,7 @@ export class NoteComponent implements OnInit {
       this.onNoteUpdated.emit(this.note);
     }).catch((error: string) => {
       this.beingEdited = true;
-      console.log(error);
+      this.loggerService.logError(error);
     });
   }
 

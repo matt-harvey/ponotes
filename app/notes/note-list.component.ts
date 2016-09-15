@@ -1,6 +1,7 @@
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import * as _ from 'lodash';
 
+import { LoggerService } from '../shared/logger.service';
 import { Note } from './note';
 import { NoteComponent } from './note.component';
 import { NoteService } from './note.service';
@@ -35,7 +36,11 @@ export class NoteListComponent implements OnInit {
 
   @Output() private onTabDeleteConfirmation = new EventEmitter<Tab>();
 
-  constructor(private noteService: NoteService, private tabService: TabService) {
+  constructor(
+    private loggerService: LoggerService,
+    private noteService: NoteService,
+    private tabService: TabService
+  ) {
   }
 
   ngOnInit(): void {
@@ -58,12 +63,13 @@ export class NoteListComponent implements OnInit {
         this.notes[newIndex - 1]
       );
       const newSuccessor = this.notes[newIndex];
-      // TODO Handle possible error on move record.
       this.noteService.moveRecord(noteBeingMoved, newPredecessor, newSuccessor)
         .then((result: any) => {
           this.refreshNotes();
           this.noteBeingMovedIndex = undefined;
           this.moving = false;
+        }).catch((error: string) => {
+          this.loggerService.logError(error);
         });
     } else {
       this.noteBeingMovedIndex = undefined;
@@ -80,7 +86,7 @@ export class NoteListComponent implements OnInit {
       this.onTabDeleteConfirmation.emit(this.tab);
       this.showTabDeleteConfirmation = false;
     }).catch((error: string) => {
-      console.log(error);
+      this.loggerService.logError(error);
     });
   }
 
@@ -103,6 +109,8 @@ export class NoteListComponent implements OnInit {
   private getNotes(): void {
     this.noteService.getRecords(this.showActiveNotes, this.tab.id).then((notes: Note[]) => {
       this.notes = notes;
+    }).catch((error: string) => {
+      this.loggerService.logError(error);
     });
   };
 
@@ -125,7 +133,7 @@ export class NoteListComponent implements OnInit {
       this.reinstateTarget = new Tab(tabDoc).name;
       this.showReinstateConfirmation = true;
     }).catch((error: string) => {
-      console.log(error);
+      this.loggerService.logError(error);
     });
   }
 
@@ -151,7 +159,7 @@ export class NoteListComponent implements OnInit {
       this.showNoteDeleteConfirmation = false;
       this.refreshNotes();
     }).catch((error: string) => {
-      console.log(error);
+      this.loggerService.logError(error);
     });
   }
 
@@ -172,7 +180,7 @@ export class NoteListComponent implements OnInit {
       this.getNotes();
       this.showTrashEmptyConfirmation = false;
     }).catch((error: string) => {
-      console.log(error);
+      this.loggerService.logError(error);
     });
   }
 
@@ -189,7 +197,7 @@ export class NoteListComponent implements OnInit {
     }).catch((error: string) => {
       this.currentNote.active = original;
       this.refreshNotes();
-      console.log(error);
+      this.loggerService.logError(error);
     });
   }
 
