@@ -26,9 +26,7 @@ export class TabService extends DatabaseService<Tab> {
         sort: [{ name: 'asc' }]
       }).then((result: any) => {
         resolve(_.map(result.docs, doc => new Tab(doc)));
-      }).catch((error: string) => {
-        reject(error);
-      });
+      }).catch(reject);
     });
   }
 

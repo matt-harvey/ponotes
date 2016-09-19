@@ -39,18 +39,14 @@ export class NoteService extends DatabaseService<Note> {
         sort: [{ sortOrder: 'desc' }]
       }).then((result: any) => {
         resolve(_.map(result.docs, doc => new Note(doc)));
-      }).catch((error: string) => {
-        reject(error);
-      });
+      }).catch(reject);
     });
   }
 
   addRecord(note: Note): Promise<any> {
     return new Promise<any>((resolve: Function, reject: Function) => {
       note.sortOrder = this.makeSortOrder();
-      this.database.post(note.toJSON()).then((result: any) => {
-        resolve(result);
-      }).catch((error: string) => {
+      this.database.post(note.toJSON()).then(resolve).catch((error: string) => {
         note.sortOrder = undefined;
         reject(error);
       });
@@ -72,9 +68,7 @@ export class NoteService extends DatabaseService<Note> {
       );
       const oldSortOrder = note.sortOrder;
       note.sortOrder = (newPredecessorSortOrder + newSuccessorSortOrder) / 2;
-      return this.database.put(note.toJSON()).then((result: any) => {
-        resolve(result);
-      }).catch((error: string) => {
+      return this.database.put(note.toJSON()).then(resolve).catch((error: string) => {
         note.sortOrder = oldSortOrder;
         reject(error);
       });

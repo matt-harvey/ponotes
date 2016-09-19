@@ -61,11 +61,7 @@ export abstract class DatabaseService<RecordT extends RecordI> {
   // whatever Promise object Angular 2 may assume is present.
   private makePromise(promiseable: NullaryFunction): Promise<any> {
     return new Promise<any>((resolve: Function, reject: Function) => {
-      promiseable().then((result: Object) => {
-        resolve(result);
-      }).catch((error: string) => {
-        reject(error);
-      });
+      promiseable().then(resolve).catch(reject);
     });
   }
 
