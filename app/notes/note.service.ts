@@ -1,10 +1,8 @@
 import { Injectable } from '@angular/core';
 import * as _ from 'lodash';
 
-import { DatabaseService } from '../shared/database.service';
-import { LoggerService } from '../shared/logger.service';
+import { DatabaseService, LoggerService, PouchDB } from '../shared';
 import { Note } from './note';
-import { PouchDB } from '../shared/pouch';
 
 @Injectable()
 export class NoteService extends DatabaseService<Note> {
@@ -38,7 +36,7 @@ export class NoteService extends DatabaseService<Note> {
     return new Promise<Note[]>((resolve: Function, reject: Function) => {
       let selector = { sortOrder: { '$exists': true, $gte: 0 }, active: { $eq: active } };
       if (typeof tabId !== 'undefined') {
-        selector['tabId'] = { $eq: tabId }
+        selector['tabId'] = { $eq: tabId };
       };
       this.database.find({
         selector: selector,

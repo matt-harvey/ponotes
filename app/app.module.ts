@@ -1,22 +1,20 @@
 import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
-import { FormsModule } from '@angular/forms';
+import { FormsModule }   from '@angular/forms';
+import { routing } from './app.routes';
 
 import { Button, Dialog, TabPanel, InputText, TabView } from 'primeng/primeng';
 
 import { AppComponent } from './app.component';
-import { LoggerService } from './shared/logger.service';
-import { ExpandingTextareaComponent } from './shared/expanding-textarea.component';
-import { NoteComponent } from './notes/note.component';
-import { NoteListComponent } from './notes/note-list.component';
-import { NoteService } from './notes/note.service';
-import { TabsComponent } from './tabs/tabs.component';
-import { TabService } from './tabs/tab.service';
+import { ExpandingTextareaComponent, LoggerService } from './shared';
+import { NoteComponent, NoteListComponent, NoteService } from './notes';
+import { TabsComponent, TabService } from './tabs';
 
 @NgModule({
   imports: [
     BrowserModule,
-    FormsModule
+    FormsModule,
+    routing
   ],
   declarations: [
     AppComponent,
@@ -28,7 +26,7 @@ import { TabService } from './tabs/tab.service';
     NoteListComponent,
     TabPanel,
     TabView,
-    TabsComponent,
+    TabsComponent
   ],
   providers: [
     LoggerService,

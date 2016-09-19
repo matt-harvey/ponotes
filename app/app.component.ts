@@ -1,12 +1,19 @@
 import { Component } from '@angular/core';
 
-// TODO Use relative URLs for templateUrl and styleUrls, for this and other components.
-// To do this, need to use "moduleId: module.id" in decorator; but couldn't get this to
-// work last time I tried.
+// TODO There is an error when first starting application: "Cannot sort on field
+// 'name' when using default index".
+
+/*
+ * App Component
+ * Top Level Component
+ */
 @Component({
   selector: 'pn-app',
-  template: '<pn-tabs></pn-tabs>'
+  template: '<router-outlet></router-outlet>'
 })
 export class AppComponent {
   title = 'Ponotes';
+
+  constructor() {
+  }
 }

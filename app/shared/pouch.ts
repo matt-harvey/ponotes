@@ -1,3 +1,5 @@
+// TODO Do these typings belong here?
+
 export interface PouchDB {
   new(name: string, options: Object): PouchDB;
   bulkDocs(options: Object): any;

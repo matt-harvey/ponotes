@@ -1,16 +1,15 @@
 import { Component, ElementRef, EventEmitter, Input, OnInit, Output, Renderer,
          ViewChild } from '@angular/core';
 
-import { LoggerService } from '../shared/logger.service';
-import { ExpandingTextareaComponent } from '../shared/expanding-textarea.component';
-import { Note } from './note';
+import { ExpandingTextareaComponent, LoggerService } from '../shared';
 import { NoteService } from './note.service';
+import { Note } from './note';
 
 // TODO Apply "being-moved" class for a half a second or so to note that has just been moved.
 @Component({
   selector: 'pn-note',
-  templateUrl: 'app/notes/note.component.html',
-  styleUrls: ['app/notes/note.component.css'],
+  template: require('./note.component.html'),
+  styles: [require('./note.component.css')]
 })
 export class NoteComponent implements OnInit {
   @Input() private notes: Note[] = [];

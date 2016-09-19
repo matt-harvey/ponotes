@@ -72,6 +72,7 @@ textarea.ui-inputtext,
    font...
  */
 
+.ui-inputtext,
 button.ui-widget.ui-button {
   font-weight: normal;
 }

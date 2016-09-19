@@ -1,17 +1,20 @@
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import * as _ from 'lodash';
 
-import { LoggerService } from '../shared/logger.service';
+import { LoggerService } from '../shared';
 import { Note } from './note';
 import { NoteComponent } from './note.component';
 import { NoteService } from './note.service';
-import { Tab } from '../tabs/tab';
-import { TabService } from '../tabs/tab.service';
+import { Tab } from '../tabs';
+import { TabService } from '../tabs/tab.service';  // TODO Why can't we import this from '../tabs'?
+
+// FIXME There need to be buttons to permanently delete notes, to empty the entire
+// trash, and to reinstate Notes from the Trash to the NoteList they were in originally.
 
 @Component({
   selector: 'pn-note-list',
-  templateUrl: 'app/notes/note-list.component.html',
-  styleUrls: ['app/notes/note-list.component.css']
+  template: require('./note-list.component.html'),
+  styles: [require('./note-list.component.css')]
 })
 export class NoteListComponent implements OnInit {
   private notes: Note[] = [];

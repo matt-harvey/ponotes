@@ -2,19 +2,17 @@ import { Component, OnInit, ViewChild, ViewChildren, QueryList } from '@angular/
 import { TabPanel } from 'primeng/primeng';
 import * as _ from 'lodash';
 
-import { LoggerService } from '../shared/logger.service';
-import { Note } from '../notes/note';
-import { NoteListComponent } from '../notes/note-list.component';
-import { NoteService } from '../notes/note.service';
-import { Tab } from './tab';
+import { LoggerService } from '../shared';
+import { Note, NoteListComponent, NoteService } from '../notes';
 import { TabService } from './tab.service';
+import { Tab } from './tab';
 
 // TODO Shouldn't have all the NoteLists' Notes in memory all at once.
 
 @Component({
   selector: 'pn-tabs',
-  templateUrl: 'app/tabs/tabs.component.html',
-  styleUrls: ['app/tabs/tabs.component.css']
+  template: require('./tabs.component.html'),
+  styles: [require('./tabs.component.css')]
 })
 export class TabsComponent implements OnInit {
   private tabs: Tab[] = [];
