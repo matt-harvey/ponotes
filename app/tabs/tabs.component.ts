@@ -36,9 +36,13 @@ export class TabsComponent implements OnInit {
 
   @ViewChild('trashPanel') private trashPanel: TabPanel;
 
-  // TODO Automatically capitalize first letter of tab name.
   private onCreate(): void {
-    const oldTab = this.newTab;
+    let oldTab = this.newTab;
+
+    // Capitalize first letter of tab name on saving.
+    const oldName = oldTab.name;
+    oldTab.name = oldName.charAt(0).toUpperCase() + oldName.slice(1);
+
     this.newTab = new Tab();
     this.tabService.addRecord(oldTab).then((result: any) => {
       const addedTabId = result.id;
