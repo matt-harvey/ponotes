@@ -23,33 +23,33 @@ export class NoteService extends DatabaseService<Note> {
     return 'notes';
   }
 
-  protected doInitializeDatabase(db: PouchDB): void {
-    db.createIndex({ index: { fields: ['sortOrder', 'tabId'] } }).catch(this.loggerService.logError);
-    db.createIndex({ index: { fields: ['sortOrder'] } }).catch(this.loggerService.logError);
+  protected doInitializeDatabase(db: PouchDB): Promise<any> {
+    return Promise.all([
+      db.createIndex({ index: { fields: ['sortOrder', 'tabId'] } }),
+      db.createIndex({ index: { fields: ['sortOrder'] } })
+    ]);
   }
 
   getRecords(active: boolean, tabId?: string): Promise<Note[]> {
-    return new Promise<Note[]>((resolve: Function, reject: Function) => {
-      let selector = { sortOrder: { '$exists': true, $gte: 0 }, active: { $eq: active } };
-      if (typeof tabId !== 'undefined') {
-        selector['tabId'] = { $eq: tabId };
-      };
-      this.database.find({
-        selector: selector,
-        sort: [{ sortOrder: 'desc' }]
-      }).then((result: any) => {
-        resolve(_.map(result.docs, doc => new Note(doc)));
-      }).catch(reject);
+    let selector = { sortOrder: { '$exists': true, $gte: 0 }, active: { $eq: active } };
+    if (typeof tabId !== 'undefined') {
+      selector['tabId'] = { $eq: tabId };
+    };
+    const order = [{ sortOrder: 'desc' }];
+    return this.getDatabase().then((database: PouchDB) => {
+      return database.find({ selector: selector, sort: order });
+    }).then((result: any) => {
+      return _.map(result.docs, doc => new Note(doc));
     });
   }
 
   addRecord(note: Note): Promise<any> {
-    return new Promise<any>((resolve: Function, reject: Function) => {
+    return this.getDatabase().then((database: PouchDB) => {
       note.sortOrder = this.makeSortOrder();
-      this.database.post(note.toJSON()).then(resolve).catch((error: string) => {
-        note.sortOrder = undefined;
-        reject(error);
-      });
+      return database.post(note.toJSON());
+    }).catch((error: string) => {
+      note.sortOrder = undefined;
+      return Promise.reject(error);
     });
   }
 
@@ -59,7 +59,7 @@ export class NoteService extends DatabaseService<Note> {
     // be too close together, given the limited precision of the number type, to
     // calculate distinctly their average. This problem can be overcome: see
     // http://stackoverflow.com/questions/2940329/how-to-move-an-element-in-a-sorted-list-and-keep-the-couchdb-write-atomic.
-    return new Promise<any>((resolve: Function, reject: Function) => {
+    return this.getDatabase().then((database: PouchDB) => {
       const newSuccessorSortOrder = (newSuccessor ? newSuccessor.sortOrder : 0);
       const newPredecessorSortOrder = (
         newPredecessor ?
@@ -68,9 +68,9 @@ export class NoteService extends DatabaseService<Note> {
       );
       const oldSortOrder = note.sortOrder;
       note.sortOrder = (newPredecessorSortOrder + newSuccessorSortOrder) / 2;
-      return this.database.put(note.toJSON()).then(resolve).catch((error: string) => {
+      return database.put(note.toJSON()).catch((error: string) => {
         note.sortOrder = oldSortOrder;
-        reject(error);
+        return Promise.reject(error);
       });
     });
   }

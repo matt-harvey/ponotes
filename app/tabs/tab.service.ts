@@ -15,18 +15,17 @@ export class TabService extends DatabaseService<Tab> {
     return 'tabs';
   }
 
-  protected doInitializeDatabase(db: PouchDB): void {
-    db.createIndex({ index: { fields: ['name'] } }).catch(this.loggerService.logError);
+  protected doInitializeDatabase(db: PouchDB): Promise<any> {
+    return db.createIndex({ index: { fields: ['name'] } });
   }
 
   getRecords(): Promise<Tab[]> {
-    return new Promise<Tab[]>((resolve: Function, reject: Function) => {
-      this.database.find({
-        selector: { name: { '$gte': '' } },
-        sort: [{ name: 'asc' }]
-      }).then((result: any) => {
-        resolve(_.map(result.docs, doc => new Tab(doc)));
-      }).catch(reject);
+    const selector = { name: { '$gte': '' } };
+    const order = [{ name: 'asc' }];
+    return this.getDatabase().then((database: PouchDB) => {
+      return database.find({ selector: selector, sort: order });
+    }).then((result: any) => {
+      return _.map(result.docs, doc => new Tab(doc));
     });
   }
 

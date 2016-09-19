@@ -7,10 +7,6 @@ interface RecordI {
   toJSON(): Object;
 }
 
-interface NullaryFunction {
-  (): any;
-}
-
 @Injectable()
 export abstract class DatabaseService<RecordT extends RecordI> {
 
@@ -21,48 +17,36 @@ export abstract class DatabaseService<RecordT extends RecordI> {
   private _database: PouchDB;
 
   protected abstract doGetDatabaseName(): string;
-  protected abstract doInitializeDatabase(db: PouchDB): void;
+  protected abstract doInitializeDatabase(db: PouchDB): Promise<any>;
 
-  protected get database() {
+  protected getDatabase(): Promise<PouchDB> {
     if (typeof this._database === 'undefined') {
       this._database = new PouchDB(this.doGetDatabaseName(), { auto_compaction: true });
-      this.doInitializeDatabase(this._database);
+      return this.doInitializeDatabase(this._database).then((result: any) => this._database);
+    } else {
+      return Promise.resolve(this._database);
     }
-    return this._database;
   }
 
   addRecord(record: RecordT): Promise<any> {
-    return this.makePromise(() => this.database.post(record.toJSON()));
+    return this.getDatabase().then(database => database.post(record.toJSON()));
   }
 
   getRecord(id: string): Promise<any> {
-    return this.makePromise(() => this.database.get(id));
+    return this.getDatabase().then(database => database.get(id));
   }
 
   updateRecord(record: RecordT): Promise<any> {
-    return this.makePromise(() => this.database.put(record.toJSON()));
+    return this.getDatabase().then(database => database.put(record.toJSON()));
   }
 
   deleteRecord(record: RecordT): Promise<any> {
-    return this.makePromise(() => this.database.remove(record));
+    return this.getDatabase().then(database => database.remove(record));
   }
 
   bulkDelete(records: RecordT[]): Promise<any> {
-    return this.makePromise(() => {
-      const doomed = _.map(records, r => ({ _id: r['id'], _rev: r['rev'], _deleted: true }));
-      return this.database.bulkDocs(doomed);
-    });
-  }
-
-  // This may well be completely unnecessary, as PouchDB already uses a native Promise
-  // provided these are available. However, we do this anyway -- explicitly
-  // wrapping whatever-promiselike-thing-PouchDB-uses in a Promise -- so that we don't
-  // have to worry about what PouchDB is in fact doing, and whether it's compatible with
-  // whatever Promise object Angular 2 may assume is present.
-  private makePromise(promiseable: NullaryFunction): Promise<any> {
-    return new Promise<any>((resolve: Function, reject: Function) => {
-      promiseable().then(resolve).catch(reject);
-    });
+    const doomed = _.map(records, r => ({ _id: r['id'], _rev: r['rev'], _deleted: true }));
+    return this.getDatabase().then(database => database.bulkDocs(doomed));
   }
 
 }
