@@ -8,9 +8,6 @@ import { NoteService } from './note.service';
 import { Tab } from '../tabs/tab';
 import { TabService } from '../tabs/tab.service';
 
-// FIXME There need to be buttons to permanently delete notes, to empty the entire
-// trash, and to reinstate Notes from the Trash to the NoteList they were in originally.
-
 @Component({
   selector: 'pn-note-list',
   templateUrl: 'app/notes/note-list.component.html',
