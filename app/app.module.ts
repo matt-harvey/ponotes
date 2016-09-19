@@ -3,7 +3,7 @@ import { BrowserModule } from '@angular/platform-browser';
 import { FormsModule }   from '@angular/forms';
 import { routing } from './app.routes';
 
-import { Button, Dialog, TabPanel, InputText, TabView } from 'primeng/primeng';
+import { Button, Dialog, TabPanel, InputText, MessagesModule, TabView } from 'primeng/primeng';
 
 import { AppComponent } from './app.component';
 import { ExpandingTextareaComponent, LoggerService } from './shared';
@@ -14,7 +14,8 @@ import { TabsComponent, TabService } from './tabs';
   imports: [
     BrowserModule,
     FormsModule,
-    routing
+    routing,
+    MessagesModule,
   ],
   declarations: [
     AppComponent,
