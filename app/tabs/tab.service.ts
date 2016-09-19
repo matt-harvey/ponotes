@@ -16,9 +16,7 @@ export class TabService extends DatabaseService<Tab> {
   }
 
   protected doInitializeDatabase(db: PouchDB): void {
-    db.createIndex({ index: { fields: ['name'] } }).catch((error: string) => {
-      this.loggerService.logError(error);
-    });
+    db.createIndex({ index: { fields: ['name'] } }).catch(this.loggerService.logError);
   }
 
   getRecords(): Promise<Tab[]> {

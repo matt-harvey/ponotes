@@ -130,9 +130,7 @@ export class NoteListComponent implements OnInit {
     this.tabService.getRecord(note.tabId).then((tabDoc: Object) => {
       this.reinstateTarget = new Tab(tabDoc).name;
       this.showReinstateConfirmation = true;
-    }).catch((error: string) => {
-      this.loggerService.logError(error);
-    });
+    }).catch(this.loggerService.logError);
   }
 
   private onReinstateCancelled(): void {
@@ -156,9 +154,7 @@ export class NoteListComponent implements OnInit {
     this.noteService.deleteRecord(this.currentNote).then((result: any) => {
       this.showNoteDeleteConfirmation = false;
       return this.getNotes();
-    }).catch((error: string) => {
-      this.loggerService.logError(error);
-    });
+    }).catch(this.loggerService.logError);
   }
 
   private onTrashCancelled(): void {

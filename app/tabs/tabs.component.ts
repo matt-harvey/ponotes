@@ -73,17 +73,13 @@ export class TabsComponent implements OnInit {
       })
       // refresh trash
       .then((tabs: Tab[]) => this.refreshTrash())
-      .catch((error: string) => {
-        this.loggerService.logError(error);
-      });
+      .catch(this.loggerService.logError);
   }
 
   private getTabs(): any {
     return this.tabService.getRecords().then((tabs: Tab[]) => {
       return this.tabs = tabs;
-    }).catch((error: string) => {
-      this.loggerService.logError(error);
-    });
+    }).catch(this.loggerService.logError);
   }
 
   private refreshNotes(tabIndex: number): any {

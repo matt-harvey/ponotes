@@ -24,12 +24,8 @@ export class NoteService extends DatabaseService<Note> {
   }
 
   protected doInitializeDatabase(db: PouchDB): void {
-    db.createIndex({ index: { fields: ['sortOrder', 'tabId'] } }).catch((error: string) => {
-      this.loggerService.logError(error);
-    });
-    db.createIndex({ index: { fields: ['sortOrder'] } }).catch((error: string) => {
-      this.loggerService.logError(error);
-    });
+    db.createIndex({ index: { fields: ['sortOrder', 'tabId'] } }).catch(this.loggerService.logError);
+    db.createIndex({ index: { fields: ['sortOrder'] } }).catch(this.loggerService.logError);
   }
 
   getRecords(active: boolean, tabId?: string): Promise<Note[]> {
