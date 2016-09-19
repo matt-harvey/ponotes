@@ -7,7 +7,7 @@ interface Stringable {
 @Injectable()
 export class LoggerService {
 
-  // TODO Make this do different things depending on what environment we're in.
+  // TODO IMPORTANT Make this do different things depending on what environment we're in.
   logError(error: Stringable): void {
     alert(`Something went wrong!\n\n${error}`);
   }

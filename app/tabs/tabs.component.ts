@@ -6,8 +6,6 @@ import { LoggerService } from '../shared';
 import { Note, NoteListComponent, NoteService } from '../notes';
 import { Tab, TabService } from './';
 
-// TODO Shouldn't have all the NoteLists' Notes in memory all at once.
-
 @Component({
   selector: 'pn-tabs',
   template: require('./tabs.component.html'),

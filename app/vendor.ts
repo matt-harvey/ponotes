@@ -7,8 +7,8 @@ import '@angular/platform-browser';
 import { enableProdMode } from '@angular/core';
 import 'rxjs';
 
-// TODO Why did brunch skeleton project have quotes around 'BRUNCH_ENVIRONMENT'?
-// Looks like an error.
+// 'BRUNCH_ENVIRONMENT' is a special token replaced by environment-brunch plugin during the
+// build, with the current Brunch environment.
 if ('production' === 'BRUNCH_ENVIRONMENT') {
   enableProdMode();
 }
