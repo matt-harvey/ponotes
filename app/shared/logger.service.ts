@@ -7,8 +7,15 @@ interface Stringable {
 @Injectable()
 export class LoggerService {
 
-  // TODO IMPORTANT Make this do different things depending on what environment we're in.
   logError(error: Stringable): void {
-    alert(`Something went wrong!\n\n${error}`);
+    if (typeof console !== 'undefined') {
+      if (typeof console.error === 'function') {
+        console.error(error);
+      } else if (typeof console.log === 'function') {
+        console.log(`ERROR: ${error}`);
+      }
+    }
+    alert(`ERROR:\n\n${error}`);
   }
+
 }
