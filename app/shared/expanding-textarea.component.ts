@@ -1,7 +1,7 @@
 import { Component, ElementRef, forwardRef, Input, Renderer, ViewChild } from '@angular/core';
 import { NG_VALUE_ACCESSOR, ControlValueAccessor } from '@angular/forms';
 
-// FIXME Make this accessible.
+// TODO Make this accessible.
 
 @Component({
   selector: 'pn-expanding-textarea',

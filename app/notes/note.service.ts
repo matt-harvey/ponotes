@@ -54,7 +54,7 @@ export class NoteService extends DatabaseService<Note> {
   }
 
   moveRecord(note: Note, newPredecessor: Note, newSuccessor: Note): Promise<any> {
-    // FIXME It is possible that in time, after enough moves, there is not enough
+    // TODO It is possible that in time, after enough moves, there is not enough
     // precision to accommodate a particular move, since the sortOrder attributes may
     // be too close together, given the limited precision of the number type, to
     // calculate distinctly their average. This problem can be overcome: see
