@@ -5,8 +5,10 @@ import { LoggerService } from '../shared';
 import { Note, NoteComponent, NoteService } from './';
 import { Tab, TabService } from '../tabs';
 
-// FIXME There need to be buttons to permanently delete notes, to empty the entire
-// trash, and to reinstate Notes from the Trash to the NoteList they were in originally.
+// TODO The code for communicating between NoteListComponent and NoteComponent --
+// especially when it comes to managing state around moving notes -- feels overly
+// convoluted. I should probably use some combination of Flux/Redux/Immutable.js/RxJS
+// to manage state nicely.
 
 @Component({
   selector: 'pn-note-list',
@@ -18,6 +20,7 @@ export class NoteListComponent implements OnInit {
   private currentNote: Note;
   private newNote = new Note();
   private moving = false;
+  private moveEnding = false;
   private noteBeingMovedIndex: number;
   private showReinstateConfirmation = false;
   private showTrashConfirmation = false;
@@ -52,25 +55,27 @@ export class NoteListComponent implements OnInit {
   }
 
   private onMoveEnded(newIndex?: number): void {
-    if (typeof newIndex !== 'undefined' && newIndex !== this.noteBeingMovedIndex) {
-      const noteBeingMoved = this.notes[this.noteBeingMovedIndex];
-      const newPredecessor = (
-        newIndex === 0 ?
-        undefined :
-        this.notes[newIndex - 1]
-      );
-      const newSuccessor = this.notes[newIndex];
-      this.noteService.moveRecord(noteBeingMoved, newPredecessor, newSuccessor)
-        .then((result: any) => {
-          this.refreshNotes();
-          this.noteBeingMovedIndex = undefined;
-          this.moving = false;
-        }).catch((error: string) => {
-          this.loggerService.logError(error);
-        });
-    } else {
+    const reset = () => {
       this.noteBeingMovedIndex = undefined;
       this.moving = false;
+      this.moveEnding = false;
+    };
+    if (typeof newIndex !== 'undefined' && newIndex !== this.noteBeingMovedIndex) {
+      const movedNote = this.notes[this.noteBeingMovedIndex];
+      const newPredecessor = (newIndex === 0 ? undefined : this.notes[newIndex - 1]);
+      const newSuccessor = this.notes[newIndex];
+      this.noteService.moveRecord(movedNote, newPredecessor, newSuccessor).then(result => {
+        return this.getNotes();
+      }).then((result: any) => {
+         this.noteBeingMovedIndex = _.findIndex(this.notes, note => note.id === movedNote.id);
+         this.moving = false;
+         this.moveEnding = true;
+      }).catch((error: string) => {
+        return this.getNotes();
+      }).catch(this.loggerService.logError);
+      setTimeout(reset, 750);
+    } else {
+      reset();
     }
   }
 
@@ -82,9 +87,7 @@ export class NoteListComponent implements OnInit {
     this.noteService.bulkDelete(this.notes).then((result: any) => {
       this.onTabDeleteConfirmation.emit(this.tab);
       this.showTabDeleteConfirmation = false;
-    }).catch((error: string) => {
-      this.loggerService.logError(error);
-    });
+    }).catch(this.loggerService.logError);
   }
 
   private onTabDeleteCancelled(): void {
@@ -92,7 +95,7 @@ export class NoteListComponent implements OnInit {
   }
 
   refreshNotes(): void {
-    this.getNotes();
+    this.getNotes().catch(this.loggerService.logError);
   }
 
   private moveTargettableIndex(index: number): boolean {
@@ -103,11 +106,9 @@ export class NoteListComponent implements OnInit {
     );
   }
 
-  private getNotes(): void {
-    this.noteService.getRecords(this.showActiveNotes, this.tab.id).then((notes: Note[]) => {
+  private getNotes(): Promise<any> {
+    return this.noteService.getRecords(this.showActiveNotes, this.tab.id).then((notes: Note[]) => {
       this.notes = notes;
-    }).catch((error: string) => {
-      this.loggerService.logError(error);
     });
   };
 
@@ -154,7 +155,7 @@ export class NoteListComponent implements OnInit {
   private onDeleteConfirmed(): void {
     this.noteService.deleteRecord(this.currentNote).then((result: any) => {
       this.showNoteDeleteConfirmation = false;
-      this.refreshNotes();
+      return this.getNotes();
     }).catch((error: string) => {
       this.loggerService.logError(error);
     });
@@ -174,11 +175,10 @@ export class NoteListComponent implements OnInit {
 
   private onTrashEmptyConfirmed(): void {
     this.noteService.bulkDelete(this.notes).then((result: any) => {
-      this.getNotes();
+      return this.getNotes();
+    }).then((result: any) => {
       this.showTrashEmptyConfirmation = false;
-    }).catch((error: string) => {
-      this.loggerService.logError(error);
-    });
+    }).catch(this.loggerService.logError);
   }
 
   private onTrashEmptyCancelled(): void {

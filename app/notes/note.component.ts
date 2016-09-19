@@ -4,7 +4,6 @@ import { Component, ElementRef, EventEmitter, Input, OnInit, Output, Renderer,
 import { ExpandingTextareaComponent, LoggerService } from '../shared';
 import { Note, NoteService } from './';
 
-// TODO Apply "being-moved" class for a half a second or so to note that has just been moved.
 @Component({
   selector: 'pn-note',
   template: require('./note.component.html'),
@@ -17,6 +16,7 @@ export class NoteComponent implements OnInit {
   @Input() private beingEdited = false;
   @Input() private noteBeingMovedIndex: number;
   @Input() private moveTargettable = false;
+  @Input() private moveEnding = false;
   @Input() private newNote: Note;
   @Input() private moveTargetOnly = false;
 
@@ -53,28 +53,32 @@ export class NoteComponent implements OnInit {
     this.contentInput.focus();
   }
 
+  private activelyMoving() {
+    return this.moving() && !this.moveEnding;
+  }
+
   private creatable(): boolean {
-    return !this.moving() && !this.moveTargetOnly && !this.note.persisted();
+    return !this.activelyMoving() && !this.moveTargetOnly && !this.note.persisted();
   }
 
   private trashable(): boolean {
-    return !this.moving() && !this.beingEdited && this.note.persisted() && this.note.active;
+    return !this.activelyMoving() && !this.beingEdited && this.note.persisted() && this.note.active;
   }
 
   private cancelable(): boolean {
-    return !this.moving() && this.beingEdited && this.note.persisted();
+    return !this.activelyMoving() && this.beingEdited && this.note.persisted();
   }
 
   private editable(): boolean {
-    return !this.moving() && !this.beingEdited && this.note.persisted() && this.note.active;
+    return !this.activelyMoving() && !this.beingEdited && this.note.persisted() && this.note.active;
   }
 
   private updatable(): boolean {
-    return !this.moving() && this.beingEdited && this.note.persisted();
+    return !this.activelyMoving() && this.beingEdited && this.note.persisted();
   }
 
   private movable(): boolean {
-    return !this.moving() && this.note.persisted() && this.note.active;
+    return !this.activelyMoving() && this.note.persisted() && this.note.active;
   }
 
   private moving(): boolean {

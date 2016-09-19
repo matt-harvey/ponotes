@@ -5,7 +5,8 @@
   class="button-extra-wide button-danger" label="Empty trash"></button>
 
 <pn-note *ngIf="showActiveNotes" (onNoteAdded)="onNoteAdded($event)"
-  [beingEdited]="true" [noteBeingMovedIndex]="noteBeingMovedIndex" [tabId]="tab.id"></pn-note>
+  [moveEnding]="moveEnding" [beingEdited]="true" [noteBeingMovedIndex]="noteBeingMovedIndex"
+  [tabId]="tab.id"></pn-note>
 
 <pn-note *ngFor="let note of notes; let i = index"
   (onMoveStarted)="onMoveStarted($event)"
@@ -15,11 +16,12 @@
   (onNoteReinstate)="onNoteReinstate($event)"
   (onNoteDelete)="onNoteDelete($event)"
   [notes]="notes" [noteIndex]="i" [noteBeingMovedIndex]="noteBeingMovedIndex"
-  [moveTargettable]="moveTargettableIndex(i)" [tabId]="tab.id"></pn-note>
+  [moveEnding]="moveEnding" [moveTargettable]="moveTargettableIndex(i)" [tabId]="tab.id"></pn-note>
 
 <pn-note *ngIf="showActiveNotes" [moveTargetOnly]="true" (onMoveEnded)="onMoveEnded($event)"
   [notes]="notes" [noteIndex]="notes.length" [noteBeingMovedIndex]="noteBeingMovedIndex"
-  [moveTargettable]="moveTargettableIndex(notes.length)" [tabId]="tab.id"></pn-note>
+  [moveEnding]="moveEnding" [moveTargettable]="moveTargettableIndex(notes.length)"
+  [tabId]="tab.id"></pn-note>
 
 <p-dialog [(visible)]="showTabDeleteConfirmation" header="Confirm" showEffect="fade"
   [closable]=false [resizable]=false [modal]=true>

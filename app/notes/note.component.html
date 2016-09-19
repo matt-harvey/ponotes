@@ -26,9 +26,10 @@
       class="pn-button-aligned button-danger" [disabled]="moving()" title="Cancel"
       icon="fa-ban"></button
     ><button *ngIf="movable()" pButton type="button" (click)="onStartMove()" title="Move"
-      class="pn-button-aligned button-warning" [disabled]="beingEdited"
+      class="pn-button-aligned button-warning" [disabled]="moving() || beingEdited"
       icon="fa-arrows-v"></button
-    ><button *ngIf="moveTargettable" pButton type="button" (click)="onSelectMoveTarget()"
+    ><button *ngIf="moveTargettable" pButton type="button"
+      (click)="onSelectMoveTarget()"
       class="pn-button-aligned button-success button-wide move-target-button" label="move here"
       icon="fa-long-arrow-left"></button
     ><button *ngIf="reinstatable()" pButton type="button" (click)="onReinstate()"
@@ -36,7 +37,8 @@
       icon="fa-mail-reply"></button
     ><button *ngIf="deletable()" pButton type="button" (click)="onDelete()"
       class="pn-button-aligned button-danger" title="Delete" icon="fa-times"></button
-    ><button *ngIf="moveCancellable()" pButton type="button" (click)="onCancelMove()"
+    ><button *ngIf="moveCancellable() && !moveEnding" pButton type="button"
+      (click)="onCancelMove()"
       class="pn-button-aligned being-moved button-danger button-wide" label="leave here"
       icon="fa-long-arrow-left"></button
     >
