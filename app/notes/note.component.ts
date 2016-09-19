@@ -2,8 +2,7 @@ import { Component, ElementRef, EventEmitter, Input, OnInit, Output, Renderer,
          ViewChild } from '@angular/core';
 
 import { ExpandingTextareaComponent, LoggerService } from '../shared';
-import { NoteService } from './note.service';
-import { Note } from './note';
+import { Note, NoteService } from './';
 
 // TODO Apply "being-moved" class for a half a second or so to note that has just been moved.
 @Component({

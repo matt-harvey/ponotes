@@ -4,8 +4,7 @@ import * as _ from 'lodash';
 
 import { LoggerService } from '../shared';
 import { Note, NoteListComponent, NoteService } from '../notes';
-import { TabService } from './tab.service';
-import { Tab } from './tab';
+import { Tab, TabService } from './';
 
 // TODO Shouldn't have all the NoteLists' Notes in memory all at once.
 

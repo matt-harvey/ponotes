@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import * as _ from 'lodash';
 
 import { DatabaseService, LoggerService, PouchDB } from '../shared';
-import { Tab } from './tab';
+import { Tab } from './';
 
 @Injectable()
 export class TabService extends DatabaseService<Tab> {

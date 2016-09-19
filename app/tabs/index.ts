@@ -1,3 +1,3 @@
-export * from './tabs.component';
-export * from './tab.service';
 export * from './tab';
+export * from './tab.service';
+export * from './tabs.component';

@@ -2,11 +2,8 @@ import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import * as _ from 'lodash';
 
 import { LoggerService } from '../shared';
-import { Note } from './note';
-import { NoteComponent } from './note.component';
-import { NoteService } from './note.service';
-import { Tab } from '../tabs';
-import { TabService } from '../tabs/tab.service';  // TODO Why can't we import this from '../tabs'?
+import { Note, NoteComponent, NoteService } from './';
+import { Tab, TabService } from '../tabs';
 
 // FIXME There need to be buttons to permanently delete notes, to empty the entire
 // trash, and to reinstate Notes from the Trash to the NoteList they were in originally.
