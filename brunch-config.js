@@ -19,8 +19,8 @@ exports.config = {
     },
     stylesheets: {
       joinTo: {
-        'app.css': /^app/,
-        'vendor.css': /^node_modules/
+        'styles/app.css': /^app/,
+        'styles/vendor.css': /^node_modules/
       }
     },
     templates: {
@@ -29,7 +29,7 @@ exports.config = {
   },
   plugins: {
     copycat: {
-      fonts: ['node_modules/font-awesome/fonts'],
+      fonts: ['node_modules/font-awesome/fonts/'],
       verbose: true,
       onlyChanged: true
     },
