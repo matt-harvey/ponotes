@@ -7,8 +7,12 @@
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <meta name="description" content="note taking application">
+
   <!-- base url -->
-  <base href="/">
+  <script>
+    document.write('<base href="' + document.location + '" />');
+  </script>
+
   <link rel="stylesheet" href="vendor.css">
   <link rel="stylesheet" href="app.css">
 </head>
