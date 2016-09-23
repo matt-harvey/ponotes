@@ -31,7 +31,6 @@ export class NoteListComponent implements OnInit {
   private reinstateTarget = '';
 
   @Input() private showActiveNotes = true;
-  @Input() private newTab = false;
   @Input() private tab: Tab;
 
   @Output() private onTabDeleteConfirmation = new EventEmitter<Tab>();
@@ -44,9 +43,7 @@ export class NoteListComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    if (!this.newTab) {
-      this.getNotes();
-    }
+    this.getNotes();
   }
 
   private onMoveStarted(noteBeingMovedIndex: number): void {
